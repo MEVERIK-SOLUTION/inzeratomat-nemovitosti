@@ -4,7 +4,7 @@
 
 ## O projektu
 
-Inzeratomat nemovitostí umožňuje realitním makléřům a prodávajícím rychle vygenerovat profesionální inzerát nemovitosti na základě zadaných parametrů. Cílem je automatizovat přípravu a publikaci nabídek na české inzertní portály.
+Inzeratomat nemovitostí umožňuje realitním makléřům a prodávajícím rychle vygenerovat profesionální inzerát nemovitosti na základě zadaných parametrů. Cílem je automatizovat přípravu a publikaci nabídek na české inzertní portály. Nedílnou součástí nabídkovače bude i generátor HTML kódů prodejních webů konkréktní nemovitosti, které se bude generovaný inzerát týkat. Zájmem je i napojení "inzerátomatu nemovitostí" na webové služby zabývající se nabídkou nemovitostí (jako např. www.sreality.cz ) přes API či jiné řešení, tak aby uměl přímo z vlastního užiuvatelského prostředí zveřejňovat nabídky na více inzertních webech najednou.
 
 ## Obsah repozitáře
 
@@ -17,7 +17,7 @@ property-listing-demo/   # Demo generátoru realitního inzerátu (HTML/CSS/JS)
 
 ## Demo generátor
 
-Složka `property-listing-demo/` obsahuje funkční ukázku generátoru inzerátu. Aplikace běží přímo v prohlížeči – stačí otevřít soubor `index.html`.
+Složka `property-listing-demo/` obsahuje funkční demo ukázku generátoru inzerátu. Aplikace běží přímo v prohlížeči – stačí otevřít soubor `index.html`.
 
 ### Funkce dema
 
@@ -53,7 +53,7 @@ nebo jednoduše poklepejte na soubor `index.html` ve správci souborů.
 
 ## Přispívání
 
-Příspěvky jsou vítány. Před odesláním pull requestu se prosím ujistěte, že vaše změny jsou funkční a konzistentní se stávajícím kódem.
+Příspěvky jsou vítány. 
 
 ## Licence
 
