@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulář pro zadání údajů o nemovitosti – Srubec/Staré Hodějovice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        header {
+            background-color: #004b87;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        form {
+            max-width: 900px;
+            margin: 2rem auto;
+            background-color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #004b87;
+            margin-top: 2rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
+        }
+        .section {
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Formulář – Projekt Srubec / Staré Hodějovice</h1>
+        <p>Vyplňte potřebná pole, abychom mohli vygenerovat inzerát a micro‑web vaší nemovitosti.</p>
+    </header>
+    <form>
+        <!-- 1) Identita nabídky -->
+        <div class="section">
+            <h2>1. Identita nabídky</h2>
+            <label for="listing_id">Interní ID nabídky</label>
+            <input type="text" id="listing_id" name="listing_id" placeholder="Např. SRB-2026-001" required>
+
+            <label for="project_name">Název projektu (volitelné)</label>
+            <input type="text" id="project_name" name="project_name" placeholder="Název developerského projektu">
+
+            <label for="offer_type">Typ nabídky</label>
+            <select id="offer_type" name="offer_type" required>
+                <option value="">Vyberte…</option>
+                <option value="prodej">Prodej</option>
+                <option value="pronajem">Pronájem</option>
+            </select>
+
+            <label for="property_type">Typ nemovitosti</label>
+            <select id="property_type" name="property_type" required>
+                <option value="">Vyberte…</option>
+                <option value="rd">Rodinný dům</option>
+                <option value="dvojdum">Dvojdům</option>
+                <option value="radovy">Řadový dům</option>
+                <option value="vila">Vila</option>
+                <option value="byt">Byt</option>
+                <option value="bd">Bytový dům / developerský projekt</option>
+            </select>
+
+            <label for="ownership">Vlastnictví</label>
+            <select id="ownership" name="ownership" required>
+                <option value="">Vyberte…</option>
+                <option value="osobni">Osobní</option>
+                <option value="druzstevni">Družstevní</option>
+                <option value="jine">Jiné</option>
+            </select>
+
+            <label for="status">Stav (fáze prodeje)</label>
+            <select id="status" name="status" required>
+                <option value="">Vyberte…</option>
+                <option value="ve_vystavbe">Ve výstavbě</option>
+                <option value="pred_kolaudaci">Před kolaudací</option>
+                <option value="zkolaudovano">Zkolaudováno</option>
+                <option value="rezervovano">Rezervováno</option>
+                <option value="prodano">Prodáno</option>
+            </select>
+        </div>
+
+        <!-- 2) Lokalita -->
+        <div class="section">
+            <h2>2. Lokalita</h2>
+            <label for="address_public_mode">Zpřesnění adresy (zobrazení)</label>
+            <select id="address_public_mode" name="address_public_mode" required>
+                <option value="">Vyberte…</option>
+                <option value="presna">Přesná adresa</option>
+                <option value="znepresnena">Znepřesněná adresa</option>
+            </select>
+
+            <label for="street">Ulice (volitelné)</label>
+            <input type="text" id="street" name="street" placeholder="Ulice">
+
+            <label for="city_part">Část obce (volitelné)</label>
+            <input type="text" id="city_part" name="city_part" placeholder="Část obce">
+
+            <label for="municipality">Obec</label>
+            <input type="text" id="municipality" name="municipality" placeholder="Obec" required>
+
+            <label for="district">Okres</label>
+            <input type="text" id="district" name="district" placeholder="Okres" required>
+
+            <label for="region">Kraj</label>
+            <input type="text" id="region" name="region" placeholder="Kraj" required>
+
+            <label for="zipcode">PSČ</label>
+            <input type="text" id="zipcode" name="zipcode" placeholder="PSČ" required>
+
+            <label for="gps">GPS souřadnice (lat, lng)</label>
+            <input type="text" id="gps" name="gps" placeholder="49.123456, 14.123456">
+
+            <label for="location_notes">Upřesnění polohy (poznámka)</label>
+            <textarea id="location_notes" name="location_notes" rows="2" placeholder="Např. u Veselských, slepá ulice"></textarea>
+
+            <label for="access">Dostupnost (dálnice, MHD, dojezdové časy)</label>
+            <textarea id="access" name="access" rows="2" placeholder="Např. rychlé napojení na D3, MHD v blízkosti"></textarea>
+        </div>
+
+        <!-- 3) Ceny a podmínky -->
+        <div class="section">
+            <h2>3. Ceny a podmínky</h2>
+            <label for="price_total">Cena celkem</label>
+            <input type="number" step="0.01" id="price_total" name="price_total" placeholder="Cena v Kč" required>
+
+            <label for="price_note">Poznámka k ceně</label>
+            <input type="text" id="price_note" name="price_note" placeholder="Na vyžádání / vč. DPH / vč. provize / bez provize">
+
+            <label for="reservation_terms">Rezervační podmínky (volitelné)</label>
+            <input type="text" id="reservation_terms" name="reservation_terms" placeholder="Podmínky rezervace">
+
+            <label for="available_from">Dostupné od</label>
+            <input type="date" id="available_from" name="available_from">
+
+            <label for="handover_date_estimate">Odhad data předání</label>
+            <input type="date" id="handover_date_estimate" name="handover_date_estimate">
+        </div>
+
+        <!-- 4) Dispozice a plochy -->
+        <div class="section">
+            <h2>4. Dispozice a plochy</h2>
+            <label for="layout">Dispozice</label>
+            <input type="text" id="layout" name="layout" placeholder="Např. 5+kk" required>
+
+            <label for="usable_area_m2">Užitná plocha (m²)</label>
+            <input type="number" id="usable_area_m2" name="usable_area_m2" placeholder="115" required>
+
+            <label for="floor_area_m2">Podlahová plocha (m²) (volitelné)</label>
+            <input type="number" id="floor_area_m2" name="floor_area_m2" placeholder="">
+
+            <label for="built_up_area_m2">Zastavěná plocha (m²)</label>
+            <input type="number" id="built_up_area_m2" name="built_up_area_m2" placeholder="83" required>
+
+            <label for="plot_area_m2">Plocha pozemku (m²)</label>
+            <input type="number" id="plot_area_m2" name="plot_area_m2" placeholder="500" required>
+
+            <label for="terrace_area_m2">Plocha terasy (m²)</label>
+            <input type="number" id="terrace_area_m2" name="terrace_area_m2" placeholder="40">
+
+            <label for="other_areas">Ostatní plochy (m²) (chodníky, balkón…)</label>
+            <input type="number" id="other_areas" name="other_areas" placeholder="18">
+
+            <label for="floors_count">Počet podlaží</label>
+            <input type="number" id="floors_count" name="floors_count" placeholder="2" required>
+
+            <label for="parking">Parkování (počet stání, typ)</label>
+            <input type="text" id="parking" name="parking" placeholder="Např. 2 venkovní stání">
+        </div>
+
+        <!-- 5) Stavební technické řešení -->
+        <div class="section">
+            <h2>5. Stavební technické řešení</h2>
+            <label for="construction_type">Konstrukce domu</label>
+            <input type="text" id="construction_type" name="construction_type" placeholder="Např. cihelná konstrukce + zateplení" required>
+
+            <label for="insulation">Zateplení (typ, tloušťka) (volitelné)</label>
+            <input type="text" id="insulation" name="insulation" placeholder="Např. EPS 150 mm">
+
+            <label for="roof_type">Typ střechy</label>
+            <input type="text" id="roof_type" name="roof_type" placeholder="Např. sedlová" required>
+
+            <label for="roof_cover">Krytina</label>
+            <input type="text" id="roof_cover" name="roof_cover" placeholder="Např. betonová krytina" required>
+
+            <label for="windows">Okna</label>
+            <input type="text" id="windows" name="windows" placeholder="Např. plastová okna s trojskly" required>
+
+            <label for="skylights">Střešní okna</label>
+            <input type="text" id="skylights" name="skylights" placeholder="Např. střešní okna Velux nejvyšší kvality" required>
+
+            <label for="floors_materials">Podlahy (materiály)</label>
+            <input type="text" id="floors_materials" name="floors_materials" placeholder="Např. dlažba a vinyl" required>
+
+            <label for="stairs">Schodiště</label>
+            <input type="text" id="stairs" name="stairs" placeholder="Např. betonové schodiště s obkladem a dřevěnými prvky" required>
+
+            <label for="energy_standard">Energetický standard (PENB)</label>
+            <select id="energy_standard" name="energy_standard" required>
+                <option value="">Vyberte…</option>
+                <option value="pasivni">Pasivní dům</option>
+                <option value="nizkoenergeticky">Nízkoenergetický dům</option>
+                <option value="bez_udaje">Bez údaje</option>
+            </select>
+        </div>
+
+        <!-- 6) Technologie -->
+        <div class="section">
+            <h2>6. Technologie</h2>
+            <label for="heating_type">Typ vytápění</label>
+            <input type="text" id="heating_type" name="heating_type" placeholder="Např. tepelné čerpadlo" required>
+
+            <label for="heating_brand">Značka technologie</label>
+            <input type="text" id="heating_brand" name="heating_brand" placeholder="Např. Viessmann" required>
+
+            <label for="heating_distribution">Typ rozvodu vytápění</label>
+            <select id="heating_distribution" name="heating_distribution" required>
+                <option value="">Vyberte…</option>
+                <option value="podlahove">Podlahové vytápění</option>
+                <option value="radiatory">Radiátory</option>
+                <option value="kombinace">Kombinace</option>
+            </select>
+
+            <label for="hot_water">Ohřev vody (volitelné)</label>
+            <input type="text" id="hot_water" name="hot_water" placeholder="Popište způsob ohřevu vody">
+
+            <label for="cooling_ready">Příprava na klimatizaci</label>
+            <select id="cooling_ready" name="cooling_ready" required>
+                <option value="">Vyberte…</option>
+                <option value="ano">Ano</option>
+                <option value="priprava">Příprava</option>
+                <option value="ne">Ne</option>
+            </select>
+
+            <label for="pv_ready">Příprava na fotovoltaiku</label>
+            <select id="pv_ready" name="pv_ready" required>
+                <option value="">Vyberte…</option>
+                <option value="ano">Ano</option>
+                <option value="priprava">Příprava</option>
+                <option value="ne">Ne</option>
+            </select>
+
+            <label for="shading_ready">Venkovní žaluzie</label>
+            <select id="shading_ready" name="shading_ready" required>
+                <option value="">Vyberte…</option>
+                <option value="ano">Ano</option>
+                <option value="priprava">Příprava</option>
+                <option value="ne">Ne</option>
+            </select>
+
+            <label for="noise_note">Poznámka k hlučnosti (volitelné)</label>
+            <input type="text" id="noise_note" name="noise_note" placeholder="Např. tichý chod tepelného čerpadla">
+        </div>
+
+        <!-- 7) Inženýrské sítě -->
+        <div class="section">
+            <h2>7. Inženýrské sítě</h2>
+            <label for="water">Vodovod</label>
+            <select id="water" name="water" required>
+                <option value="">Vyberte…</option>
+                <option value="vodovod">Městský vodovod</option>
+                <option value="studna">Studna</option>
+                <option value="jiné">Jiné</option>
+            </select>
+
+            <label for="sewer">Kanalizace</label>
+            <select id="sewer" name="sewer" required>
+                <option value="">Vyberte…</option>
+                <option value="kanalizace">Kanalizace</option>
+                <option value="cov">Čistírna odpadních vod (ČOV)</option>
+                <option value="jiné">Jiné</option>
+            </select>
+
+            <label for="electricity">Elektřina</label>
+            <select id="electricity" name="electricity" required>
+                <option value="">Vyberte…</option>
+                <option value="ano">Ano</option>
+                <option value="ne">Ne</option>
+            </select>
+
+            <label for="gas">Plyn</label>
+            <select id="gas" name="gas" required>
+                <option value="">Vyberte…</option>
+                <option value="ano">Ano</option>
+                <option value="ne">Ne</option>
+            </select>
+
+            <label for="internet">Internet (volitelné)</label>
+            <input type="text" id="internet" name="internet" placeholder="Popište dostupnost internetu">
+        </div>
+
+        <!-- 8) Exteriér a pozemek -->
+        <div class="section">
+            <h2>8. Exteriér a pozemek</h2>
+            <label for="garden_orientation">Orientace zahrady</label>
+            <select id="garden_orientation" name="garden_orientation" required multiple>
+                <option value="sever">Sever</option>
+                <option value="jih">Jih</option>
+                <option value="vychod">Východ</option>
+                <option value="zapad">Západ</option>
+            </select>
+            <small>Držte Ctrl/Cmd pro výběr více směrů</small>
+
+            <label for="fence">Plot</label>
+            <select id="fence" name="fence" required>
+                <option value="">Vyberte…</option>
+                <option value="ano">Ano</option>
+                <option value="ne">Ne</option>
+            </select>
+
+            <label for="garden_state">Stav zahrady</label>
+            <select id="garden_state" name="garden_state" required>
+                <option value="">Vyberte…</option>
+                <option value="zatravneno">Zatravněno</option>
+                <option value="upraveno">Upraveno</option>
+                <option value="pripraveno">Připraveno (nevyhotoveno)</option>
+            </select>
+
+            <label for="outdoor_features">Venkovní prvky (volitelné)</label>
+            <textarea id="outdoor_features" name="outdoor_features" rows="2" placeholder="Např. pergola, sklad, retenční nádrž"></textarea>
+        </div>
+
+        <!-- 9) Média a dokumenty -->
+        <div class="section">
+            <h2>9. Média a dokumenty</h2>
+            <p>Pro generátor inzerátu potřebujeme několik fotografií a dokumentů. Uveďte názvy nebo cesty k souborům. U multimediálních souborů použijte webový odkaz nebo interní identifikátor v úložišti.</p>
+
+            <label for="hero_image">Titulní fotografie (hero image)</label>
+            <input type="text" id="hero_image" name="hero_image" placeholder="Název nebo odkaz na titulní fotku" required>
+
+            <label for="gallery">Galerie fotek (vyberte více položek nebo uveďte názvy oddělené čárkou)</label>
+            <textarea id="gallery" name="gallery" rows="3" placeholder="foto1.jpg, foto2.jpg, foto3.jpg…" required></textarea>
+
+            <label for="floorplans">Půdorysy (názvy/odkazy)</label>
+            <textarea id="floorplans" name="floorplans" rows="2" placeholder="pudorys1.pdf, pudorys2.jpg"></textarea>
+
+            <label for="video_url">Video prohlídka (URL) (volitelné)</label>
+            <input type="url" id="video_url" name="video_url" placeholder="https://…">
+
+            <label for="virtual_tour_url">Virtuální prohlídka (URL) (volitelné)</label>
+            <input type="url" id="virtual_tour_url" name="virtual_tour_url" placeholder="https://…">
+
+            <label for="tech_sheet_pdf">Technický list (PDF) (volitelné)</label>
+            <input type="text" id="tech_sheet_pdf" name="tech_sheet_pdf" placeholder="tech_sheet.pdf">
+
+            <label for="finish_standard_pdf">Standardy dokončení (PDF) (volitelné)</label>
+            <input type="text" id="finish_standard_pdf" name="finish_standard_pdf" placeholder="standard.pdf">
+
+            <label for="penb_pdf">Energetický štítek (PDF) (volitelné)</label>
+            <input type="text" id="penb_pdf" name="penb_pdf" placeholder="penb.pdf">
+
+            <label for="brochure_pdf">Brožura (PDF) (volitelné)</label>
+            <input type="text" id="brochure_pdf" name="brochure_pdf" placeholder="brochure.pdf">
+        </div>
+
+        <!-- 10) Textové moduly -->
+        <div class="section">
+            <h2>10. Textové moduly</h2>
+            <label for="headline">Nadpis (portálový)</label>
+            <input type="text" id="headline" name="headline" placeholder="Např. Prodej novostavby RD 5+kk v klidné části Srubce" required>
+
+            <label for="short_pitch">Krátký popis (2–3 věty)</label>
+            <textarea id="short_pitch" name="short_pitch" rows="3" placeholder="Krátký, poutavý popis nemovitosti" required></textarea>
+
+            <label for="long_description">Dlouhý popis (sekce micro-webu)</label>
+            <textarea id="long_description" name="long_description" rows="5" placeholder="Detailní popis nemovitosti, technologií, lokality..." required></textarea>
+
+            <label for="bullets_key_features">Klíčové výhody (odrážky)</label>
+            <textarea id="bullets_key_features" name="bullets_key_features" rows="3" placeholder="Oddělte jednotlivé odrážky čárkou: blízko přírody, moderní technologie, ..." required></textarea>
+
+            <label for="cta_text">Výzva k akci (CTA)</label>
+            <input type="text" id="cta_text" name="cta_text" placeholder="Domluvte si prohlídku">
+
+            <label for="contact">Kontakt (jméno, telefon, e‑mail) – pro micro-web (portály často kontakt nezobrazují)</label>
+            <textarea id="contact" name="contact" rows="2" placeholder="Jméno: …, Tel: …, E-mail: …"></textarea>
+        </div>
+
+        <!-- 11) Tracking a leady -->
+        <div class="section">
+            <h2>11. Tracking a leady</h2>
+            <label for="primary_url">Adresa micro-webu</label>
+            <input type="url" id="primary_url" name="primary_url" placeholder="https://…" required>
+
+            <label for="utm_templates">UTM parametry (volitelné)</label>
+            <input type="text" id="utm_templates" name="utm_templates" placeholder="utm_source=...&utm_medium=...">
+
+            <label for="lead_form_destination">Příjemce poptávek (e‑mail, CRM)</label>
+            <input type="text" id="lead_form_destination" name="lead_form_destination" placeholder="např. leads@vasedomena.cz" required>
+
+            <label for="consent_text">Text souhlasu GDPR (volitelné)</label>
+            <textarea id="consent_text" name="consent_text" rows="3" placeholder="Text souhlasu pro formulář"></textarea>
+        </div>
+
+        <!-- Submit button -->
+        <div class="section" style="text-align: center; margin-top: 2rem;">
+            <button type="submit" style="background-color: #004b87; color: white; padding: 0.8rem 2rem; border: none; border-radius: 4px; font-size: 1.1rem; cursor: pointer;">Odeslat data</button>
+        </div>
+    </form>
+</body>
+</html>
