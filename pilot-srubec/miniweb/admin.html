@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Srubec Estate</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, sans-serif; background: #f4f6f9; color: #1a1a1a; min-height: 100vh; }
+
+    /* ── LOGIN ── */
+    #login-screen {
+      display: flex; align-items: center; justify-content: center; min-height: 100vh;
+    }
+    .login-card {
+      background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,.12);
+      padding: 40px 36px; width: 340px; text-align: center;
+    }
+    .login-card h1 { font-size: 22px; margin-bottom: 8px; }
+    .login-card p  { color: #666; font-size: 14px; margin-bottom: 28px; }
+    .login-card input {
+      width: 100%; padding: 11px 14px; border: 1.5px solid #ddd; border-radius: 8px;
+      font-size: 15px; margin-bottom: 16px; outline: none; transition: border-color .2s;
+    }
+    .login-card input:focus { border-color: #2563eb; }
+    .btn-primary {
+      width: 100%; padding: 12px; background: #2563eb; color: #fff; border: none;
+      border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background .2s;
+    }
+    .btn-primary:hover { background: #1d4ed8; }
+    #login-error { color: #dc2626; font-size: 13px; margin-top: 10px; display: none; }
+
+    /* ── ADMIN PANEL ── */
+    #admin-panel { display: none; max-width: 900px; margin: 0 auto; padding: 32px 20px 60px; }
+    .admin-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 32px; padding-bottom: 20px; border-bottom: 2px solid #e5e7eb;
+    }
+    .admin-header h1 { font-size: 24px; }
+    .admin-header span { color: #6b7280; font-size: 14px; }
+    .btn-logout {
+      padding: 8px 16px; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 7px;
+      font-size: 14px; cursor: pointer; transition: background .2s;
+    }
+    .btn-logout:hover { background: #e5e7eb; }
+
+    .section { background: #fff; border-radius: 12px; box-shadow: 0 1px 6px rgba(0,0,0,.07); padding: 28px; margin-bottom: 24px; }
+    .section h2 { font-size: 16px; font-weight: 700; color: #374151; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
+
+    .field-row { display: grid; grid-template-columns: 220px 1fr; align-items: start; gap: 12px; margin-bottom: 14px; }
+    .field-row label { font-size: 14px; color: #4b5563; padding-top: 10px; font-weight: 500; }
+    .field-row input, .field-row textarea {
+      width: 100%; padding: 9px 12px; border: 1.5px solid #e5e7eb; border-radius: 7px;
+      font-size: 14px; outline: none; transition: border-color .2s; font-family: inherit; resize: vertical;
+    }
+    .field-row input:focus, .field-row textarea:focus { border-color: #2563eb; }
+
+    .save-bar {
+      position: sticky; bottom: 0; background: #fff; border-top: 1px solid #e5e7eb;
+      padding: 16px 20px; display: flex; align-items: center; gap: 14px; box-shadow: 0 -2px 12px rgba(0,0,0,.06);
+    }
+    .btn-save {
+      padding: 12px 28px; background: #16a34a; color: #fff; border: none;
+      border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background .2s;
+    }
+    .btn-save:hover { background: #15803d; }
+    .btn-save:disabled { background: #86efac; cursor: not-allowed; }
+    #save-status { font-size: 14px; color: #6b7280; }
+    #save-status.ok  { color: #16a34a; }
+    #save-status.err { color: #dc2626; }
+
+    @media(max-width: 600px) {
+      .field-row { grid-template-columns: 1fr; }
+      .field-row label { padding-top: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN ── -->
+<div id="login-screen">
+  <div class="login-card">
+    <h1>🔐 Admin panel</h1>
+    <p>Srubec Estate — správa obsahu</p>
+    <input type="password" id="pwd-input" placeholder="Heslo" />
+    <button class="btn-primary" onclick="doLogin()">Přihlásit se</button>
+    <div id="login-error">Nesprávné heslo</div>
+  </div>
+</div>
+
+<!-- ── ADMIN PANEL ── -->
+<div id="admin-panel">
+  <div class="admin-header">
+    <div>
+      <h1>Admin panel</h1>
+      <span>Srubec Estate — správa obsahu nemovitosti</span>
+    </div>
+    <button class="btn-logout" onclick="doLogout()">Odhlásit</button>
+  </div>
+
+  <!-- Základní info -->
+  <div class="section">
+    <h2>📋 Základní info</h2>
+    <div class="field-row"><label>Název</label><input id="f-title" /></div>
+    <div class="field-row"><label>Tagline</label><input id="f-tagline" /></div>
+    <div class="field-row"><label>Nadpis</label><input id="f-headline" /></div>
+    <div class="field-row"><label>Nadpis (kurzíva)</label><input id="f-headlineEm" /></div>
+    <div class="field-row"><label>Podtitul</label><textarea id="f-subtitle" rows="3"></textarea></div>
+    <div class="field-row"><label>Dispozice</label><input id="f-disposition" /></div>
+    <div class="field-row"><label>Plocha</label><input id="f-area" /></div>
+    <div class="field-row"><label>Pozemek</label><input id="f-land" /></div>
+    <div class="field-row"><label>Kolaudace</label><input id="f-completion" /></div>
+    <div class="field-row"><label>Energetická třída</label><input id="f-energyClass" /></div>
+  </div>
+
+  <!-- Cena -->
+  <div class="section">
+    <h2>💰 Cena</h2>
+    <div class="field-row"><label>Zobrazená cena</label><input id="f-priceDisplay" /></div>
+    <div class="field-row"><label>Poznámka k ceně</label><textarea id="f-priceNote" rows="2"></textarea></div>
+  </div>
+
+  <!-- Kontakt -->
+  <div class="section">
+    <h2>📞 Kontakt</h2>
+    <div class="field-row"><label>Jméno</label><input id="f-contactName" /></div>
+    <div class="field-row"><label>Role</label><input id="f-contactRole" /></div>
+    <div class="field-row"><label>Telefon</label><input id="f-contactPhone" /></div>
+    <div class="field-row"><label>E-mail</label><input id="f-contactEmail" /></div>
+    <div class="field-row"><label>Adresa</label><input id="f-contactAddress" /></div>
+    <div class="field-row"><label>Poznámka</label><input id="f-contactNote" /></div>
+    <div class="field-row"><label>Rezervace (URL)</label><input id="f-bookingUrl" /></div>
+  </div>
+
+  <!-- Obrázky -->
+  <div class="section">
+    <h2>🖼️ Obrázky</h2>
+    <div class="field-row"><label>Hero (exteriér)</label><input id="f-imgHero" placeholder="https://..." /></div>
+    <div class="field-row"><label>Exteriér 2</label><input id="f-imgExt" placeholder="https://..." /></div>
+    <div class="field-row"><label>Obývák / interiér</label><input id="f-imgLiving" placeholder="https://..." /></div>
+    <div class="field-row"><label>Koupelna</label><input id="f-imgBath" placeholder="https://..." /></div>
+    <div class="field-row"><label>Ložnice / podkroví</label><input id="f-imgBed" placeholder="https://..." /></div>
+    <div class="field-row"><label>Tepelné čerpadlo</label><input id="f-imgPump" placeholder="https://..." /></div>
+    <div class="field-row"><label>Půdorys přízemí</label><input id="f-imgFloor1" placeholder="https://..." /></div>
+    <div class="field-row"><label>Půdorys podkroví</label><input id="f-imgFloor2" placeholder="https://..." /></div>
+  </div>
+
+  <div class="save-bar">
+    <button class="btn-save" onclick="saveConfig()">💾 Uložit změny</button>
+    <span id="save-status"></span>
+  </div>
+</div>
+
+<script>
+  const SUPABASE_URL      = 'https://tpxmmczcqlcjeuphatch.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_4zNh8UDLylGAicG2wz_rtw_EnM8bQkw';
+  const ADMIN_PASSWORD    = 'Srubec11Vladimir';
+  const PROPERTY_ID       = 'srubec-estate';
+
+  let sb = null;
+
+  // ── AUTH ──────────────────────────────────────────────────────────────────
+  function doLogin() {
+    const pwd = document.getElementById('pwd-input').value;
+    if (pwd !== ADMIN_PASSWORD) {
+      document.getElementById('login-error').style.display = 'block';
+      return;
+    }
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-panel').style.display  = 'block';
+    document.getElementById('login-error').style.display  = 'none';
+    sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    loadConfig();
+  }
+
+  function doLogout() {
+    document.getElementById('admin-panel').style.display  = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+    document.getElementById('pwd-input').value = '';
+    sb = null;
+  }
+
+  document.getElementById('pwd-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLogin();
+  });
+
+  // ── LOAD ──────────────────────────────────────────────────────────────────
+  async function loadConfig() {
+    if (!sb) return;
+    const status = document.getElementById('save-status');
+    const { data, error } = await sb
+      .from('property_config')
+      .select('config')
+      .eq('id', PROPERTY_ID)
+      .single();
+
+    if (error || !data || !data.config) {
+      status.className = 'err';
+      status.textContent = error ? '⚠️ Nepodařilo se načíst konfiguraci: ' + error.message : '⚠️ Konfigurace zatím neexistuje — vyplňte a uložte.';
+      return;
+    }
+    populateForm(data.config);
+  }
+
+  function populateForm(cfg) {
+    const p = cfg.property || {};
+    const pr = cfg.price   || {};
+    const c = cfg.contact  || {};
+    const img = cfg.images || {};
+
+    setField('f-title',          p.title);
+    setField('f-tagline',        p.tagline);
+    setField('f-headline',       p.headline);
+    setField('f-headlineEm',     p.headlineEm);
+    setField('f-subtitle',       p.subtitle);
+    setField('f-disposition',    p.disposition);
+    setField('f-area',           p.area);
+    setField('f-land',           p.land);
+    setField('f-completion',     p.completion);
+    setField('f-energyClass',    p.energyClass);
+
+    setField('f-priceDisplay',   pr.display);
+    setField('f-priceNote',      pr.note);
+
+    setField('f-contactName',    c.name);
+    setField('f-contactRole',    c.role);
+    setField('f-contactPhone',   c.phone);
+    setField('f-contactEmail',   c.email);
+    setField('f-contactAddress', c.address);
+    setField('f-contactNote',    c.note);
+    setField('f-bookingUrl',     c.bookingUrl);
+
+    setField('f-imgHero',   img.hero);
+    setField('f-imgExt',    img.ext);
+    setField('f-imgLiving', img.living);
+    setField('f-imgBath',   img.bath);
+    setField('f-imgBed',    img.bed);
+    setField('f-imgPump',   img.pump);
+    setField('f-imgFloor1', img.floor1);
+    setField('f-imgFloor2', img.floor2);
+  }
+
+  function setField(id, val) {
+    const el = document.getElementById(id);
+    if (el && val !== undefined && val !== null) el.value = val;
+  }
+
+  // ── SAVE ──────────────────────────────────────────────────────────────────
+  async function saveConfig() {
+    if (!sb) return;
+    const btn = document.querySelector('.btn-save');
+    const status = document.getElementById('save-status');
+    btn.disabled = true;
+    status.className = '';
+    status.textContent = 'Ukládám…';
+
+    const config = buildConfig();
+
+    const { error } = await sb
+      .from('property_config')
+      .upsert({ id: PROPERTY_ID, config, updated_at: new Date().toISOString() });
+
+    if (error) {
+      status.className = 'err';
+      status.textContent = '❌ Chyba: ' + error.message;
+    } else {
+      status.className = 'ok';
+      status.textContent = '✅ Uloženo! Web se aktualizuje automaticky.';
+    }
+    btn.disabled = false;
+  }
+
+  function buildConfig() {
+    return {
+      property: {
+        title:       getField('f-title'),
+        tagline:     getField('f-tagline'),
+        headline:    getField('f-headline'),
+        headlineEm:  getField('f-headlineEm'),
+        subtitle:    getField('f-subtitle'),
+        disposition: getField('f-disposition'),
+        area:        getField('f-area'),
+        land:        getField('f-land'),
+        completion:  getField('f-completion'),
+        energyClass: getField('f-energyClass'),
+      },
+      price: {
+        display: getField('f-priceDisplay'),
+        note:    getField('f-priceNote'),
+      },
+      contact: {
+        name:       getField('f-contactName'),
+        role:       getField('f-contactRole'),
+        phone:      getField('f-contactPhone'),
+        email:      getField('f-contactEmail'),
+        address:    getField('f-contactAddress'),
+        note:       getField('f-contactNote'),
+        bookingUrl: getField('f-bookingUrl'),
+      },
+      images: {
+        hero:   getField('f-imgHero'),
+        ext:    getField('f-imgExt'),
+        living: getField('f-imgLiving'),
+        bath:   getField('f-imgBath'),
+        bed:    getField('f-imgBed'),
+        pump:   getField('f-imgPump'),
+        floor1: getField('f-imgFloor1'),
+        floor2: getField('f-imgFloor2'),
+      },
+    };
+  }
+
+  function getField(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+</script>
+</body>
+</html>
