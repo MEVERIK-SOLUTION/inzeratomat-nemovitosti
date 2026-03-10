@@ -17,8 +17,7 @@ inzeratomat-nemovitosti/
 ├── product/               ← Dlouhodobý vývoj produktu (po/souběžně s pilotem)
 │   └── listing-generator/ ← Generátor textu inzerátu (prototyp)
 │
-└── docs/                  ← Zakládající a strategická dokumentace
-    └── inicialni-dokumenty/ ← PDFs: manifesty, charter, datový model, architektura
+└── docs/                  ← Strategická a referenční dokumentace
 ```
 
 > **Pravidlo:** Co je specifické pro Srubec → `pilot-srubec/`.

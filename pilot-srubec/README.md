@@ -66,6 +66,18 @@ Vercel musí být nakonfigurován takto:
 - **Root Directory:** *(nechat prázdné — řídí `vercel.json` v kořeni repozitáře)*
 - `vercel.json` obsahuje `"outputDirectory": "pilot-srubec/miniweb"` → Vercel servíruje z `pilot-srubec/miniweb/`
 
+## Ověření parity (lokál vs Vercel)
+
+- Praktický postup a smoke test skript jsou v `miniweb/PARITY-VERIFICATION.md`
+- Rychlý test spustíte v `miniweb/` přes `./parity-smoke.sh`
+
+## Obsahová editace pro prodávající (bez programování)
+
+- Hlavní obsah se upravuje v `miniweb/config.js` (texty, cena, kontakt, URL obrázků).
+- Workflow pro média (Drive draft -> assets publish): `miniweb/DRIVE-ASSETS-WORKFLOW.md`
+- Import 2D/3D půdorysů jako obrázků: `miniweb/FLOORPLANS-IMPORT-SPEC.md`
+- Kontrola konfigurace před publikací: `miniweb/validate-config.sh`
+
 ## Výstupy pilotu → přenos do produktu
 
 Po ukončení pilotu (prodej nemovitosti nebo rozhodnutí o přerušení) se vyhodnotí:
