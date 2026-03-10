@@ -71,8 +71,32 @@
         </div>
       </form>
       <section id="outputSection" class="output-section">
-        <h2>Vygenerovaný inzerát</h2>
-        <pre id="listingOutput"></pre>
+        <h2>Vygenerované varianty inzerátu</h2>
+        <p>Zvolte variantu podle cílového portálu. Všechny texty jsou připravené pro copy-paste.</p>
+
+        <div class="variant-row">
+          <div class="variant-head">
+            <h3>Krátká varianta</h3>
+            <button type="button" class="copy-btn" data-copy-target="listingShort">Kopírovat</button>
+          </div>
+          <pre id="listingShort"></pre>
+        </div>
+
+        <div class="variant-row">
+          <div class="variant-head">
+            <h3>Střední varianta</h3>
+            <button type="button" class="copy-btn" data-copy-target="listingMedium">Kopírovat</button>
+          </div>
+          <pre id="listingMedium"></pre>
+        </div>
+
+        <div class="variant-row">
+          <div class="variant-head">
+            <h3>Dlouhá varianta</h3>
+            <button type="button" class="copy-btn" data-copy-target="listingLong">Kopírovat</button>
+          </div>
+          <pre id="listingLong"></pre>
+        </div>
       </section>
     </main>
     <footer>

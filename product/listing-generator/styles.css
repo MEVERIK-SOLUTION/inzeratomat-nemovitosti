@@ -105,6 +105,45 @@ form {
   color: var(--primary-color);
 }
 
+.variant-row {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+.variant-row:first-of-type {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0.5rem;
+}
+
+.variant-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.variant-head h3 {
+  margin: 0;
+  color: #1a365d;
+  font-size: 1rem;
+}
+
+.copy-btn {
+  padding: 0.45rem 0.7rem;
+  background-color: #edf2f7;
+  border: 1px solid #cbd5e0;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  color: #2d3748;
+  font-size: 0.9rem;
+}
+
+.copy-btn:hover {
+  background-color: #e2e8f0;
+}
+
 pre {
   white-space: pre-wrap;
   word-wrap: break-word;

@@ -37,6 +37,13 @@ product/
 Otevřete v prohlížeči: product/listing-generator/index.html
 ```
 
+## Aktuální výstupy listing-generatoru
+
+- Krátká varianta inzerátu (rychlý portálový zápis)
+- Střední varianta inzerátu (běžný detail inzerátu)
+- Dlouhá varianta inzerátu (rozšířený text)
+- Každá varianta má tlačítko `Kopírovat` pro copy-paste workflow
+
 ## Vztah k pilotu
 
 Pilot Srubec (`/pilot-srubec/`) je **testovacím prostředím** pro ověření konceptů, které pak  
