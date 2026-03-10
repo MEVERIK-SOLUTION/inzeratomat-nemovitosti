@@ -1,320 +1,449 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin — Srubec Estate</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: system-ui, sans-serif; background: #f4f6f9; color: #1a1a1a; min-height: 100vh; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Srubec Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="supabase-loader.js"></script>
+<style>
+:root{--bg:#0F0E0C;--surface:#1A1815;--surface2:#222019;--border:rgba(155,107,58,0.2);--accent:#C4955A;--accent2:#9B6B3A;--text:#E8E0D0;--muted:#6B635A;--green:#5A9B6B;--cream:#F5F0E8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;min-height:100vh;}
 
-    /* ── LOGIN ── */
-    #login-screen {
-      display: flex; align-items: center; justify-content: center; min-height: 100vh;
-    }
-    .login-card {
-      background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,.12);
-      padding: 40px 36px; width: 340px; text-align: center;
-    }
-    .login-card h1 { font-size: 22px; margin-bottom: 8px; }
-    .login-card p  { color: #666; font-size: 14px; margin-bottom: 28px; }
-    .login-card input {
-      width: 100%; padding: 11px 14px; border: 1.5px solid #ddd; border-radius: 8px;
-      font-size: 15px; margin-bottom: 16px; outline: none; transition: border-color .2s;
-    }
-    .login-card input:focus { border-color: #2563eb; }
-    .btn-primary {
-      width: 100%; padding: 12px; background: #2563eb; color: #fff; border: none;
-      border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background .2s;
-    }
-    .btn-primary:hover { background: #1d4ed8; }
-    #login-error { color: #dc2626; font-size: 13px; margin-top: 10px; display: none; }
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:24px;}
+#login-screen h1{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--cream);}
+#login-screen h1 span{color:var(--accent);}
+.login-box{background:var(--surface);border:1px solid var(--border);padding:40px;width:340px;}
+.login-box label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.login-box input{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:14px;padding:12px 14px;outline:none;margin-bottom:16px;}
+.login-box input:focus{border-color:var(--accent);}
+.login-btn{width:100%;background:var(--accent2);color:var(--cream);border:none;padding:14px;font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;cursor:pointer;}
+.login-btn:hover{background:var(--accent);}
+.login-error{font-size:12px;color:#C47A5A;margin-top:8px;display:none;}
 
-    /* ── ADMIN PANEL ── */
-    #admin-panel { display: none; max-width: 900px; margin: 0 auto; padding: 32px 20px 60px; }
-    .admin-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 32px; padding-bottom: 20px; border-bottom: 2px solid #e5e7eb;
-    }
-    .admin-header h1 { font-size: 24px; }
-    .admin-header span { color: #6b7280; font-size: 14px; }
-    .btn-logout {
-      padding: 8px 16px; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 7px;
-      font-size: 14px; cursor: pointer; transition: background .2s;
-    }
-    .btn-logout:hover { background: #e5e7eb; }
+#admin-screen{display:none;}
+header{padding:18px 48px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;letter-spacing:2px;}
+.logo span{color:var(--accent);}
+.hdr-btns{display:flex;gap:12px;align-items:center;}
+.hdr-btn{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;cursor:pointer;text-decoration:none;transition:all 0.2s;}
+.hdr-btn:hover{border-color:var(--accent);color:var(--accent);}
 
-    .section { background: #fff; border-radius: 12px; box-shadow: 0 1px 6px rgba(0,0,0,.07); padding: 28px; margin-bottom: 24px; }
-    .section h2 { font-size: 16px; font-weight: 700; color: #374151; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
+.tabs{display:flex;border-bottom:1px solid var(--border);padding:0 48px;}
+.tab{font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:16px 22px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;background:none;border-top:none;border-left:none;border-right:none;font-family:'Jost',sans-serif;transition:all 0.2s;}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.tab:hover:not(.active){color:var(--text);}
 
-    .field-row { display: grid; grid-template-columns: 220px 1fr; align-items: start; gap: 12px; margin-bottom: 14px; }
-    .field-row label { font-size: 14px; color: #4b5563; padding-top: 10px; font-weight: 500; }
-    .field-row input, .field-row textarea {
-      width: 100%; padding: 9px 12px; border: 1.5px solid #e5e7eb; border-radius: 7px;
-      font-size: 14px; outline: none; transition: border-color .2s; font-family: inherit; resize: vertical;
-    }
-    .field-row input:focus, .field-row textarea:focus { border-color: #2563eb; }
+.panel{display:none;padding:36px 48px;}
+.panel.active{display:block;}
 
-    .save-bar {
-      position: sticky; bottom: 0; background: #fff; border-top: 1px solid #e5e7eb;
-      padding: 16px 20px; display: flex; align-items: center; gap: 14px; box-shadow: 0 -2px 12px rgba(0,0,0,.06);
-    }
-    .btn-save {
-      padding: 12px 28px; background: #16a34a; color: #fff; border: none;
-      border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background .2s;
-    }
-    .btn-save:hover { background: #15803d; }
-    .btn-save:disabled { background: #86efac; cursor: not-allowed; }
-    #save-status { font-size: 14px; color: #6b7280; }
-    #save-status.ok  { color: #16a34a; }
-    #save-status.err { color: #dc2626; }
+.gen-layout{display:grid;grid-template-columns:280px 1fr;gap:28px;}
+.card{background:var(--surface);border:1px solid var(--border);padding:24px;}
+.card h3{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.field{margin-bottom:13px;}
+.field label{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.field input,.field textarea,.field select{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:13px;padding:9px 11px;outline:none;transition:border-color 0.2s;}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--accent);}
+.field textarea{height:65px;resize:vertical;}
+.gen-btn{width:100%;background:var(--accent2);color:var(--cream);border:none;padding:12px;font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;margin-top:8px;transition:background 0.2s;}
+.gen-btn:hover{background:var(--accent);}
 
-    @media(max-width: 600px) {
-      .field-row { grid-template-columns: 1fr; }
-      .field-row label { padding-top: 0; }
-    }
-  </style>
+.ptabs{display:flex;gap:2px;margin-bottom:20px;flex-wrap:wrap;}
+.ptab{font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;background:var(--surface);border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all 0.2s;}
+.ptab.active{background:var(--accent2);color:var(--cream);border-color:var(--accent2);}
+.ptab:hover:not(.active){border-color:var(--accent);color:var(--accent);}
+.ppanel{display:none;}
+.ppanel.active{display:block;}
+
+.intro{background:var(--surface2);border-left:3px solid var(--accent2);padding:10px 15px;margin-bottom:15px;font-size:12px;line-height:1.6;color:var(--muted);}
+.intro strong{color:var(--text);}
+
+.block{background:var(--surface);border:1px solid var(--border);margin-bottom:14px;}
+.block-head{padding:11px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.block-name{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);}
+.block-body{padding:16px;font-size:13px;line-height:1.75;color:var(--text);white-space:pre-wrap;word-break:break-word;}
+.copy-btn{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:5px 12px;cursor:pointer;transition:all 0.2s;}
+.copy-btn:hover{border-color:var(--accent);color:var(--accent);}
+.copy-btn.ok{border-color:var(--green);color:var(--green);}
+.copy-all-btn{display:inline-flex;align-items:center;gap:8px;background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;cursor:pointer;margin-bottom:16px;transition:all 0.2s;}
+.copy-all-btn:hover{border-color:var(--accent);color:var(--accent);}
+.cnt{font-size:10px;color:var(--muted);}
+.cnt-warn{color:#C47A5A;}
+
+.cl-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.cl-card{background:var(--surface);border:1px solid var(--border);padding:20px;}
+.cl-card h3{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+.ci{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);cursor:pointer;font-size:13px;color:var(--muted);}
+.ci:last-child{border:none;}
+.ci-box{width:16px;height:16px;border:1px solid var(--muted);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;}
+.ci.done .ci-box{background:rgba(90,155,107,0.2);border-color:var(--green);color:var(--green);}
+.ci.done{color:rgba(90,155,107,0.7);}
+
+.photos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:20px;}
+.photo-item{height:130px;overflow:hidden;background:var(--surface);position:relative;}
+.photo-item img{width:100%;height:100%;object-fit:cover;}
+.photo-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.7);padding:6px 8px;font-size:10px;letter-spacing:1px;color:rgba(245,240,232,0.7);}
+
+@media(max-width:900px){
+.gen-layout,.cl-grid{grid-template-columns:1fr;}
+header,.tabs,.panel{padding-left:20px;padding-right:20px;}
+}
+</style>
 </head>
 <body>
 
-<!-- ── LOGIN ── -->
 <div id="login-screen">
-  <div class="login-card">
-    <h1>🔐 Admin panel</h1>
-    <p>Srubec Estate — správa obsahu</p>
-    <input type="password" id="pwd-input" placeholder="Heslo" />
-    <button class="btn-primary" onclick="doLogin()">Přihlásit se</button>
-    <div id="login-error">Nesprávné heslo</div>
+  <h1><span>Srubec</span> Estate</h1>
+  <p style="font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)">Admin · přístup pouze pro tým</p>
+  <div class="login-box">
+    <label>Přístupový kód</label>
+    <input type="password" id="pin" placeholder="••••••" onkeydown="if(event.key==='Enter')login()">
+    <button class="login-btn" onclick="login()">Vstoupit →</button>
+    <div class="login-error" id="lerr">Nesprávný kód — zkuste znovu</div>
   </div>
 </div>
 
-<!-- ── ADMIN PANEL ── -->
-<div id="admin-panel">
-  <div class="admin-header">
-    <div>
-      <h1>Admin panel</h1>
-      <span>Srubec Estate — správa obsahu nemovitosti</span>
+<div id="admin-screen">
+  <header>
+    <div class="logo"><span>Srubec</span> Estate &mdash; Admin</div>
+    <div class="hdr-btns">
+      <a href="/" class="hdr-btn">← zpět na web</a>
+      <button class="hdr-btn" onclick="logout()">Odhlásit</button>
     </div>
-    <button class="btn-logout" onclick="doLogout()">Odhlásit</button>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" onclick="tab('inzeraty',this)">Generátor inzerátů</button>
+    <button class="tab" onclick="tab('checklist',this)">Checklist publikace</button>
+    <button class="tab" onclick="tab('fotky',this)">Fotografie</button>
   </div>
 
-  <!-- Základní info -->
-  <div class="section">
-    <h2>📋 Základní info</h2>
-    <div class="field-row"><label>Název</label><input id="f-title" /></div>
-    <div class="field-row"><label>Tagline</label><input id="f-tagline" /></div>
-    <div class="field-row"><label>Nadpis</label><input id="f-headline" /></div>
-    <div class="field-row"><label>Nadpis (kurzíva)</label><input id="f-headlineEm" /></div>
-    <div class="field-row"><label>Podtitul</label><textarea id="f-subtitle" rows="3"></textarea></div>
-    <div class="field-row"><label>Dispozice</label><input id="f-disposition" /></div>
-    <div class="field-row"><label>Plocha</label><input id="f-area" /></div>
-    <div class="field-row"><label>Pozemek</label><input id="f-land" /></div>
-    <div class="field-row"><label>Kolaudace</label><input id="f-completion" /></div>
-    <div class="field-row"><label>Energetická třída</label><input id="f-energyClass" /></div>
+  <!-- ══ INZERÁTY ══ -->
+  <div class="panel active" id="tab-inzeraty">
+    <div class="gen-layout">
+      <div>
+        <div class="card">
+          <h3>Nastavení</h3>
+          <div class="field"><label>Cena</label><input id="f-cena" value="Na vyžádání"></div>
+          <div class="field">
+            <label>Stav dokončení</label>
+            <select id="f-stav">
+              <option>Kolaudace 2026 — ihned k nastěhování</option>
+              <option>Ihned k nastěhování</option>
+              <option>Ve výstavbě — dokončení 2026</option>
+            </select>
+          </div>
+          <div class="field"><label>Jméno prodejce</label><input id="f-jmeno" value="Vladimír"></div>
+          <div class="field"><label>Telefon</label><input id="f-tel" value="+420 XXX XXX XXX"></div>
+          <div class="field"><label>E-mail</label><input id="f-email" value="info@srubec-estate.cz"></div>
+          <div class="field"><label>Doplněk (volitelné)</label><textarea id="f-pozn" placeholder="Možnost individuální úpravy..."></textarea></div>
+          <button class="gen-btn" onclick="gen()">⟳ Vygenerovat texty</button>
+        </div>
+        <div style="margin-top:14px;background:var(--surface);border:1px solid var(--border);padding:16px;">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Miniweb</div>
+          <div style="font-size:12px;color:var(--accent)">srubec-estate.vercel.app</div>
+        </div>
+      </div>
+      <div>
+        <div class="ptabs">
+          <div class="ptab active" onclick="portal('sreality',this)">Sreality</div>
+          <div class="ptab" onclick="portal('bezrealitky',this)">Bezrealitky</div>
+          <div class="ptab" onclick="portal('realingo',this)">Realingo</div>
+          <div class="ptab" onclick="portal('idnes',this)">iDnes</div>
+          <div class="ptab" onclick="portal('uni',this)">Univerzální</div>
+        </div>
+
+        <div class="ppanel active" id="pp-sreality">
+          <div class="intro"><strong>Sreality.cz</strong> — největší portál. Nadpis max. 60 zn., popis max. 4 000 zn. GPS: 48.9286, 14.4736. Energetický štítek B.</div>
+          <button class="copy-all-btn" onclick="cpAll('sr')">⎘ Zkopírovat vše pro Sreality</button>
+          <div class="block"><div class="block-head"><span class="block-name">Nadpis <span class="cnt" id="cnt-sr-n"></span></span><button class="copy-btn" onclick="cp('sr-n',this)">Kopírovat</button></div><div class="block-body" id="sr-n"></div></div>
+          <div class="block"><div class="block-head"><span class="block-name">Popis <span class="cnt" id="cnt-sr-p"></span></span><button class="copy-btn" onclick="cp('sr-p',this)">Kopírovat</button></div><div class="block-body" id="sr-p"></div></div>
+          <div class="block"><div class="block-head"><span class="block-name">Parametry</span><button class="copy-btn" onclick="cp('sr-par',this)">Kopírovat</button></div><div class="block-body" id="sr-par"></div></div>
+        </div>
+
+        <div class="ppanel" id="pp-bezrealitky">
+          <div class="intro"><strong>Bezrealitky.cz</strong> — přímý prodej bez provize. Osobní tón, důraz na majitele.</div>
+          <button class="copy-all-btn" onclick="cpAll('br')">⎘ Zkopírovat vše pro Bezrealitky</button>
+          <div class="block"><div class="block-head"><span class="block-name">Nadpis</span><button class="copy-btn" onclick="cp('br-n',this)">Kopírovat</button></div><div class="block-body" id="br-n"></div></div>
+          <div class="block"><div class="block-head"><span class="block-name">Popis</span><button class="copy-btn" onclick="cp('br-p',this)">Kopírovat</button></div><div class="block-body" id="br-p"></div></div>
+        </div>
+
+        <div class="ppanel" id="pp-realingo">
+          <div class="intro"><strong>Realingo.cz</strong> — moderní portál, strukturovaný popis.</div>
+          <button class="copy-all-btn" onclick="cpAll('rl')">⎘ Zkopírovat vše pro Realingo</button>
+          <div class="block"><div class="block-head"><span class="block-name">Nadpis</span><button class="copy-btn" onclick="cp('rl-n',this)">Kopírovat</button></div><div class="block-body" id="rl-n"></div></div>
+          <div class="block"><div class="block-head"><span class="block-name">Popis</span><button class="copy-btn" onclick="cp('rl-p',this)">Kopírovat</button></div><div class="block-body" id="rl-p"></div></div>
+        </div>
+
+        <div class="ppanel" id="pp-idnes">
+          <div class="intro"><strong>iDnes Reality / České reality</strong> — krátký a úderný popis, max. ~1 500 znaků.</div>
+          <button class="copy-all-btn" onclick="cpAll('id')">⎘ Zkopírovat vše pro iDnes</button>
+          <div class="block"><div class="block-head"><span class="block-name">Nadpis</span><button class="copy-btn" onclick="cp('id-n',this)">Kopírovat</button></div><div class="block-body" id="id-n"></div></div>
+          <div class="block"><div class="block-head"><span class="block-name">Popis</span><button class="copy-btn" onclick="cp('id-p',this)">Kopírovat</button></div><div class="block-body" id="id-p"></div></div>
+        </div>
+
+        <div class="ppanel" id="pp-uni">
+          <div class="intro"><strong>Univerzální</strong> — pro jakýkoli portál, e-mail nebo sociální sítě.</div>
+          <button class="copy-all-btn" onclick="cpAll('un')">⎘ Zkopírovat kompletní text</button>
+          <div class="block"><div class="block-head"><span class="block-name">Kompletní inzerát</span><button class="copy-btn" onclick="cp('un-f',this)">Kopírovat</button></div><div class="block-body" id="un-f"></div></div>
+          <div class="block"><div class="block-head"><span class="block-name">Krátká verze (soc. sítě)</span><button class="copy-btn" onclick="cp('un-s',this)">Kopírovat</button></div><div class="block-body" id="un-s"></div></div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Cena -->
-  <div class="section">
-    <h2>💰 Cena</h2>
-    <div class="field-row"><label>Zobrazená cena</label><input id="f-priceDisplay" /></div>
-    <div class="field-row"><label>Poznámka k ceně</label><textarea id="f-priceNote" rows="2"></textarea></div>
+  <!-- ══ CHECKLIST ══ -->
+  <div class="panel" id="tab-checklist">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:var(--cream);margin-bottom:6px">Checklist <em style="color:var(--accent);font-style:italic">publikace</em></h2>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:24px">Kliknutím odškrtněte kroky při vkládání inzerátu.</p>
+    <div class="cl-grid">
+      <div>
+        <div class="cl-card">
+          <h3>Sreality.cz</h3>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Přihlášení / účet zřízen</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Nadpis vložen (max. 60 znaků)</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Popis vložen (max. 4 000 znaků)</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Fotografie nahrány (min. 10 ks)</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>GPS: 48.9286, 14.4736</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Energetický štítek: B</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Cena a kontakt vyplněn</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Inzerát aktivován</div>
+        </div>
+        <div class="cl-card" style="margin-top:16px">
+          <h3>Bezrealitky.cz</h3>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Registrace / přihlášení</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Nadpis a popis vložen</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Fotografie nahrány</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Aktivován</div>
+        </div>
+      </div>
+      <div>
+        <div class="cl-card">
+          <h3>Realingo.cz</h3>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Registrace / přihlášení</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Nadpis a popis vložen</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Fotografie nahrány</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Aktivován</div>
+        </div>
+        <div class="cl-card" style="margin-top:16px">
+          <h3>iDnes Reality</h3>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Registrace / přihlášení</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Nadpis a popis vložen</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Fotografie nahrány</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Aktivován</div>
+        </div>
+        <div class="cl-card" style="margin-top:16px;border-color:rgba(90,155,107,0.3)">
+          <h3 style="color:var(--green)">Miniweb ✓ živý</h3>
+          <div class="ci done" onclick="tci(this)"><div class="ci-box done">✓</div>srubec-estate.vercel.app spuštěn</div>
+          <div class="ci done" onclick="tci(this)"><div class="ci-box done">✓</div>Fotografie se zobrazují</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Odkaz přidán do inzerátů</div>
+          <div class="ci" onclick="tci(this)"><div class="ci-box"></div>Kontakt aktualizován</div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Kontakt -->
-  <div class="section">
-    <h2>📞 Kontakt</h2>
-    <div class="field-row"><label>Jméno</label><input id="f-contactName" /></div>
-    <div class="field-row"><label>Role</label><input id="f-contactRole" /></div>
-    <div class="field-row"><label>Telefon</label><input id="f-contactPhone" /></div>
-    <div class="field-row"><label>E-mail</label><input id="f-contactEmail" /></div>
-    <div class="field-row"><label>Adresa</label><input id="f-contactAddress" /></div>
-    <div class="field-row"><label>Poznámka</label><input id="f-contactNote" /></div>
-    <div class="field-row"><label>Rezervace (URL)</label><input id="f-bookingUrl" /></div>
-  </div>
-
-  <!-- Obrázky -->
-  <div class="section">
-    <h2>🖼️ Obrázky</h2>
-    <div class="field-row"><label>Hero (exteriér)</label><input id="f-imgHero" placeholder="https://..." /></div>
-    <div class="field-row"><label>Exteriér 2</label><input id="f-imgExt" placeholder="https://..." /></div>
-    <div class="field-row"><label>Obývák / interiér</label><input id="f-imgLiving" placeholder="https://..." /></div>
-    <div class="field-row"><label>Koupelna</label><input id="f-imgBath" placeholder="https://..." /></div>
-    <div class="field-row"><label>Ložnice / podkroví</label><input id="f-imgBed" placeholder="https://..." /></div>
-    <div class="field-row"><label>Tepelné čerpadlo</label><input id="f-imgPump" placeholder="https://..." /></div>
-    <div class="field-row"><label>Půdorys přízemí</label><input id="f-imgFloor1" placeholder="https://..." /></div>
-    <div class="field-row"><label>Půdorys podkroví</label><input id="f-imgFloor2" placeholder="https://..." /></div>
-  </div>
-
-  <div class="save-bar">
-    <button class="btn-save" onclick="saveConfig()">💾 Uložit změny</button>
-    <span id="save-status"></span>
+  <!-- ══ FOTKY ══ -->
+  <div class="panel" id="tab-fotky">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:var(--cream);margin-bottom:6px">Fotografie <em style="color:var(--accent);font-style:italic">v Supabase</em></h2>
+    <p style="color:var(--muted);font-size:13px">Aktuální sada fotek nahraná v bucketu. <a href="https://supabase.com/dashboard/project/tpxmmczcqlcjeuphatch/storage/files/buckets" target="_blank" style="color:var(--accent);text-decoration:none">Správa v Supabase →</a></p>
+    <div class="photos-grid" id="photos-grid"></div>
   </div>
 </div>
 
 <script>
-  const SUPABASE_URL      = 'https://tpxmmczcqlcjeuphatch.supabase.co';
-  const SUPABASE_ANON_KEY = 'sb_publishable_4zNh8UDLylGAicG2wz_rtw_EnM8bQkw';
-  const ADMIN_PASSWORD    = 'Srubec11Vladimir';
-  const PROPERTY_ID       = 'srubec-estate';
-
-  let sb = null;
-
-  // ── AUTH ──────────────────────────────────────────────────────────────────
-  function doLogin() {
-    const pwd = document.getElementById('pwd-input').value;
-    if (pwd !== ADMIN_PASSWORD) {
-      document.getElementById('login-error').style.display = 'block';
-      return;
-    }
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('admin-panel').style.display  = 'block';
-    document.getElementById('login-error').style.display  = 'none';
-    sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    loadConfig();
+// ── PŘIHLÁŠENÍ ──
+const PIN='srubec2026';
+function login(){
+  if(document.getElementById('pin').value===PIN){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('admin-screen').style.display='block';
+    initAdmin();
+  } else {
+    document.getElementById('lerr').style.display='block';
   }
+}
+function logout(){
+  document.getElementById('admin-screen').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('pin').value='';
+}
 
-  function doLogout() {
-    document.getElementById('admin-panel').style.display  = 'none';
-    document.getElementById('login-screen').style.display = 'flex';
-    document.getElementById('pwd-input').value = '';
-    sb = null;
-  }
+// ── TABS / PORTÁLY ──
+function tab(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+function portal(name,btn){
+  document.querySelectorAll('.ppanel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('pp-'+name).classList.add('active');
+  btn.classList.add('active');
+}
 
-  document.getElementById('pwd-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') doLogin();
+// ── GENERÁTOR ──
+function $v(id){return (document.getElementById(id)?.value||'').trim();}
+function $t(id,text){const el=document.getElementById(id);if(el)el.textContent=text;}
+function $cnt(id,len,max){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.textContent=len+'/'+max;
+  el.className='cnt'+(len>max?' cnt-warn':'');
+}
+
+function gen(){
+  const cena=$v('f-cena')||'Na vyžádání';
+  const stav=$v('f-stav');
+  const jmeno=$v('f-jmeno');
+  const tel=$v('f-tel');
+  const email=$v('f-email');
+  const pozn=$v('f-pozn');
+  const web='https://srubec-estate.vercel.app';
+  const cs=cena==='Na vyžádání'?'Cena na vyžádání':'Cena: '+cena+' Kč';
+  const ex=pozn?'\n\n'+pozn:'';
+
+  const srN=`Prodej RD 5+kk, 115 m², pozemek 500 m², Staré Hodějovice`;
+  const srP=`Nabízíme k prodeji moderní novostavbu rodinného domu 5+kk v klidné slepé ulici obce Staré Hodějovice / Srubec, lokalita u Veselských.
+
+Dům realizovala rodinná stavební firma s důrazem na kvalitu materiálů a moderní technologie. Součást dvojdomu, dosud neužívaný. ${stav}.
+
+DISPOZICE A PLOCHY
+▸ Celková užitná plocha: 115 m²
+▸ Přízemí (PP): 61 m² — obývací pokoj + kk, WC, technická místnost, zádveří
+▸ Podkroví (1.NP): 54 m² — 3 pokoje, koupelna s vanou a sprchovým koutem
+▸ Terasa: 40 m² s přímým přístupem z obývacího pokoje
+▸ Pozemek: 500 m², oplocený, zatravněný, orientace V/J/Z
+▸ 3 venkovní parkovací stání na pozemku
+
+KONSTRUKCE A MATERIÁLY
+▸ Cihelná konstrukce (Porotherm) + certifikované zateplení ETICS
+▸ Betonové základy, sedlová střecha s betonovou krytinou Bramac
+▸ Plastová okna s trojsklem, 4× střešní okno Velux premium
+▸ Podlahy: dlažba + vinyl, betonové schodiště s dřevěnými prvky
+
+TECHNOLOGIE
+▸ Tepelné čerpadlo Viessmann vzduch-voda (tichý chod pod hlukový limit)
+▸ Podlahové vytápění v celém domě, energetická třída B
+▸ Příprava pro klimatizaci, fotovoltaiku a venkovní žaluzie
+
+INŽENÝRSKÉ SÍTĚ: vodovod, kanalizace, elektřina 3×400V — vše napojeno
+
+LOKALITA: 8 min do centra ČB, 1 min na D3, plná občanská vybavenost v obci
+
+${cs}${ex}
+
+Fotodokumentace: ${web}
+Kontakt: ${jmeno} — ${tel} | ${email}
+Přímý prodej bez provize.`;
+
+  const srPar=`Typ: Rodinný dům\nDispozice: 5+kk\nUžitná plocha: 115 m²\nPlocha pozemku: 500 m²\nTerasa: 40 m²\nStav: Novostavba\nEnerg. třída: B\nVytápění: Tepelné čerpadlo\nParkovací stání: 3\nRok výstavby: 2025\nKolaudace: 2026\nObec: Staré Hodějovice\nGPS: 48.9286, 14.4736`;
+
+  const brN=`Novostavba RD 5+kk, 115 m², terasa, zahrada 500 m² — přímý prodej, Srubec`;
+  const brP=`Přímý prodej od majitele — bez provize.
+
+Novostavba 5+kk v klidné slepé ulici Staré Hodějovice / Srubec. 8 min od centra ČB, 1 min na D3.
+
+✔ 115 m² (přízemí 61 + podkroví 54 m²)
+✔ Terasa 40 m², oplocený pozemek 500 m²
+✔ TČ Viessmann + podlahové vytápění v celém domě
+✔ Velux okna, trojskla, betonová krytina Bramac
+✔ Příprava pro FVE, klimatizaci a žaluzie
+✔ 3 parkovací místa, energetická třída B
+✔ ${stav}
+
+${cs}${ex}
+
+📸 ${web}
+📞 ${tel} | ${jmeno} | ${email}`;
+
+  const rlN=`Prodej novostavby RD 5+kk — Staré Hodějovice / Srubec, 115 m², pozemek 500 m²`;
+  const rlP=`Nízkoenergetická novostavba RD — Staré Hodějovice / Srubec, 8 min od Č. Budějovic, D3 do 1 min.
+
+PARAMETRY: 5+kk | 115 m² | pozemek 500 m² | terasa 40 m² | ener. třída B | ${stav}
+
+KONSTRUKCE: Porotherm + ETICS, betonové základy, střecha Bramac, trojskla, 4× Velux premium.
+
+TECHNOLOGIE: TČ Viessmann vzduch-voda, podlahové vytápění, příprava FVE/klima/žaluzie.
+
+LOKALITA: Klidná slepá ulice, plná vybavenost obce, 8 min ČB, D3 do 1 min.
+
+${cs}${ex}
+Fotogalerie: ${web}
+Kontakt: ${jmeno} | ${tel} | ${email}`;
+
+  const idN=`Novostavba 5+kk, 115 m², Staré Hodějovice u ČB — ${cs}`;
+  const idP=`RD 5+kk, 115 m², pozemek 500 m², terasa 40 m². Cihelná stavba, TČ Viessmann, podlahové vytápění, trojskla, Velux, ener. třída B. ${stav}.
+
+8 min ČB, D3 do 1 min. Přímý prodej bez provize.${ex}
+
+📸 ${web} | 📞 ${tel}`;
+
+  const unF=`PRODEJ NOVOSTAVBY RD 5+kk — Staré Hodějovice / Srubec\n${'─'.repeat(52)}\n\n${srP}`;
+  const unS=`🏡 Novostavba RD 5+kk — Staré Hodějovice / Srubec\n115 m² + terasa 40 m², zahrada 500 m²\nTČ Viessmann, podlahové vytápění, Velux, ener. třída B\n8 min ČB, D3 do 1 min.\n${cs}\n\n📸 ${web}\n📞 ${tel} | ${jmeno}`;
+
+  $t('sr-n',srN); $cnt('cnt-sr-n',srN.length,60);
+  $t('sr-p',srP); $cnt('cnt-sr-p',srP.length,4000);
+  $t('sr-par',srPar);
+  $t('br-n',brN); $t('br-p',brP);
+  $t('rl-n',rlN); $t('rl-p',rlP);
+  $t('id-n',idN); $t('id-p',idP);
+  $t('un-f',unF); $t('un-s',unS);
+}
+
+function cp(id,btn){
+  navigator.clipboard.writeText(document.getElementById(id)?.textContent||'').then(()=>{
+    btn.textContent='✓ OK'; btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Kopírovat';btn.classList.remove('ok');},2000);
   });
+}
+function cpAll(pfx){
+  const map={sr:['sr-n','sr-p','sr-par'],br:['br-n','br-p'],rl:['rl-n','rl-p'],id:['id-n','id-p'],un:['un-f','un-s']};
+  const txt=(map[pfx]||[]).map(id=>`── ${id} ──\n${document.getElementById(id)?.textContent||''}`).join('\n\n');
+  navigator.clipboard.writeText(txt);
+}
 
-  // ── LOAD ──────────────────────────────────────────────────────────────────
-  async function loadConfig() {
-    if (!sb) return;
-    const status = document.getElementById('save-status');
-    const { data, error } = await sb
-      .from('property_config')
-      .select('config')
-      .eq('id', PROPERTY_ID)
-      .single();
+function tci(el){
+  el.classList.toggle('done');
+  const box=el.querySelector('.ci-box');
+  box.classList.toggle('done');
+  box.textContent=box.classList.contains('done')?'✓':'';
+}
 
-    if (error || !data || !data.config) {
-      status.className = 'err';
-      status.textContent = error ? '⚠️ Nepodařilo se načíst konfiguraci: ' + error.message : '⚠️ Konfigurace zatím neexistuje — vyplňte a uložte.';
-      return;
-    }
-    populateForm(data.config);
+function loadPhotos(){
+  const BASE='https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/';
+  const files=[
+    ['Kolaz_pohledy_1.jpeg','Koláž pohledů'],['IMG_0682.jpg','Exteriér 1'],
+    ['IMG_0684.jpg','Exteriér 2'],['IMG_0687.jpg','Exteriér 3'],
+    ['IMG_0688.jpg','Exteriér 4'],['IMG_0689.jpg','Exteriér 5'],
+    ['obyvk_1_PP.jpeg','Obývací pokoj'],['Chodba_PP_vstupnidvere .jpg','Chodba'],
+    ['PP pokoj 1 prizemmi (pracovna).jpg','Pracovna'],['Loznice1_(pokoj)_1.NP.jpg','Ložnice'],
+    ['koupelna_1.NP_umyvadlo.jpg','Koupelna — umyvadlo'],['koupoelna_1_vana_sprcha_1NP.jpeg','Koupelna — vana'],
+    ['Tepelne_cerpadlo_1.jpeg','Tepelné čerpadlo'],
+  ];
+  const grid=document.getElementById('photos-grid');
+  grid.innerHTML='';
+  files.forEach(([f,l])=>{
+    const wrap=document.createElement('div'); wrap.className='photo-item';
+    const img=document.createElement('img');
+    img.src=BASE+encodeURIComponent(f); img.alt=l; img.loading='lazy';
+    const lbl=document.createElement('div'); lbl.className='photo-label'; lbl.textContent=l;
+    wrap.appendChild(img); wrap.appendChild(lbl); grid.appendChild(wrap);
+  });
+}
+
+function initAdmin(){
+  if(typeof CONFIG!=='undefined'){
+    const c=CONFIG.contact||{};
+    const setI=(id,val)=>{const el=document.getElementById(id);if(el&&val)el.value=val;};
+    setI('f-jmeno',c.name); setI('f-tel',c.phone); setI('f-email',c.email);
   }
-
-  function populateForm(cfg) {
-    const p = cfg.property || {};
-    const pr = cfg.price   || {};
-    const c = cfg.contact  || {};
-    const img = cfg.images || {};
-
-    setField('f-title',          p.title);
-    setField('f-tagline',        p.tagline);
-    setField('f-headline',       p.headline);
-    setField('f-headlineEm',     p.headlineEm);
-    setField('f-subtitle',       p.subtitle);
-    setField('f-disposition',    p.disposition);
-    setField('f-area',           p.area);
-    setField('f-land',           p.land);
-    setField('f-completion',     p.completion);
-    setField('f-energyClass',    p.energyClass);
-
-    setField('f-priceDisplay',   pr.display);
-    setField('f-priceNote',      pr.note);
-
-    setField('f-contactName',    c.name);
-    setField('f-contactRole',    c.role);
-    setField('f-contactPhone',   c.phone);
-    setField('f-contactEmail',   c.email);
-    setField('f-contactAddress', c.address);
-    setField('f-contactNote',    c.note);
-    setField('f-bookingUrl',     c.bookingUrl);
-
-    setField('f-imgHero',   img.hero);
-    setField('f-imgExt',    img.ext);
-    setField('f-imgLiving', img.living);
-    setField('f-imgBath',   img.bath);
-    setField('f-imgBed',    img.bed);
-    setField('f-imgPump',   img.pump);
-    setField('f-imgFloor1', img.floor1);
-    setField('f-imgFloor2', img.floor2);
-  }
-
-  function setField(id, val) {
-    const el = document.getElementById(id);
-    if (el && val !== undefined && val !== null) el.value = val;
-  }
-
-  // ── SAVE ──────────────────────────────────────────────────────────────────
-  async function saveConfig() {
-    if (!sb) return;
-    const btn = document.querySelector('.btn-save');
-    const status = document.getElementById('save-status');
-    btn.disabled = true;
-    status.className = '';
-    status.textContent = 'Ukládám…';
-
-    const config = buildConfig();
-
-    const { error } = await sb
-      .from('property_config')
-      .upsert({ id: PROPERTY_ID, config, updated_at: new Date().toISOString() });
-
-    if (error) {
-      status.className = 'err';
-      status.textContent = '❌ Chyba: ' + error.message;
-    } else {
-      status.className = 'ok';
-      status.textContent = '✅ Uloženo! Web se aktualizuje automaticky.';
-    }
-    btn.disabled = false;
-  }
-
-  function buildConfig() {
-    return {
-      property: {
-        title:       getField('f-title'),
-        tagline:     getField('f-tagline'),
-        headline:    getField('f-headline'),
-        headlineEm:  getField('f-headlineEm'),
-        subtitle:    getField('f-subtitle'),
-        disposition: getField('f-disposition'),
-        area:        getField('f-area'),
-        land:        getField('f-land'),
-        completion:  getField('f-completion'),
-        energyClass: getField('f-energyClass'),
-      },
-      price: {
-        display: getField('f-priceDisplay'),
-        note:    getField('f-priceNote'),
-      },
-      contact: {
-        name:       getField('f-contactName'),
-        role:       getField('f-contactRole'),
-        phone:      getField('f-contactPhone'),
-        email:      getField('f-contactEmail'),
-        address:    getField('f-contactAddress'),
-        note:       getField('f-contactNote'),
-        bookingUrl: getField('f-bookingUrl'),
-      },
-      images: {
-        hero:   getField('f-imgHero'),
-        ext:    getField('f-imgExt'),
-        living: getField('f-imgLiving'),
-        bath:   getField('f-imgBath'),
-        bed:    getField('f-imgBed'),
-        pump:   getField('f-imgPump'),
-        floor1: getField('f-imgFloor1'),
-        floor2: getField('f-imgFloor2'),
-      },
-    };
-  }
-
-  function getField(id) {
-    const el = document.getElementById(id);
-    return el ? el.value.trim() : '';
-  }
+  gen();
+  loadPhotos();
+}
 </script>
+
 </body>
 </html>
