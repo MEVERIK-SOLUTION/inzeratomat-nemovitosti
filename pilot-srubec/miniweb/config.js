@@ -75,21 +75,29 @@ const CONFIG = {
   // ----------------------------------------------------------
   images: {
     // Hlavní hero obrázek (exteriér — hlavní záběr)
-    hero:     "",   // ← VLOŽTE URL
+    hero:     "",
+    // ↑ VLOŽTE URL: https://drive.google.com/uc?id=VASE_ID
     // Exteriér (druhý pohled na dům)
-    ext:      "",   // ← VLOŽTE URL
+    ext:      "",
+    // ↑ VLOŽTE URL: https://drive.google.com/uc?id=VASE_ID
     // Obývací pokoj / vnitřní prostory
-    living:   "",   // ← VLOŽTE URL
+    living:   "",
+    // ↑ VLOŽTE URL: https://drive.google.com/uc?id=VASE_ID
     // Koupelna
-    bath:     "",   // ← VLOŽTE URL
+    bath:     "",
+    // ↑ VLOŽTE URL: https://drive.google.com/uc?id=VASE_ID
     // Ložnice / podkrovní pokoj
-    bed:      "",   // ← VLOŽTE URL
+    bed:      "",
+    // ↑ VLOŽTE URL: https://drive.google.com/uc?id=VASE_ID
     // Tepelné čerpadlo
-    pump:     "",   // ← VLOŽTE URL
+    pump:     "",
+    // ↑ VLOŽTE URL: https://drive.google.com/uc?id=VASE_ID
     // Půdorys 1.NP (přízemí) — 2D výkres nebo fotka
-    floor1:   "",   // ← VLOŽTE URL
+    floor1:   "",
+    // ↑ VLOŽTE URL: https://drive.google.com/uc?id=VASE_ID
     // Půdorys 2.NP (podkroví) — 2D výkres nebo fotka
-    floor2:   "",   // ← VLOŽTE URL
+    floor2:   "",
+    // ↑ VLOŽTE URL: https://drive.google.com/uc?id=VASE_ID
     // Galerie — další fotky (přidejte libovolný počet)
     gallery: [
       // { url: "https://...", caption: "Popis fotky" },
