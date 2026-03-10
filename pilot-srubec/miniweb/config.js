@@ -40,7 +40,8 @@ const CONFIG = {
   //  CENA
   // ----------------------------------------------------------
   price: {
-    display:      "Cena na dotaz",     // např. "12 900 000 Kč" nebo "Cena na dotaz"
+    display:      "Cena na dotaz",
+    // ↑ Např. "12 900 000 Kč" nebo nechte "Cena na dotaz"
     note:         "Cena sdělena zájemcům po první nezávazné konzultaci · Financování možno dojednat",
     includes: [
       "115 m² užitná plocha",
@@ -57,8 +58,10 @@ const CONFIG = {
   contact: {
     name:         "Vladimír",
     role:         "Majitel nemovitosti",
-    phone:        "+420 XXX XXX XXX",   // ← DOPLŇTE TELEFON
-    email:        "info@srubec-estate.cz", // ← DOPLŇTE EMAIL
+    phone:        "+420 XXX XXX XXX",
+    // ↑ DOPLŇTE — toto pole bude viditelné na webu
+    email:        "info@srubec-estate.cz",
+    // ↑ DOPLŇTE — toto pole bude viditelné na webu
     address:      "Staré Hodějovice / Srubec, okr. České Budějovice",
     note:         "Prohlídky dle dohody · K dispozici osobně nebo online",
     // Odkaz na Calendly nebo jiný systém rezervací (nebo nechte prázdné "")
@@ -76,28 +79,36 @@ const CONFIG = {
   images: {
     // Hlavní hero obrázek (exteriér — hlavní záběr)
     hero:     "",
-    // ↑ VLOŽTE URL: https://drive.google.com/uc?id=VASE_ID
+    // ↑ Vložte URL fotky. Návod: Drive → pravý klik → Sdílet → Kdokoli s odkazem
+    //   → zkopírujte ID z odkazu → použijte: https://drive.google.com/uc?id=VASE_ID
     // Exteriér (druhý pohled na dům)
     ext:      "",
-    // ↑ VLOŽTE URL: https://drive.google.com/uc?id=VASE_ID
+    // ↑ Vložte URL fotky. Návod: Drive → pravý klik → Sdílet → Kdokoli s odkazem
+    //   → zkopírujte ID z odkazu → použijte: https://drive.google.com/uc?id=VASE_ID
     // Obývací pokoj / vnitřní prostory
     living:   "",
-    // ↑ VLOŽTE URL: https://drive.google.com/uc?id=VASE_ID
+    // ↑ Vložte URL fotky. Návod: Drive → pravý klik → Sdílet → Kdokoli s odkazem
+    //   → zkopírujte ID z odkazu → použijte: https://drive.google.com/uc?id=VASE_ID
     // Koupelna
     bath:     "",
-    // ↑ VLOŽTE URL: https://drive.google.com/uc?id=VASE_ID
+    // ↑ Vložte URL fotky. Návod: Drive → pravý klik → Sdílet → Kdokoli s odkazem
+    //   → zkopírujte ID z odkazu → použijte: https://drive.google.com/uc?id=VASE_ID
     // Ložnice / podkrovní pokoj
     bed:      "",
-    // ↑ VLOŽTE URL: https://drive.google.com/uc?id=VASE_ID
+    // ↑ Vložte URL fotky. Návod: Drive → pravý klik → Sdílet → Kdokoli s odkazem
+    //   → zkopírujte ID z odkazu → použijte: https://drive.google.com/uc?id=VASE_ID
     // Tepelné čerpadlo
     pump:     "",
-    // ↑ VLOŽTE URL: https://drive.google.com/uc?id=VASE_ID
-    // Půdorys 1.NP (přízemí) — 2D výkres nebo fotka
+    // ↑ Vložte URL fotky. Návod: Drive → pravý klik → Sdílet → Kdokoli s odkazem
+    //   → zkopírujte ID z odkazu → použijte: https://drive.google.com/uc?id=VASE_ID
+    // Půdorys PP (přízemí) — 2D výkres nebo fotka
     floor1:   "",
-    // ↑ VLOŽTE URL: https://drive.google.com/uc?id=VASE_ID
-    // Půdorys 2.NP (podkroví) — 2D výkres nebo fotka
+    // ↑ Vložte URL fotky. Návod: Drive → pravý klik → Sdílet → Kdokoli s odkazem
+    //   → zkopírujte ID z odkazu → použijte: https://drive.google.com/uc?id=VASE_ID
+    // Půdorys 1.NP (podkroví) — 2D výkres nebo fotka
     floor2:   "",
-    // ↑ VLOŽTE URL: https://drive.google.com/uc?id=VASE_ID
+    // ↑ Vložte URL fotky. Návod: Drive → pravý klik → Sdílet → Kdokoli s odkazem
+    //   → zkopírujte ID z odkazu → použijte: https://drive.google.com/uc?id=VASE_ID
     // Galerie — další fotky (přidejte libovolný počet)
     gallery: [
       // { url: "https://...", caption: "Popis fotky" },
@@ -130,9 +141,9 @@ const CONFIG = {
   //  PŮDORYSY — popisky
   // ----------------------------------------------------------
   floorplans: {
-    floor1label: "1.NP — Přízemí",
+    floor1label: "PP — Přízemí",
     floor1desc:  "Přízemí o ploše 61 m² — obývací pokoj s výstupem na terasu, kuchyňský kout, zázemí, technická místnost.",
-    floor2label: "2.NP — Podkroví",
+    floor2label: "1.NP — Podkroví",
     floor2desc:  "Podkroví o ploše 54 m² — tři pokoje, koupelna s vanou, střešní okna Velux s výhledem do přírody.",
     note:        "Půdorysy jsou orientační. Přesná dokumentace k dispozici při osobní prohlídce.",
   },
