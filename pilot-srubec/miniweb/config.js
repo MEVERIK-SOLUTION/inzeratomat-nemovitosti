@@ -74,45 +74,104 @@ const CONFIG = {
   //  Jak získat URL z Google Drive:
   //  1. Sdílejte soubor jako "Kdokoli s odkazem může zobrazit"
   //  2. Z odkazu vezměte ID (část za /d/ a před /view)
-  //  3. Sestavte URL: https://drive.google.com/uc?id=VASE_ID
+  //  3. Sestavte URL: https://drive.google.com/uc?export=view&id=VASE_ID
   // ----------------------------------------------------------
   images: {
     // Hlavní hero obrázek (exteriér — hlavní záběr)
-    hero:     "",
-    // ↑ Vložte URL fotky. Návod: Drive → pravý klik → Sdílet → Kdokoli s odkazem
-    //   → zkopírujte ID z odkazu → použijte: https://drive.google.com/uc?id=VASE_ID
+    hero:     "https://drive.google.com/uc?export=view&id=1PhvXKfPzlRRBUK7jlCwo4i3UDSe6fkvf",
     // Exteriér (druhý pohled na dům)
-    ext:      "",
-    // ↑ Vložte URL fotky. Návod: Drive → pravý klik → Sdílet → Kdokoli s odkazem
-    //   → zkopírujte ID z odkazu → použijte: https://drive.google.com/uc?id=VASE_ID
+    ext:      "https://drive.google.com/uc?export=view&id=1jWO36FanefLJ7jdk0tGKI2xleHIwpdV_",
     // Obývací pokoj / vnitřní prostory
-    living:   "",
-    // ↑ Vložte URL fotky. Návod: Drive → pravý klik → Sdílet → Kdokoli s odkazem
-    //   → zkopírujte ID z odkazu → použijte: https://drive.google.com/uc?id=VASE_ID
+    living:   "https://drive.google.com/uc?export=view&id=18P_g61--5cf3LaaTyVWsi7w9Z1KZb8hb",
     // Koupelna
-    bath:     "",
-    // ↑ Vložte URL fotky. Návod: Drive → pravý klik → Sdílet → Kdokoli s odkazem
-    //   → zkopírujte ID z odkazu → použijte: https://drive.google.com/uc?id=VASE_ID
+    bath:     "https://drive.google.com/uc?export=view&id=1rlPRctp1JtyS8H-Umb9hQOEdBLH029mn",
     // Ložnice / podkrovní pokoj
-    bed:      "",
-    // ↑ Vložte URL fotky. Návod: Drive → pravý klik → Sdílet → Kdokoli s odkazem
-    //   → zkopírujte ID z odkazu → použijte: https://drive.google.com/uc?id=VASE_ID
+    bed:      "https://drive.google.com/uc?export=view&id=1VF2-ue2MkPBdM2qLLN1VsZXVD2PIyr-x",
     // Tepelné čerpadlo
-    pump:     "",
-    // ↑ Vložte URL fotky. Návod: Drive → pravý klik → Sdílet → Kdokoli s odkazem
-    //   → zkopírujte ID z odkazu → použijte: https://drive.google.com/uc?id=VASE_ID
+    pump:     "https://drive.google.com/uc?export=view&id=1SlvjBBKeAEQrzm4Z21DfIyVqQS0UgbsB",
     // Půdorys PP (přízemí) — 2D výkres nebo fotka
     floor1:   "",
-    // ↑ Vložte URL fotky. Návod: Drive → pravý klik → Sdílet → Kdokoli s odkazem
-    //   → zkopírujte ID z odkazu → použijte: https://drive.google.com/uc?id=VASE_ID
     // Půdorys 1.NP (podkroví) — 2D výkres nebo fotka
     floor2:   "",
-    // ↑ Vložte URL fotky. Návod: Drive → pravý klik → Sdílet → Kdokoli s odkazem
-    //   → zkopírujte ID z odkazu → použijte: https://drive.google.com/uc?id=VASE_ID
     // Galerie — další fotky (přidejte libovolný počet)
-    gallery: [
-      // { url: "https://...", caption: "Popis fotky" },
-      // { url: "https://...", caption: "Popis fotky" },
+    gallery: [],
+  },
+
+  // ----------------------------------------------------------
+  //  FOTOGALERIE — Drive fotky s kategoriemi
+  //  Kategorie: "exterior" | "interior" | "technical"
+  // ----------------------------------------------------------
+  gallery: {
+    hero: "https://drive.google.com/uc?export=view&id=1PhvXKfPzlRRBUK7jlCwo4i3UDSe6fkvf",
+    images: [
+      // Exteriér
+      {
+        url: "https://drive.google.com/uc?export=view&id=1PhvXKfPzlRRBUK7jlCwo4i3UDSe6fkvf",
+        caption: "Pohled na dům — exteriér",
+        category: "exterior"
+      },
+      {
+        url: "https://drive.google.com/uc?export=view&id=1jWO36FanefLJ7jdk0tGKI2xleHIwpdV_",
+        caption: "Exteriér — boční pohled",
+        category: "exterior"
+      },
+      {
+        url: "https://drive.google.com/uc?export=view&id=1zueDJfIJ17_yzExf4oxMAPQT0C9DYxnY",
+        caption: "Exteriér — zahrada",
+        category: "exterior"
+      },
+      {
+        url: "https://drive.google.com/uc?export=view&id=1oOuSSmEIDWt21MXTtY9Z1JkteqM7_8Gi",
+        caption: "Exteriér — terasa",
+        category: "exterior"
+      },
+      {
+        url: "https://drive.google.com/uc?export=view&id=15tgcsyM-QVPoxBHI2-JtKHHPKYFFis-Z",
+        caption: "Koláž pohledů na dům",
+        category: "exterior"
+      },
+      // Interiér
+      {
+        url: "https://drive.google.com/uc?export=view&id=1TypYN-9m9mVHJ5wSZAydt-YGtnbFnnp9",
+        caption: "Chodba — vstupní dveře",
+        category: "interior"
+      },
+      {
+        url: "https://drive.google.com/uc?export=view&id=18P_g61--5cf3LaaTyVWsi7w9Z1KZb8hb",
+        caption: "Obývací pokoj + kuchyň — přízemí",
+        category: "interior"
+      },
+      {
+        url: "https://drive.google.com/uc?export=view&id=1BV8b_RPC1Z5Wy1zQL5w0t5a4ZB7k7fZM",
+        caption: "Pokoj 1 — přízemí",
+        category: "interior"
+      },
+      {
+        url: "https://drive.google.com/uc?export=view&id=1VF2-ue2MkPBdM2qLLN1VsZXVD2PIyr-x",
+        caption: "Ložnice — podkroví",
+        category: "interior"
+      },
+      {
+        url: "https://drive.google.com/uc?export=view&id=1DJOnfgNluVwa3oReYvJ9m_IAu7y1DMLj",
+        caption: "Koupelna — umyvadlo",
+        category: "interior"
+      },
+      {
+        url: "https://drive.google.com/uc?export=view&id=1rlPRctp1JtyS8H-Umb9hQOEdBLH029mn",
+        caption: "Koupelna — vana a sprcha",
+        category: "interior"
+      },
+      // Technické
+      {
+        url: "https://drive.google.com/uc?export=view&id=1SlvjBBKeAEQrzm4Z21DfIyVqQS0UgbsB",
+        caption: "Tepelné čerpadlo Viessmann",
+        category: "technical"
+      },
+      {
+        url: "https://drive.google.com/uc?export=view&id=1m6wL9D0rrwpY1YpNCz4dHucR9wMfJoXG",
+        caption: "Pohled — dům v lokalitě",
+        category: "exterior"
+      },
     ],
   },
 
