@@ -32,12 +32,13 @@ inzeratomat-nemovitosti/
 | Větev | Účel |
 |-------|------|
 | `main` | Stabilní stav – produktový základ, schválené výstupy pilotu |
-| `pilot/srubec-meverik-prodej-nemovitosti` | **Aktivní pilot** – pracovní větev pro Srubec |
+| `pilot-srubec` | **Aktivní pilot** – pracovní větev pro Srubec (deploy i vývoj) |
 | `product/*` | Funkce produktového vývoje (po/souběžně s pilotem) |
 
 **Postup:**
-1. Pracujte v `pilot/srubec-meverik-prodej-nemovitosti`
-2. Po ukončení pilotu se poznatky + soubory přenáší do `product/` přes PR do `main`
+1. Pracujte ve větvi `pilot-srubec` – veškeré změny miniwebu i obsahu
+2. Vercel je nastaven na deploy z větve `pilot-srubec` → složka `pilot-srubec/miniweb/`
+3. Po ukončení pilotu se poznatky + soubory přenáší do `product/` přes PR do `main`
 
 ---
 

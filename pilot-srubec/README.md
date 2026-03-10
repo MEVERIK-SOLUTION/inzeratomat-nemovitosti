@@ -1,6 +1,8 @@
 # Pilot Srubec – MEVERIK prodej nemovitosti
 
 > **PRIORITA** – Toto je aktivní pilotní projekt. Pracuje se zde jako první.
+>
+> **Větev:** veškerá práce a Vercel deploy probíhají na větvi **`pilot-srubec`**.
 
 ## O pilotu
 
@@ -51,11 +53,18 @@ pilot-srubec/
 
 ## Technologie pilotu
 
-- **Git/GitHub** – verzování a spolupráce
-- **Vercel** – nasazení miniwebu (`pilot-srubec/miniweb/`)
+- **Git/GitHub** – verzování a spolupráce; aktivní větev: `pilot-srubec`
+- **Vercel** – nasazení miniwebu z větve `pilot-srubec`, složka `pilot-srubec/miniweb/`
 - **Google Disk** – sdílení médií (fotky, dokumenty)
 - **Claude** – návrhy a úpravy miniwebu (odděleno od produktového vývoje)
 - **Supabase** – pouze pokud bude nezbytně nutné
+
+## Nastavení Vercel (deploy)
+
+Vercel musí být nakonfigurován takto:
+- **Branch:** `pilot-srubec`
+- **Root Directory:** *(nechat prázdné — řídí `vercel.json` v kořeni repozitáře)*
+- `vercel.json` obsahuje `"outputDirectory": "pilot-srubec/miniweb"` → Vercel servíruje z `pilot-srubec/miniweb/`
 
 ## Výstupy pilotu → přenos do produktu
 
