@@ -674,14 +674,14 @@
     <h2 class="section-title">Půdorysy — <em>dispozice domu</em></h2>
     <p class="section-lead">Přehled rozmístění místností v obou podlažích. Přesná dokumentace k dispozici při osobní prohlídce.</p>
     <div class="floorplans-tabs">
-      <button class="fp-tab active" onclick="switchFloor(1)">1.NP — Přízemí</button>
-      <button class="fp-tab" onclick="switchFloor(2)">2.NP — Podkroví</button>
+      <button class="fp-tab active" onclick="switchFloor(1)">PP — Přízemí</button>
+      <button class="fp-tab" onclick="switchFloor(2)">1.NP — Podkroví</button>
     </div>
     <!-- PŘÍZEMÍ -->
     <div class="fp-panel active" id="fpPanel1">
       <div class="fp-content">
         <div class="fp-image-wrap">
-          <span class="fp-badge">1.NP</span>
+          <span class="fp-badge">PP</span>
           <div id="fp1-img-wrap"></div>
         </div>
         <div class="fp-info">
@@ -704,7 +704,7 @@
     <div class="fp-panel" id="fpPanel2">
       <div class="fp-content">
         <div class="fp-image-wrap">
-          <span class="fp-badge">2.NP</span>
+          <span class="fp-badge">1.NP</span>
           <div id="fp2-img-wrap"></div>
         </div>
         <div class="fp-info">
@@ -962,9 +962,10 @@ function makeRows(rows) {
 function makeTechCard(icon, title, rows) {
   return `<div class="tech-card fade-in"><h3>${icon} ${title}</h3>${makeRows(rows)}</div>`;
 }
-function fpImgOrPlaceholder(url, floor) {
+function fpImgOrPlaceholder(url, floor, placeholderText) {
   if (url) return `<img src="${url}" alt="Půdorys ${floor}" style="width:100%;display:block;object-fit:contain;min-height:300px;max-height:500px">`;
-  return `<div class="fp-placeholder"><div class="fp-placeholder-icon">📐</div><p>Půdorys bude doplněn.<br>Připravujeme dokumentaci.</p></div>`;
+  const txt = placeholderText || 'Půdorys bude doplněn.<br>Připravujeme dokumentaci.';
+  return `<div class="fp-placeholder"><div class="fp-placeholder-icon">📐</div><p>${txt}</p></div>`;
 }
 
 // ─── INIT z CONFIG ───────────────────────────
@@ -1007,8 +1008,8 @@ function initFromConfig() {
   ).join('');
 
   // Půdorysy
-  document.getElementById('fp1-img-wrap').innerHTML = fpImgOrPlaceholder(CONFIG.images.floor1, '1.NP');
-  document.getElementById('fp2-img-wrap').innerHTML = fpImgOrPlaceholder(CONFIG.images.floor2, '2.NP');
+  document.getElementById('fp1-img-wrap').innerHTML = fpImgOrPlaceholder(CONFIG.images.floor1, 'PP', 'Půdorys přízemí — připravujeme');
+  document.getElementById('fp2-img-wrap').innerHTML = fpImgOrPlaceholder(CONFIG.images.floor2, '1.NP', 'Půdorys podkroví — připravujeme');
   setTxt('fp1-desc', CONFIG.floorplans.floor1desc);
   setTxt('fp2-desc', CONFIG.floorplans.floor2desc);
   document.querySelectorAll('.fp-note').forEach(el => el.textContent = CONFIG.floorplans.note);
