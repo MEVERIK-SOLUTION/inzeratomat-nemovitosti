@@ -62,9 +62,26 @@ pilot-srubec/
 ## Nastavení Vercel (deploy)
 
 Vercel musí být nakonfigurován takto:
-- **Branch:** `pilot-srubec`
-- **Root Directory:** *(nechat prázdné — řídí `vercel.json` v kořeni repozitáře)*
-- `vercel.json` obsahuje `"outputDirectory": "pilot-srubec/miniweb"` → Vercel servíruje z `pilot-srubec/miniweb/`
+- **Branch:** `main` (nebo `pilot-srubec`, pokud existuje)
+- **Framework Preset:** Other (nebo prázdné — žádný framework)
+- **Build Command:** *(prázdné / nevyplňovat)*
+- **Output Directory:** *(prázdné — řídí `vercel.json`)*
+
+### Varianta A – Root Directory = prázdné (kořen repozitáře)
+
+- Vercel čte `/vercel.json` v kořeni repozitáře
+- `"outputDirectory": "pilot-srubec/miniweb"` → Vercel servíruje z `pilot-srubec/miniweb/`
+- Tato varianta je doporučená
+
+### Varianta B – Root Directory = `pilot-srubec`
+
+- Vercel čte `pilot-srubec/vercel.json` (tento soubor existuje)
+- `"outputDirectory": "miniweb"` → Vercel servíruje z `pilot-srubec/miniweb/`
+- Funguje stejně dobře jako varianta A
+
+Obě varianty jsou podporovány. Pokud se na Vercelu zobrazuje 404, zkontrolujte:
+1. Že je `Output Directory` v Vercel dashboardu **prázdné** (nesmí přepsat `vercel.json`)
+2. Že branch, ze které se deployuje, obsahuje soubory v `pilot-srubec/miniweb/`
 
 ## Ověření parity (lokál vs Vercel)
 

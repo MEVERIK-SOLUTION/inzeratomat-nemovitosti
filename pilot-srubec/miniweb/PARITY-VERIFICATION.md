@@ -50,10 +50,25 @@ VERCEL_BASE="https://<tvuj-projekt>.vercel.app" \
   - `/` -> `200`
   - `/index.html` -> `200`
   - `/config.js` -> `200`
-- Odhadnuta Vercel URL `https://srubec-estate-meveriks-projects.vercel.app` vraci `401`.
-- `401` je v tomto reportu brano jako validni stav pri Deployment Protection.
+- Odhadnuta Vercel URL `https://srubec-estate-meveriks-projects.vercel.app`
+- Pokud Vercel vraci `404`: viz sekci "Reseni 404 na Vercelu" nize.
+- Pokud Vercel vraci `401`: Deployment Protection je zapnuta (ocekavane chovani).
 
-To obvykle znamena Deployment Protection (login), ne nutne chybu webu.
+## Reseni 404 na Vercelu
+
+Pokud Vercel vraci 404 "not found", zkontrolujte nasledujici v Vercel dashboardu:
+
+1. **Output Directory** (Project Settings → General): musi byt **prazdne** (ne `pilot-srubec/miniweb`)
+   - `vercel.json` nastavi `outputDirectory` automaticky
+   - Rucne nastavene Output Directory v dashboardu prepise `vercel.json`!
+2. **Root Directory** (Project Settings → General):
+   - Bud prazdne (pouzije `/vercel.json` s `outputDirectory: "pilot-srubec/miniweb"`)
+   - Nebo `pilot-srubec` (pouzije `pilot-srubec/vercel.json` s `outputDirectory: "miniweb"`)
+3. **Framework Preset**: musi byt `Other` nebo zadny framework
+4. **Build Command**: musi byt prazdne (zadny build)
+5. **Branch**: `main` (nebo ta vetev, ktera obsahuje soubory v `pilot-srubec/miniweb/`)
+
+Po oprave nastaveni spuste novy deploy rucne v Vercel dashboardu.
 
 ## Drive uloziste
 
