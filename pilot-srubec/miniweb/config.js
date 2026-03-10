@@ -74,21 +74,21 @@ const CONFIG = {
   //  Jak získat URL z Google Drive:
   //  1. Sdílejte soubor jako "Kdokoli s odkazem může zobrazit"
   //  2. Z odkazu vezměte ID (část za /d/ a před /view)
-  //  3. Sestavte URL: https://drive.google.com/uc?export=view&id=VASE_ID
+  //  3. Sestavte URL: https://drive.google.com/thumbnail?id=VASE_ID&sz=w1200
   // ----------------------------------------------------------
   images: {
     // Hlavní hero obrázek (exteriér — hlavní záběr)
-    hero:     "https://drive.google.com/uc?export=view&id=1PhvXKfPzlRRBUK7jlCwo4i3UDSe6fkvf",
+    hero:     "https://drive.google.com/thumbnail?id=1PhvXKfPzlRRBUK7jlCwo4i3UDSe6fkvf&sz=w1600",
     // Exteriér (druhý pohled na dům)
-    ext:      "https://drive.google.com/uc?export=view&id=1jWO36FanefLJ7jdk0tGKI2xleHIwpdV_",
+    ext:      "https://drive.google.com/thumbnail?id=1jWO36FanefLJ7jdk0tGKI2xleHIwpdV_&sz=w1200",
     // Obývací pokoj / vnitřní prostory
-    living:   "https://drive.google.com/uc?export=view&id=18P_g61--5cf3LaaTyVWsi7w9Z1KZb8hb",
+    living:   "https://drive.google.com/thumbnail?id=18P_g61--5cf3LaaTyVWsi7w9Z1KZb8hb&sz=w1200",
     // Koupelna
-    bath:     "https://drive.google.com/uc?export=view&id=1rlPRctp1JtyS8H-Umb9hQOEdBLH029mn",
+    bath:     "https://drive.google.com/thumbnail?id=1rlPRctp1JtyS8H-Umb9hQOEdBLH029mn&sz=w1200",
     // Ložnice / podkrovní pokoj
-    bed:      "https://drive.google.com/uc?export=view&id=1VF2-ue2MkPBdM2qLLN1VsZXVD2PIyr-x",
+    bed:      "https://drive.google.com/thumbnail?id=1VF2-ue2MkPBdM2qLLN1VsZXVD2PIyr-x&sz=w1200",
     // Tepelné čerpadlo
-    pump:     "https://drive.google.com/uc?export=view&id=1SlvjBBKeAEQrzm4Z21DfIyVqQS0UgbsB",
+    pump:     "https://drive.google.com/thumbnail?id=1SlvjBBKeAEQrzm4Z21DfIyVqQS0UgbsB&sz=w1200",
     // Půdorys PP (přízemí) — 2D výkres nebo fotka
     floor1:   "",
     // Půdorys 1.NP (podkroví) — 2D výkres nebo fotka
@@ -102,75 +102,70 @@ const CONFIG = {
   //  Kategorie: "exterior" | "interior" | "technical"
   // ----------------------------------------------------------
   gallery: {
-    hero: "https://drive.google.com/uc?export=view&id=1PhvXKfPzlRRBUK7jlCwo4i3UDSe6fkvf",
+    hero: "https://drive.google.com/thumbnail?id=1PhvXKfPzlRRBUK7jlCwo4i3UDSe6fkvf&sz=w1600",
     images: [
       // Exteriér
       {
-        url: "https://drive.google.com/uc?export=view&id=1PhvXKfPzlRRBUK7jlCwo4i3UDSe6fkvf",
-        caption: "Pohled na dům — exteriér",
+        url: "https://drive.google.com/thumbnail?id=1PhvXKfPzlRRBUK7jlCwo4i3UDSe6fkvf&sz=w1200",
+        caption: "Exteriér — čelní pohled",
         category: "exterior"
       },
       {
-        url: "https://drive.google.com/uc?export=view&id=1jWO36FanefLJ7jdk0tGKI2xleHIwpdV_",
+        url: "https://drive.google.com/thumbnail?id=1jWO36FanefLJ7jdk0tGKI2xleHIwpdV_&sz=w1200",
         caption: "Exteriér — boční pohled",
         category: "exterior"
       },
       {
-        url: "https://drive.google.com/uc?export=view&id=1zueDJfIJ17_yzExf4oxMAPQT0C9DYxnY",
+        url: "https://drive.google.com/thumbnail?id=1zueDJfIJ17_yzExf4oxMAPQT0C9DYxnY&sz=w1200",
         caption: "Exteriér — zahrada",
         category: "exterior"
       },
       {
-        url: "https://drive.google.com/uc?export=view&id=1oOuSSmEIDWt21MXTtY9Z1JkteqM7_8Gi",
+        url: "https://drive.google.com/thumbnail?id=1oOuSSmEIDWt21MXTtY9Z1JkteqM7_8Gi&sz=w1200",
         caption: "Exteriér — terasa",
         category: "exterior"
       },
       {
-        url: "https://drive.google.com/uc?export=view&id=15tgcsyM-QVPoxBHI2-JtKHHPKYFFis-Z",
-        caption: "Koláž pohledů na dům",
+        url: "https://drive.google.com/thumbnail?id=15tgcsyM-QVPoxBHI2-JtKHHPKYFFis-Z&sz=w1200",
+        caption: "Koláž pohledů",
         category: "exterior"
       },
       // Interiér
       {
-        url: "https://drive.google.com/uc?export=view&id=1TypYN-9m9mVHJ5wSZAydt-YGtnbFnnp9",
+        url: "https://drive.google.com/thumbnail?id=1TypYN-9m9mVHJ5wSZAydt-YGtnbFnnp9&sz=w1200",
         caption: "Chodba — vstupní dveře",
         category: "interior"
       },
       {
-        url: "https://drive.google.com/uc?export=view&id=18P_g61--5cf3LaaTyVWsi7w9Z1KZb8hb",
-        caption: "Obývací pokoj + kuchyň — přízemí",
+        url: "https://drive.google.com/thumbnail?id=18P_g61--5cf3LaaTyVWsi7w9Z1KZb8hb&sz=w1200",
+        caption: "Obývací pokoj + kuchyň",
         category: "interior"
       },
       {
-        url: "https://drive.google.com/uc?export=view&id=1BV8b_RPC1Z5Wy1zQL5w0t5a4ZB7k7fZM",
+        url: "https://drive.google.com/thumbnail?id=1BV8b_RPC1Z5Wy1zQL5w0t5a4ZB7k7fZM&sz=w1200",
         caption: "Pokoj 1 — přízemí",
         category: "interior"
       },
       {
-        url: "https://drive.google.com/uc?export=view&id=1VF2-ue2MkPBdM2qLLN1VsZXVD2PIyr-x",
+        url: "https://drive.google.com/thumbnail?id=1VF2-ue2MkPBdM2qLLN1VsZXVD2PIyr-x&sz=w1200",
         caption: "Ložnice — podkroví",
         category: "interior"
       },
       {
-        url: "https://drive.google.com/uc?export=view&id=1DJOnfgNluVwa3oReYvJ9m_IAu7y1DMLj",
+        url: "https://drive.google.com/thumbnail?id=1DJOnfgNluVwa3oReYvJ9m_IAu7y1DMLj&sz=w1200",
         caption: "Koupelna — umyvadlo",
         category: "interior"
       },
       {
-        url: "https://drive.google.com/uc?export=view&id=1rlPRctp1JtyS8H-Umb9hQOEdBLH029mn",
-        caption: "Koupelna — vana a sprcha",
+        url: "https://drive.google.com/thumbnail?id=1rlPRctp1JtyS8H-Umb9hQOEdBLH029mn&sz=w1200",
+        caption: "Koupelna — vana",
         category: "interior"
       },
       // Technické
       {
-        url: "https://drive.google.com/uc?export=view&id=1SlvjBBKeAEQrzm4Z21DfIyVqQS0UgbsB",
+        url: "https://drive.google.com/thumbnail?id=1SlvjBBKeAEQrzm4Z21DfIyVqQS0UgbsB&sz=w1200",
         caption: "Tepelné čerpadlo Viessmann",
         category: "technical"
-      },
-      {
-        url: "https://drive.google.com/uc?export=view&id=1m6wL9D0rrwpY1YpNCz4dHucR9wMfJoXG",
-        caption: "Pohled — dům v lokalitě",
-        category: "exterior"
       },
     ],
   },
