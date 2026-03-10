@@ -187,18 +187,46 @@
   .section-lead { font-size: 16px; font-weight: 300; line-height: 1.8; color: var(--warm-gray); max-width: 580px; }
 
   /* ─── GALLERY ─── */
-  .gallery-grid {
-    display: grid; grid-template-columns: 1.6fr 1fr;
-    grid-template-rows: 320px 320px; gap: 10px; margin-top: 60px;
+  .gallery-hero-wrap {
+    margin-top: 60px; height: 480px; overflow: hidden; position: relative; cursor: pointer;
   }
-  .gallery-main { grid-row: 1/3; overflow: hidden; cursor: pointer; position: relative; }
-  .gallery-item { overflow: hidden; cursor: pointer; position: relative; }
-  .gallery-item img, .gallery-main img {
+  .gallery-hero-wrap img {
     width: 100%; height: 100%; object-fit: cover;
     transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
     background: var(--stone);
   }
-  .gallery-item:hover img, .gallery-main:hover img { transform: scale(1.05); }
+  .gallery-hero-wrap:hover img { transform: scale(1.03); }
+  .gallery-hero-wrap .gallery-caption { opacity: 0; transition: opacity 0.3s; }
+  .gallery-hero-wrap:hover .gallery-caption { opacity: 1; }
+  /* Filtrování galerie */
+  .gallery-filters {
+    display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap;
+  }
+  .gallery-filter-btn {
+    padding: 8px 20px; border: 1px solid var(--accent);
+    background: transparent; color: var(--accent);
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s, color 0.2s;
+    font-family: inherit;
+  }
+  .gallery-filter-btn.active,
+  .gallery-filter-btn:hover {
+    background: var(--accent); color: var(--cream);
+  }
+  /* Mřížka galerie */
+  .gallery-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 10px; margin-top: 20px;
+  }
+  .gallery-grid-item {
+    height: 240px; overflow: hidden; cursor: pointer; position: relative;
+  }
+  .gallery-grid-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+    background: var(--stone);
+  }
+  .gallery-grid-item:hover img { transform: scale(1.05); }
   .gallery-caption {
     position: absolute; bottom: 0; left: 0; right: 0;
     background: linear-gradient(to top, rgba(28,26,24,0.8), transparent);
@@ -206,7 +234,17 @@
     font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
     color: rgba(245,240,232,0.7); opacity: 0; transition: opacity 0.3s;
   }
-  .gallery-item:hover .gallery-caption, .gallery-main:hover .gallery-caption { opacity: 1; }
+  .gallery-grid-item:hover .gallery-caption { opacity: 1; }
+  .gallery-grid-item.hidden { display: none; }
+  /* Starý layout — zachován pro kompatibilitu */
+  .gallery-item { overflow: hidden; cursor: pointer; position: relative; }
+  .gallery-item img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94);
+    background: var(--stone);
+  }
+  .gallery-item:hover img { transform: scale(1.05); }
+  .gallery-item:hover .gallery-caption { opacity: 1; }
   /* Rozšířená galerie */
   .gallery-extended {
     display: grid; grid-template-columns: repeat(4, 1fr);
@@ -507,9 +545,9 @@
     .hero-content { padding: 0 24px 60px; }
     .hero-stats { gap: 20px; }
     .overview-strip { grid-template-columns: repeat(3,1fr); }
-    .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
-    .gallery-main { grid-row: auto; height: 280px; }
-    .gallery-item { height: 220px; }
+    .gallery-hero-wrap { height: 280px; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-grid-item { height: 180px; }
     .gallery-extended { grid-template-columns: 1fr 1fr; }
     .gallery-extended-item { height: 160px; }
     .desc-grid, .tech-grid, .contact-layout, .quality-banner { grid-template-columns: 1fr; gap: 30px; }
@@ -594,22 +632,20 @@
     <div class="section-label">Fotodokumentace</div>
     <h2 class="section-title">Dům zblízka — <em>každý detail</em></h2>
     <p class="section-lead">Novostavba realizovaná rodinnou stavební firmou s důrazem na kvalitu materiálů a moderní design.</p>
-    <div class="gallery-grid">
-      <div class="gallery-main">
-        <img id="galleryHero" src="" alt="Exteriér domu">
-        <div class="gallery-caption">Pohled na dům z pozemku</div>
-      </div>
-      <div class="gallery-item">
-        <img id="galleryLiving" src="" alt="Obývací pokoj">
-        <div class="gallery-caption">Obývací pokoj s výstupem na terasu</div>
-      </div>
-      <div class="gallery-item">
-        <img id="galleryBath" src="" alt="Koupelna">
-        <div class="gallery-caption">Koupelna s vanou</div>
-      </div>
+    <!-- Hero foto -->
+    <div class="gallery-hero-wrap">
+      <img id="galleryHero" src="" alt="Exteriér domu">
+      <div class="gallery-caption">Pohled na dům z pozemku</div>
     </div>
-    <!-- Rozšířená galerie (načtena z config.images.gallery) -->
-    <div class="gallery-extended" id="galleryExtended"></div>
+    <!-- Filtrování -->
+    <div class="gallery-filters" id="galleryFilters">
+      <button class="gallery-filter-btn active" data-filter="all" onclick="filterGallery('all', this)">Vše</button>
+      <button class="gallery-filter-btn" data-filter="exterior" onclick="filterGallery('exterior', this)">Exteriér</button>
+      <button class="gallery-filter-btn" data-filter="interior" onclick="filterGallery('interior', this)">Interiér</button>
+      <button class="gallery-filter-btn" data-filter="technical" onclick="filterGallery('technical', this)">Technické</button>
+    </div>
+    <!-- Mřížka galerie -->
+    <div class="gallery-grid" id="galleryGrid"></div>
   </section>
 
   <!-- DESCRIPTION -->
@@ -993,21 +1029,26 @@ function initFromConfig() {
   setTxt('ov-year',    p.completion);
 
   // Images
-  setImg('heroBg',      CONFIG.images.hero, true);
-  setImg('galleryHero', CONFIG.images.ext);
-  setImg('galleryLiving',CONFIG.images.living);
-  setImg('galleryBath',  CONFIG.images.bath);
+  const heroUrl = (CONFIG.gallery && CONFIG.gallery.hero) || CONFIG.images.hero;
+  setImg('heroBg',      heroUrl, true);
+  setImg('galleryHero', heroUrl);
   setImg('descBed',      CONFIG.images.bed);
   setImg('techPump',     CONFIG.images.pump);
-  setImg('techHeroBg',   CONFIG.images.ext, true);
-  setImg('locHeroBg',    CONFIG.images.ext, true);
-  setImg('contHeroBg',   CONFIG.images.hero, true);
+  setImg('techHeroBg',   (CONFIG.images.ext || heroUrl), true);
+  setImg('locHeroBg',    (CONFIG.images.ext || heroUrl), true);
+  setImg('contHeroBg',   heroUrl, true);
 
-  // Extended gallery
-  const ext = CONFIG.images.gallery || [];
-  document.getElementById('galleryExtended').innerHTML = ext.map(g =>
-    `<div class="gallery-extended-item"><img src="${g.url}" alt="${g.caption||''}"><div class="gallery-caption">${g.caption||''}</div></div>`
-  ).join('');
+  // Gallery grid with categories
+  const galleryImages = (CONFIG.gallery && CONFIG.gallery.images) || [];
+  const galleryGridEl = document.getElementById('galleryGrid');
+  if (galleryGridEl) {
+    galleryGridEl.innerHTML = galleryImages.map(g =>
+      `<div class="gallery-grid-item" data-category="${g.category||''}">` +
+        `<img src="${g.url}" alt="${g.caption||''}">` +
+        `<div class="gallery-caption">${g.caption||''}</div>` +
+      `</div>`
+    ).join('');
+  }
 
   // Půdorysy
   document.getElementById('fp1-img-wrap').innerHTML = fpImgOrPlaceholder(CONFIG.images.floor1, 'PP', 'Půdorys přízemí — připravujeme');
@@ -1112,6 +1153,15 @@ function openMobileMenu() {
 function closeMobileMenu() {
   document.getElementById('mobileMenu').classList.remove('open');
   document.body.style.overflow = '';
+}
+
+function filterGallery(category, btn) {
+  document.querySelectorAll('.gallery-filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.querySelectorAll('#galleryGrid .gallery-grid-item').forEach(item => {
+    const match = category === 'all' || item.dataset.category === category;
+    item.classList.toggle('hidden', !match);
+  });
 }
 
 // ─── START ───────────────────────────────────
