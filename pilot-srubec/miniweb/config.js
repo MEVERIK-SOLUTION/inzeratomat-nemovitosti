@@ -69,106 +69,27 @@ const CONFIG = {
   },
 
   // ----------------------------------------------------------
-  //  OBRÁZKY
-  //  Vložte URL adresy obrázků (z Google Drive, Cloudinary, apod.)
-  //  Jak získat URL z Google Drive:
-  //  1. Sdílejte soubor jako "Kdokoli s odkazem může zobrazit"
-  //  2. Z odkazu vezměte ID (část za /d/ a před /view)
-  //  3. Sestavte URL: https://drive.google.com/thumbnail?id=VASE_ID&sz=w1200
-  // ----------------------------------------------------------
-  images: {
-    // Hlavní hero obrázek (exteriér — hlavní záběr)
-    hero:     "https://drive.google.com/thumbnail?id=1PhvXKfPzlRRBUK7jlCwo4i3UDSe6fkvf&sz=w1600",
-    // Exteriér (druhý pohled na dům)
-    ext:      "https://drive.google.com/thumbnail?id=1jWO36FanefLJ7jdk0tGKI2xleHIwpdV_&sz=w1200",
-    // Obývací pokoj / vnitřní prostory
-    living:   "https://drive.google.com/thumbnail?id=18P_g61--5cf3LaaTyVWsi7w9Z1KZb8hb&sz=w1200",
-    // Koupelna
-    bath:     "https://drive.google.com/thumbnail?id=1rlPRctp1JtyS8H-Umb9hQOEdBLH029mn&sz=w1200",
-    // Ložnice / podkrovní pokoj
-    bed:      "https://drive.google.com/thumbnail?id=1VF2-ue2MkPBdM2qLLN1VsZXVD2PIyr-x&sz=w1200",
-    // Tepelné čerpadlo
-    pump:     "https://drive.google.com/thumbnail?id=1SlvjBBKeAEQrzm4Z21DfIyVqQS0UgbsB&sz=w1200",
-    // Půdorys PP (přízemí) — 2D výkres nebo fotka
-    floor1:   "",
-    // Půdorys 1.NP (podkroví) — 2D výkres nebo fotka
-    floor2:   "",
-    // Galerie — další fotky (přidejte libovolný počet)
-    gallery: [],
-  },
-
-  // ----------------------------------------------------------
-  //  FOTOGALERIE — Drive fotky s kategoriemi
+  //  OBRÁZKY — Supabase Storage
   //  Kategorie: "exterior" | "interior" | "technical"
   // ----------------------------------------------------------
-  gallery: {
-    hero: "https://drive.google.com/thumbnail?id=1PhvXKfPzlRRBUK7jlCwo4i3UDSe6fkvf&sz=w1600",
-    images: [
-      // Exteriér
-      {
-        url: "https://drive.google.com/thumbnail?id=1PhvXKfPzlRRBUK7jlCwo4i3UDSe6fkvf&sz=w1200",
-        caption: "Exteriér — čelní pohled",
-        category: "exterior"
-      },
-      {
-        url: "https://drive.google.com/thumbnail?id=1jWO36FanefLJ7jdk0tGKI2xleHIwpdV_&sz=w1200",
-        caption: "Exteriér — boční pohled",
-        category: "exterior"
-      },
-      {
-        url: "https://drive.google.com/thumbnail?id=1zueDJfIJ17_yzExf4oxMAPQT0C9DYxnY&sz=w1200",
-        caption: "Exteriér — zahrada",
-        category: "exterior"
-      },
-      {
-        url: "https://drive.google.com/thumbnail?id=1oOuSSmEIDWt21MXTtY9Z1JkteqM7_8Gi&sz=w1200",
-        caption: "Exteriér — terasa",
-        category: "exterior"
-      },
-      {
-        url: "https://drive.google.com/thumbnail?id=15tgcsyM-QVPoxBHI2-JtKHHPKYFFis-Z&sz=w1200",
-        caption: "Koláž pohledů",
-        category: "exterior"
-      },
-      // Interiér
-      {
-        url: "https://drive.google.com/thumbnail?id=1TypYN-9m9mVHJ5wSZAydt-YGtnbFnnp9&sz=w1200",
-        caption: "Chodba — vstupní dveře",
-        category: "interior"
-      },
-      {
-        url: "https://drive.google.com/thumbnail?id=18P_g61--5cf3LaaTyVWsi7w9Z1KZb8hb&sz=w1200",
-        caption: "Obývací pokoj + kuchyň",
-        category: "interior"
-      },
-      {
-        url: "https://drive.google.com/thumbnail?id=1BV8b_RPC1Z5Wy1zQL5w0t5a4ZB7k7fZM&sz=w1200",
-        caption: "Pokoj 1 — přízemí",
-        category: "interior"
-      },
-      {
-        url: "https://drive.google.com/thumbnail?id=1VF2-ue2MkPBdM2qLLN1VsZXVD2PIyr-x&sz=w1200",
-        caption: "Ložnice — podkroví",
-        category: "interior"
-      },
-      {
-        url: "https://drive.google.com/thumbnail?id=1DJOnfgNluVwa3oReYvJ9m_IAu7y1DMLj&sz=w1200",
-        caption: "Koupelna — umyvadlo",
-        category: "interior"
-      },
-      {
-        url: "https://drive.google.com/thumbnail?id=1rlPRctp1JtyS8H-Umb9hQOEdBLH029mn&sz=w1200",
-        caption: "Koupelna — vana",
-        category: "interior"
-      },
-      // Technické
-      {
-        url: "https://drive.google.com/thumbnail?id=1SlvjBBKeAEQrzm4Z21DfIyVqQS0UgbsB&sz=w1200",
-        caption: "Tepelné čerpadlo Viessmann",
-        category: "technical"
-      },
-    ],
-  },
+  heroImage: "https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/Kolaz_pohledy_1.jpeg",
+
+  images: [
+    { url: "https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/Kolaz_pohledy_1.jpeg", caption: "Exteriér — koláž pohledů", category: "exterior" },
+    { url: "https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/Pohled_1.jpeg", caption: "Exteriér — celkový pohled", category: "exterior" },
+    { url: "https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/IMG_0682.jpg", caption: "Exteriér — čelní pohled", category: "exterior" },
+    { url: "https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/IMG_0684.jpg", caption: "Exteriér — boční pohled", category: "exterior" },
+    { url: "https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/IMG_0687.jpg", caption: "Exteriér — terasa a dlažba", category: "exterior" },
+    { url: "https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/IMG_0688.jpg", caption: "Exteriér — vstupní strana", category: "exterior" },
+    { url: "https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/IMG_0689.jpg", caption: "Zahrada a oplocení", category: "exterior" },
+    { url: "https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/Chodba_PP_vstupnidvere%20.jpg", caption: "Chodba — vstupní dveře", category: "interior" },
+    { url: "https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/obyvk_1_PP.jpeg", caption: "Obývací pokoj — přízemí", category: "interior" },
+    { url: "https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/PP%20pokoj%201%20prizemmi%20(pracovna).jpg", caption: "Pokoj / pracovna — přízemí", category: "interior" },
+    { url: "https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/Loznice1_(pokoj)_1.NP.jpg", caption: "Ložnice — podkroví", category: "interior" },
+    { url: "https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/koupelna_1.NP_umyvadlo.jpg", caption: "Koupelna — umyvadlo", category: "interior" },
+    { url: "https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/koupoelna_1_vana_sprcha_1NP.jpeg", caption: "Koupelna — vana a sprcha", category: "interior" },
+    { url: "https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/Tepeln%C3%A9_cerpadlo_1.jpeg", caption: "Tepelné čerpadlo Viessmann", category: "technical" },
+  ],
 
   // ----------------------------------------------------------
   //  LOKALITA — časy dojezdu (upravte dle potřeby)

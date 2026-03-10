@@ -1029,17 +1029,22 @@ function initFromConfig() {
   setTxt('ov-year',    p.completion);
 
   // Images
-  const heroUrl = (CONFIG.gallery && CONFIG.gallery.hero) || CONFIG.images.hero;
+  const heroUrl = CONFIG.heroImage || '';
   setImg('heroBg',      heroUrl, true);
   setImg('galleryHero', heroUrl);
-  setImg('descBed',      CONFIG.images.bed);
-  setImg('techPump',     CONFIG.images.pump);
-  setImg('techHeroBg',   (CONFIG.images.ext || heroUrl), true);
-  setImg('locHeroBg',    (CONFIG.images.ext || heroUrl), true);
-  setImg('contHeroBg',   heroUrl, true);
+  const imgArr = Array.isArray(CONFIG.images) ? CONFIG.images : [];
+  const bedImg  = (imgArr.find(i => i.caption && i.caption.toLowerCase().includes('ložnice')) || imgArr.find(i => i.category === 'interior') || {}).url || '';
+  const pumpImg = (imgArr.find(i => i.category === 'technical') || {}).url || '';
+  // Prefer an exterior photo different from the hero banner; fall back to any exterior, then hero
+  const extImg  = (imgArr.find(i => i.category === 'exterior' && i.url !== heroUrl) || imgArr.find(i => i.category === 'exterior') || {}).url || heroUrl;
+  setImg('descBed',    bedImg);
+  setImg('techPump',   pumpImg);
+  setImg('techHeroBg', extImg, true);
+  setImg('locHeroBg',  extImg, true);
+  setImg('contHeroBg', heroUrl, true);
 
   // Gallery grid with categories
-  const galleryImages = (CONFIG.gallery && CONFIG.gallery.images) || [];
+  const galleryImages = imgArr;
   const galleryGridEl = document.getElementById('galleryGrid');
   if (galleryGridEl) {
     galleryGridEl.innerHTML = galleryImages.map(g =>
@@ -1051,8 +1056,8 @@ function initFromConfig() {
   }
 
   // Půdorysy
-  document.getElementById('fp1-img-wrap').innerHTML = fpImgOrPlaceholder(CONFIG.images.floor1, 'PP', 'Půdorys přízemí — připravujeme');
-  document.getElementById('fp2-img-wrap').innerHTML = fpImgOrPlaceholder(CONFIG.images.floor2, '1.NP', 'Půdorys podkroví — připravujeme');
+  document.getElementById('fp1-img-wrap').innerHTML = fpImgOrPlaceholder('', 'PP', 'Půdorys přízemí — připravujeme');
+  document.getElementById('fp2-img-wrap').innerHTML = fpImgOrPlaceholder('', '1.NP', 'Půdorys podkroví — připravujeme');
   setTxt('fp1-desc', CONFIG.floorplans.floor1desc);
   setTxt('fp2-desc', CONFIG.floorplans.floor2desc);
   document.querySelectorAll('.fp-note').forEach(el => el.textContent = CONFIG.floorplans.note);
