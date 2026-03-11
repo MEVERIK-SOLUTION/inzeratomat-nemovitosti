@@ -6,6 +6,7 @@
 <title>Admin — Srubec Estate</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="supabase-loader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 :root{--bg:#0F0E0C;--surface:#1A1815;--surface2:#222019;--border:rgba(155,107,58,0.2);--accent:#C4955A;--accent2:#9B6B3A;--text:#E8E0D0;--muted:#6B635A;--green:#5A9B6B;--cream:#F5F0E8;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -85,6 +86,25 @@ header{padding:18px 48px;border-bottom:1px solid var(--border);display:flex;alig
 .photo-item img{width:100%;height:100%;object-fit:cover;}
 .photo-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.7);padding:6px 8px;font-size:10px;letter-spacing:1px;color:rgba(245,240,232,0.7);}
 
+.save-btn{background:var(--accent2);color:var(--cream);border:none;padding:10px 24px;font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background 0.2s;}
+.save-btn:hover{background:var(--accent);}
+.save-btn:disabled{opacity:0.5;cursor:not-allowed;}
+.status-msg{display:inline-block;margin-left:14px;font-size:12px;color:var(--green);}
+.status-msg.err{color:#C47A5A;}
+
+.crm-table{width:100%;border-collapse:collapse;font-size:13px;}
+.crm-table th{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:8px 12px;border-bottom:1px solid var(--border);text-align:left;}
+.crm-table td{padding:10px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;}
+.crm-table tr:last-child td{border-bottom:none;}
+.crm-table tr:hover td{background:var(--surface2);}
+.badge{display:inline-block;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border:1px solid;}
+.badge-new{color:#5A9B6B;border-color:rgba(90,155,107,0.4);background:rgba(90,155,107,0.1);}
+.badge-done{color:var(--muted);border-color:var(--border);}
+.badge-plan{color:var(--accent);border-color:rgba(196,149,90,0.4);background:rgba(196,149,90,0.08);}
+.crm-empty{color:var(--muted);font-size:13px;padding:32px 0;text-align:center;}
+.obsah-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:900px){.obsah-grid{grid-template-columns:1fr;}}
+
 @media(max-width:900px){
 .gen-layout,.cl-grid{grid-template-columns:1fr;}
 header,.tabs,.panel{padding-left:20px;padding-right:20px;}
@@ -116,6 +136,10 @@ header,.tabs,.panel{padding-left:20px;padding-right:20px;}
   <div class="tabs">
     <button class="tab active" onclick="tab('inzeraty',this)">Generátor inzerátů</button>
     <button class="tab" onclick="tab('checklist',this)">Checklist publikace</button>
+    <button class="tab" onclick="tab('obsah',this)">Obsah webu</button>
+    <button class="tab" onclick="tab('zajemci',this)">Zájemci</button>
+    <button class="tab" onclick="tab('prohlidky',this)">Prohlídky</button>
+    <button class="tab" onclick="tab('navstevy',this)">Návštěvy</button>
     <button class="tab" onclick="tab('fotky',this)">Fotografie</button>
   </div>
 
@@ -247,11 +271,111 @@ header,.tabs,.panel{padding-left:20px;padding-right:20px;}
   <!-- ══ FOTKY ══ -->
   <div class="panel" id="tab-fotky">
     <h2 style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:var(--cream);margin-bottom:6px">Fotografie <em style="color:var(--accent);font-style:italic">v Supabase</em></h2>
-    <p style="color:var(--muted);font-size:1px">Aktuální sada fotek nahraná v bucketu. <a href="https://supabase.com/dashboard/project/tpxmmczcqlcjeuphatch/storage/files/buckets" target="_blank" style="color:var(--accent);text-decoration:none">Správa v Supabase →</a></p>
+    <p style="color:var(--muted);font-size:13px">Aktuální sada fotek nahraná v bucketu. <a href="https://supabase.com/dashboard/project/tpxmmczcqlcjeuphatch/storage/files/buckets" target="_blank" style="color:var(--accent);text-decoration:none">Správa v Supabase →</a></p>
     <div class="photos-grid" id="photos-grid"></div>
+  </div>
+
+  <!-- ══ OBSAH WEBU ══ -->
+  <div class="panel" id="tab-obsah">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:var(--cream);margin-bottom:6px">Obsah <em style="color:var(--accent);font-style:italic">webu</em></h2>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:24px">Změny se uloží do Supabase tabulky <code style="color:var(--accent)">property_config</code> a projeví se na webu po obnovení stránky.</p>
+    <div class="obsah-grid">
+      <div class="card">
+        <h3>Cena &amp; Kontakt</h3>
+        <div class="field"><label>Zobrazení ceny</label><input id="oc-cena" placeholder="Cena na vyžádání"></div>
+        <div class="field"><label>Poznámka k ceně</label><input id="oc-cena-note" placeholder="Cena bez DPH · Možnost financování"></div>
+        <div class="field"><label>Kontaktní jméno</label><input id="oc-name" placeholder="Vladimír — majitel"></div>
+        <div class="field"><label>Telefon</label><input id="oc-phone" placeholder="+420 XXX XXX XXX"></div>
+        <div class="field"><label>E-mail</label><input id="oc-email" placeholder="info@srubec-estate.cz"></div>
+      </div>
+      <div class="card">
+        <h3>Texty &amp; Hero foto</h3>
+        <div class="field"><label>Hlavní nadpis</label><input id="oc-headline" placeholder="Rodinný dům 5+kk"></div>
+        <div class="field"><label>Podnadpis (subtitle)</label><textarea id="oc-subtitle" placeholder="Nízkoenergetická novostavba..."></textarea></div>
+        <div class="field"><label>Tagline</label><input id="oc-tagline" placeholder="Novostavba · Staré Hodějovice / Srubec"></div>
+        <div class="field"><label>URL hero fotky</label><input id="oc-hero" placeholder="https://...supabase.co/.../foto.jpg"></div>
+        <div style="margin-top:4px" id="oc-hero-preview-wrap"></div>
+      </div>
+    </div>
+    <div style="margin-top:20px;display:flex;align-items:center;gap:16px;">
+      <button class="save-btn" onclick="saveObsah()">💾 Uložit změny</button>
+      <button class="save-btn" style="background:var(--surface2);border:1px solid var(--border);color:var(--text);" onclick="loadObsah()">↺ Načíst z Supabase</button>
+      <span class="status-msg" id="obsah-status"></span>
+    </div>
+  </div>
+
+  <!-- ══ ZÁJEMCI ══ -->
+  <div class="panel" id="tab-zajemci">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:var(--cream);margin-bottom:6px">Zájemci <em style="color:var(--accent);font-style:italic">CRM</em></h2>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:24px">Přehled kontaktů ze Supabase tabulky <code style="color:var(--accent)">leads</code>.</p>
+    <div style="margin-bottom:16px;display:flex;gap:10px;">
+      <button class="save-btn" onclick="loadLeads()">↺ Obnovit</button>
+      <span class="status-msg" id="leads-status"></span>
+    </div>
+    <div class="card" style="padding:0;overflow:auto;">
+      <table class="crm-table" id="leads-table">
+        <thead><tr>
+          <th>Jméno</th><th>Telefon</th><th>E-mail</th><th>Zpráva</th><th>Status</th><th>Datum</th>
+        </tr></thead>
+        <tbody id="leads-body"><tr><td colspan="6" class="crm-empty">Načítání…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ PROHLÍDKY ══ -->
+  <div class="panel" id="tab-prohlidky">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:var(--cream);margin-bottom:6px">Prohlídky <em style="color:var(--accent);font-style:italic">CRM</em></h2>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:24px">Přehled naplánovaných prohlídek ze Supabase tabulky <code style="color:var(--accent)">viewings</code>.</p>
+    <div style="margin-bottom:16px;display:flex;gap:10px;">
+      <button class="save-btn" onclick="loadViewings()">↺ Obnovit</button>
+      <span class="status-msg" id="viewings-status"></span>
+    </div>
+    <div class="card" style="padding:0;overflow:auto;">
+      <table class="crm-table" id="viewings-table">
+        <thead><tr>
+          <th>Jméno</th><th>Telefon</th><th>Datum &amp; čas</th><th>Poznámka</th><th>Status</th>
+        </tr></thead>
+        <tbody id="viewings-body"><tr><td colspan="5" class="crm-empty">Načítání…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══ NÁVŠTĚVY ══ -->
+  <div class="panel" id="tab-navstevy">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:var(--cream);margin-bottom:6px">Návštěvy <em style="color:var(--accent);font-style:italic">webu</em></h2>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:24px">Přehled návštěv ze Supabase tabulky <code style="color:var(--accent)">visits</code>.</p>
+    <div style="margin-bottom:16px;display:flex;gap:10px;">
+      <button class="save-btn" onclick="loadVisits()">↺ Obnovit</button>
+      <span class="status-msg" id="visits-status"></span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:24px" id="visits-stats"></div>
+    <div class="card" style="padding:0;overflow:auto;">
+      <table class="crm-table">
+        <thead><tr>
+          <th>Datum</th><th>Stránka</th><th>Zdroj</th><th>Zařízení</th>
+        </tr></thead>
+        <tbody id="visits-body"><tr><td colspan="4" class="crm-empty">Načítání…</td></tr></tbody>
+      </table>
+    </div>
   </div></div>
 
 <script>
+// ── SUPABASE CLIENT ──
+let sb = null;
+(function initSb(){
+  const url = window.SUPABASE_URL || 'https://tpxmmczcqlcjeuphatch.supabase.co';
+  const key = window.SUPABASE_ANON_KEY || '';
+  if(key && window.supabase){
+    sb = window.supabase.createClient(url, key);
+  }
+})();
+
+// ── HTML ESCAPING ──
+function esc(s){
+  if(s==null)return'—';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
 // ── PŘIHLÁŠENÍ ──
 const PIN='Srubec11Vladimir';
 function login(){
@@ -441,6 +565,145 @@ function initAdmin(){
   }
   gen();
   loadPhotos();
+  const heroInput=document.getElementById('oc-hero');
+  if(heroInput) heroInput.addEventListener('input',function(){updateHeroPreview(this.value.trim());});
+}
+
+// ── OBSAH WEBU ──
+function setObsahStatus(msg, isErr){
+  const el=document.getElementById('obsah-status');
+  el.textContent=msg;
+  el.className='status-msg'+(isErr?' err':'');
+  if(!isErr&&msg) setTimeout(()=>{el.textContent='';},3000);
+}
+
+async function loadObsah(){
+  setObsahStatus('Načítám…');
+  if(!sb){setObsahStatus('Supabase není připojeno',true);return;}
+  const {data,error}=await sb.from('property_config').select('*').limit(1).maybeSingle();
+  if(error){setObsahStatus('Chyba: '+error.message,true);return;}
+  if(!data){setObsahStatus('Žádná konfigurace v databázi');return;}
+  const s=id=>document.getElementById(id);
+  if(s('oc-cena'))s('oc-cena').value=data.price_display||'';
+  if(s('oc-cena-note'))s('oc-cena-note').value=data.price_note||'';
+  if(s('oc-name'))s('oc-name').value=data.contact_name||'';
+  if(s('oc-phone'))s('oc-phone').value=data.contact_phone||'';
+  if(s('oc-email'))s('oc-email').value=data.contact_email||'';
+  if(s('oc-headline'))s('oc-headline').value=data.headline||'';
+  if(s('oc-subtitle'))s('oc-subtitle').value=data.subtitle||'';
+  if(s('oc-tagline'))s('oc-tagline').value=data.tagline||'';
+  if(s('oc-hero'))s('oc-hero').value=data.hero_image_url||'';
+  updateHeroPreview(data.hero_image_url||'');
+  setObsahStatus('Načteno ✓');
+}
+
+function updateHeroPreview(url){
+  const wrap=document.getElementById('oc-hero-preview-wrap');
+  if(!wrap)return;
+  if(url && /^https?:\/\//.test(url)){
+    const img=document.createElement('img');
+    img.src=url; img.alt='Hero preview';
+    img.style.cssText='max-width:100%;max-height:120px;object-fit:cover;border:1px solid var(--border);margin-top:6px;';
+    wrap.innerHTML=''; wrap.appendChild(img);
+  } else {
+    wrap.innerHTML='';
+  }
+}
+
+async function saveObsah(){
+  if(!sb){setObsahStatus('Supabase není připojeno',true);return;}
+  const g=id=>(document.getElementById(id)||{}).value||'';
+  const payload={
+    price_display:g('oc-cena'), price_note:g('oc-cena-note'),
+    contact_name:g('oc-name'), contact_phone:g('oc-phone'), contact_email:g('oc-email'),
+    headline:g('oc-headline'), subtitle:g('oc-subtitle'), tagline:g('oc-tagline'),
+    hero_image_url:g('oc-hero'), updated_at:new Date().toISOString(),
+  };
+  setObsahStatus('Ukládám…');
+  const {error}=await sb.from('property_config').upsert([{id:1,...payload}],{onConflict:'id'});
+  if(error){setObsahStatus('Chyba: '+error.message,true);}
+  else{setObsahStatus('Uloženo ✓');}
+}
+
+// ── ZÁJEMCI (CRM) ──
+function fmtDate(s){if(!s)return'—';try{return new Date(s).toLocaleDateString('cs-CZ');}catch(e){return s;}}
+function badge(s){
+  const map={new:'badge-new',contacted:'badge-plan',done:'badge-done'};
+  const labels={new:'Nový',contacted:'Osloven',done:'Vyřešen'};
+  return`<span class="badge ${map[s]||'badge-new'}">${labels[s]||s||'Nový'}</span>`;
+}
+
+function setStatus(id,msg,isErr){
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.textContent=msg;
+  el.className='status-msg'+(isErr?' err':'');
+}
+
+async function loadLeads(){
+  setStatus('leads-status','Načítám…');
+  const tbody=document.getElementById('leads-body');
+  if(!sb){tbody.innerHTML='<tr><td colspan="6" class="crm-empty">Supabase není připojeno — chybí anon key.</td></tr>';setStatus('leads-status','');return;}
+  const {data,error}=await sb.from('leads').select('*').order('created_at',{ascending:false});
+  if(error){tbody.innerHTML=`<tr><td colspan="6" class="crm-empty">Chyba: ${error.message}</td></tr>`;setStatus('leads-status','Chyba',true);return;}
+  if(!data||!data.length){tbody.innerHTML='<tr><td colspan="6" class="crm-empty">Žádní zájemci zatím.</td></tr>';setStatus('leads-status','');return;}
+  tbody.innerHTML=data.map(r=>`<tr>
+    <td>${esc(r.name)}</td>
+    <td>${esc(r.phone)}</td>
+    <td>${esc(r.email)}</td>
+    <td style="max-width:220px;white-space:pre-wrap">${esc(r.message)}</td>
+    <td>${badge(r.status)}</td>
+    <td>${fmtDate(r.created_at)}</td>
+  </tr>`).join('');
+  setStatus('leads-status',`${data.length} záznamů`);
+}
+
+async function loadViewings(){
+  setStatus('viewings-status','Načítám…');
+  const tbody=document.getElementById('viewings-body');
+  if(!sb){tbody.innerHTML='<tr><td colspan="5" class="crm-empty">Supabase není připojeno — chybí anon key.</td></tr>';setStatus('viewings-status','');return;}
+  const {data,error}=await sb.from('viewings').select('*').order('scheduled_at',{ascending:true});
+  if(error){tbody.innerHTML=`<tr><td colspan="5" class="crm-empty">Chyba: ${error.message}</td></tr>`;setStatus('viewings-status','Chyba',true);return;}
+  if(!data||!data.length){tbody.innerHTML='<tr><td colspan="5" class="crm-empty">Žádné prohlídky zatím.</td></tr>';setStatus('viewings-status','');return;}
+  tbody.innerHTML=data.map(r=>{
+    const dt=r.scheduled_at?new Date(r.scheduled_at).toLocaleString('cs-CZ'):'—';
+    return`<tr>
+      <td>${esc(r.name)}</td>
+      <td>${esc(r.phone)}</td>
+      <td>${esc(dt)}</td>
+      <td>${esc(r.note)}</td>
+      <td>${badge(r.status)}</td>
+    </tr>`;
+  }).join('');
+  setStatus('viewings-status',`${data.length} prohlídek`);
+}
+
+async function loadVisits(){
+  setStatus('visits-status','Načítám…');
+  const tbody=document.getElementById('visits-body');
+  const statsEl=document.getElementById('visits-stats');
+  if(!sb){tbody.innerHTML='<tr><td colspan="4" class="crm-empty">Supabase není připojeno — chybí anon key.</td></tr>';setStatus('visits-status','');return;}
+  const {data,error}=await sb.from('visits').select('*').order('visited_at',{ascending:false}).limit(100);
+  if(error){tbody.innerHTML=`<tr><td colspan="4" class="crm-empty">Chyba: ${error.message}</td></tr>`;setStatus('visits-status','Chyba',true);return;}
+  if(!data||!data.length){tbody.innerHTML='<tr><td colspan="4" class="crm-empty">Žádné záznamy návštěv.</td></tr>';setStatus('visits-status','');return;}
+  // Stats
+  const today=new Date().toDateString();
+  const todayCount=data.filter(r=>r.visited_at&&new Date(r.visited_at).toDateString()===today).length;
+  if(statsEl){
+    statsEl.innerHTML=[
+      ['Celkem',data.length],['Dnes',todayCount],
+    ].map(([l,v])=>`<div class="card" style="padding:16px 20px;text-align:center;">
+      <div style="font-size:28px;font-weight:300;color:var(--cream)">${v}</div>
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:4px">${l}</div>
+    </div>`).join('');
+  }
+  tbody.innerHTML=data.map(r=>`<tr>
+    <td>${esc(r.visited_at?new Date(r.visited_at).toLocaleString('cs-CZ'):null)}</td>
+    <td>${esc(r.page||'/')}</td>
+    <td>${esc(r.referrer)}</td>
+    <td>${esc(r.device)}</td>
+  </tr>`).join('');
+  setStatus('visits-status',`${data.length} záznamů`);
 }
 </script>
 

@@ -1,6 +1,9 @@
 // supabase-loader.js — Srubec / Staré Hodějovice
-// Verze: 2.1 | Synchronní CONFIG — žádný async timing bug
+// Verze: 2.2 | Synchronní CONFIG + SUPABASE_ANON_KEY — žádný async timing bug
 // Názvy souborů ověřeny přímo ze Supabase Storage (ObjectCreated logy)
+
+window.SUPABASE_URL = "https://tpxmmczcqlcjeuphatch.supabase.co";
+window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRweG1tY3pjcWxjamV1cGhhdGNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDAwMDAwMDAsImV4cCI6MjAxNTU2MDAwMH0.YHbNxMZnmVAZ4dfAZrwkTynYildz9mG1as6GmkzM7HI";
 
 (function () {
   const BASE =
