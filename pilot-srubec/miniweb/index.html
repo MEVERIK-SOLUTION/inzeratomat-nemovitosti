@@ -660,7 +660,7 @@
         <h3>Dispozice a prostory</h3>
         <p>Dům o celkové užitné ploše 115 m² je navržen pro pohodlné rodinné bydlení. Přízemí (61 m²) nabízí prostorný obývací pokoj s přímým výstupem na terasu a zahradu, moderní kuchyňský kout a zázemí. Obytné podkroví (54 m²) ukrývá soukromé prostory pro celou rodinu.</p>
         <h3>Terasa a zahrada</h3>
-        <p>Ke každodenní relaxaci slouží terasa o ploše 40 m² s přilehlou zahradou orientovanou na východ, jih a západ. Oplocený pozemek 500 m² zajišťuje maximální soukromí. Přípojka na všechny inženýrské sítě — vodovod, kanalizace, elektřina.</p>
+        <p>Ke každodenní relaxaci slouží terasa o ploše 40 m² s přilehlou zahradou orientovanou na východ, jih a západ. Oplocený pozemek 600 m² zajišťuje maximální soukromí. Přípojka na všechny inženýrské sítě — vodovod, kanalizace, elektřina.</p>
         <h3>Technologie budoucnosti</h3>
         <p>Tepelné čerpadlo Viessmann (německá výroba), podlahové vytápění v celém domě, příprava pro fotovoltaiku a klimatizaci, předinstalace pro žaluzie. Dům splňuje nízkoenergetický standard.</p>
         <button class="btn-primary" onclick="navGo('tech')" style="margin-top:16px">Technický list</button>
@@ -675,8 +675,8 @@
     <div class="features-grid">
       <div class="feature-card fade-in">
         <span class="feature-icon">🏗️</span>
-        <h4>Cihlová konstrukce + zateplení</h4>
-        <p>Masivní cihelné zdivo s certifikovaným zateplením. Betonové základy, střecha s betonovou krytinou Bramac a trojskla.</p>
+        <h4>Ecotone + certifikované zateplení</h4>
+        <p>Nosné zdivo systémem Ecotone (inovativní cihlové bloky plněné litým betonem) zajišťuje mimořádnou pevnost, tepelnou stabilitu a akustický komfort. Střecha s betonovou krytinou Betonpres, certifikované zateplení ETICS.</p>
       </div>
       <div class="feature-card fade-in">
         <span class="feature-icon">🌡️</span>
@@ -690,8 +690,8 @@
       </div>
       <div class="feature-card fade-in">
         <span class="feature-icon">🪟</span>
-        <h4>Střešní okna Velux premium</h4>
-        <p>Střešní okna nejvyšší kvality Velux v podkroví zajišťují dostatek přirozeného světla a výhled do přírody.</p>
+        <h4>Okna s trojsklem + Velux premium</h4>
+        <p>Všechna okna jsou plastová s trojsklem pro maximální tepelnou a akustickou izolaci. Čtyři prémiová střešní okna Velux v podkroví zajišťují nadstandardní světlost a přímý pohled do přírody.</p>
       </div>
       <div class="feature-card fade-in">
         <span class="feature-icon">🚗</span>
@@ -842,6 +842,9 @@
       <a onclick="navGo('contact')">Kontakt</a>
     </div>
     <p>© 2026 · Staré Hodějovice · RD 5+kk</p>
+    <p style="font-size:10px;color:rgba(245,240,232,0.15);letter-spacing:1px;margin-top:6px">
+  Technologie: <span style="color:rgba(245,240,232,0.25)">MEVERIK Studio</span> · Hostování: <span style="color:rgba(245,240,232,0.25)">WHC</span>
+</p>
   </footer>
 </div><!-- /page-tech -->
 
@@ -896,6 +899,9 @@
       <a onclick="navGo('contact')">Kontakt</a>
     </div>
     <p>© 2026 · Staré Hodějovice · RD 5+kk</p>
+    <p style="font-size:10px;color:rgba(245,240,232,0.15);letter-spacing:1px;margin-top:6px">
+  Technologie: <span style="color:rgba(245,240,232,0.25)">MEVERIK Studio</span> · Hostování: <span style="color:rgba(245,240,232,0.25)">WHC</span>
+</p>
   </footer>
 </div><!-- /page-location -->
 
@@ -917,8 +923,20 @@
       <div class="contact-info fade-in">
         <h3 id="contactName"></h3>
         <div class="contact-detail">
+          <span class="ci-icon">👤</span>
+          <div><div class="ci-label">Kontaktní osoba</div><div class="ci-val" id="contactPerson1"></div></div>
+        </div>
+        <div class="contact-detail">
           <span class="ci-icon">📞</span>
           <div><div class="ci-label">Telefon</div><div class="ci-val" id="contactPhone"></div></div>
+        </div>
+        <div class="contact-detail">
+          <span class="ci-icon">👤</span>
+          <div><div class="ci-label">Odpovědná osoba</div><div class="ci-val" id="contactPerson2"></div></div>
+        </div>
+        <div class="contact-detail">
+          <span class="ci-icon">📞</span>
+          <div><div class="ci-label">Telefon</div><div class="ci-val" id="contactPhone2"></div></div>
         </div>
         <div class="contact-detail">
           <span class="ci-icon">✉️</span>
@@ -973,6 +991,9 @@
       <a onclick="navGo('contact')">Kontakt</a>
     </div>
     <p>© 2026 · Staré Hodějovice · RD 5+kk</p>
+    <p style="font-size:10px;color:rgba(245,240,232,0.15);letter-spacing:1px;margin-top:6px">
+  Technologie: <span style="color:rgba(245,240,232,0.25)">MEVERIK Studio</span> · Hostování: <span style="color:rgba(245,240,232,0.25)">WHC</span>
+</p>
   </footer>
 </div><!-- /page-contact -->
 
@@ -1093,7 +1114,10 @@ function initFromConfig() {
   // Contact
   const c = CONFIG.contact;
   setTxt('contactName', `${c.name} — ${c.role}`);
+  if (c.person1) setTxt('contactPerson1', c.person1);
   setTxt('contactPhone', `<a href="tel:${c.phone}">${c.phone}</a>`);
+  if (c.person2) setTxt('contactPerson2', c.person2);
+  if (c.phone2) setTxt('contactPhone2', `<a href="tel:${c.phone2}">${c.phone2}</a>`);
   setTxt('contactEmail', `<a href="mailto:${c.email}">${c.email}</a>`);
   setTxt('contactAddress', c.address);
   setTxt('contactNote', c.note);
