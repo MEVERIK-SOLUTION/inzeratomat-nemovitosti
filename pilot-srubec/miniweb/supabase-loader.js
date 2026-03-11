@@ -1,5 +1,5 @@
 // supabase-loader.js — Srubec / Staré Hodějovice
-// Verze: 2.2 | Synchronní CONFIG + SUPABASE_ANON_KEY — žádný async timing bug
+// Verze: 2.3 | Synchronní CONFIG + SUPABASE_ANON_KEY — žádný async timing bug
 // Názvy souborů ověřeny přímo ze Supabase Storage (ObjectCreated logy)
 
 window.SUPABASE_URL = "https://tpxmmczcqlcjeuphatch.supabase.co";
@@ -25,9 +25,9 @@ window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXB
       tagline:      "Novostavba · Staré Hodějovice / Srubec",
       headline:     "Rodinný dům 5+kk",
       headlineEm:   "Starých Hodějovicích",
-      subtitle:     "Nízkoenergetická novostavba s tepelným čerpadlem Viessmann, podlahovým vytápěním a zahradou 500 m² — 8 minut od centra Českých Budějovic.",
+      subtitle:     "Nízkoenergetická novostavba s tepelným čerpadlem Viessmann, podlahovým vytápěním a zahradou 600 m² — 8 minut od centra Českých Budějovic.",
       area:         "115 m²",
-      land:         "500 m²",
+      land:         "600 m²",
       disposition:  "5+kk",
       completion:   "2025",
       energyClass:  "B",
@@ -51,6 +51,7 @@ window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXB
       { url: img("Loznice1_(pokoj)_1.NP.jpg"),           caption: "Ložnice — podkroví",              category: "interior"  },
       { url: img("koupelna_1.NP_umyvadlo.jpg"),          caption: "Koupelna — umyvadlo",             category: "interior"  },
       { url: img("koupoelna_1_vana_sprcha_1NP.jpeg"),    caption: "Koupelna — vana a sprcha",        category: "interior"  },
+      { url: img("Toalety_srubec.jpg"),                  caption: "Toalety",                         category: "interior"  },
       { url: img("Tepelne_cerpadlo_1.jpeg"),             caption: "Tepelné čerpadlo Viessmann",      category: "technical" },
     ],
 
@@ -65,10 +66,10 @@ window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXB
 
     // ─── CENA ─────────────────────────────────────────────────────────────────
     price: {
-      display:  "Cena na vyžádání",
-      note:     "Cena uvedena bez DPH · Možnost financování · Ihned po kolaudaci",
+      display:  "12&thinsp;500&thinsp;000 Kč",
+      note:     "Bez provize RK · Cena uvedena bez DPH · Možnost financování · Ihned po kolaudaci",
       includes: [
-        "Pozemek 500 m² v ceně",
+        "Pozemek 600 m² v ceně",
         "Tepelné čerpadlo Viessmann",
         "Podlahové vytápění celý dům",
         "Terasa 40 m²",
@@ -98,7 +99,7 @@ window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXB
       basic: [
         { key: "Dispozice",            val: "5+kk" },
         { key: "Užitná plocha",        val: "115 m²" },
-        { key: "Plocha pozemku",       val: "500 m²" },
+        { key: "Plocha pozemku",       val: "600 m²" },
         { key: "Terasa",               val: "40 m²" },
         { key: "Podlaží",              val: "2 (přízemí + podkroví)" },
         { key: "Energetická třída",    val: "B — nízkoenergetický standard" },
@@ -106,11 +107,11 @@ window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXB
         { key: "Parkovací stání",      val: "3 venkovní místa" },
       ],
       construction: [
-        { key: "Nosné zdivo",          val: "Porotherm — cihlové bloky" },
+        { key: "Nosné zdivo",          val: "Ecotone — inovativní cihlové bloky (litý beton)" },
         { key: "Základy",              val: "Betonové pasy + deska" },
-        { key: "Střecha",              val: "Sedlová, betonová krytina Bramac" },
+        { key: "Střecha",              val: "Sedlová, betonová krytina Betonpres" },
         { key: "Zateplení",            val: "Certifikovaný fasádní systém ETICS" },
-        { key: "Okna",                 val: "Plastová s trojsklem" },
+        { key: "Okna",                 val: "Plastová s trojsklem — nízkoenergetický standard" },
         { key: "Střešní okna",         val: "Velux premium — 4 ks v podkroví" },
         { key: "Fasáda",               val: "Omítka — novostavba" },
       ],
@@ -135,10 +136,13 @@ window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXB
 
     // ─── KONTAKT ──────────────────────────────────────────────────────────────
     contact: {
-      name:    "Vladimír — majitel nemovitosti",
+      name:    "RD Hodejovice s.r.o.",
       role:    "Přímý prodej bez provize",
-      phone:   "+420 XXX XXX XXX",
-      email:   "info@srubec-estate.cz",
+      person1: "Vladimír Meverik",
+      phone:   "+420 777 XXX XXX",
+      person2: "Ing. Jana Meverik",
+      phone2:  "+420 777 XXX XX1",
+      email:   "srubec@estate.cz",
       address: "Staré Hodějovice / Srubec, okr. České Budějovice",
       note:    "Po předchozí domluvě, 7 dní v týdnu",
     },
