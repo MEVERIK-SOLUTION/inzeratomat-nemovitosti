@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin &#8212; Srubec Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0D0C0A;--s1:#161410;--s2:#1E1B16;--s3:#26221C;
+  --border:rgba(196,149,90,.15);--border2:rgba(196,149,90,.3);
+  --accent:#C4955A;--accent2:#9B6B3A;
+  --text:#EAE0CE;--muted:#6B5E4A;--muted2:#8A7A65;
+  --green:#7AB87A;--red:#C47A5A;--cream:#F5EED8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;min-height:100vh;font-size:14px;}
+#login{display:flex;align-items:center;justify-content:center;min-height:100vh;}
+.le{font-family:'Libre Baskerville',serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:44px;text-align:center;}
+.le em{color:var(--accent);font-style:normal;}
+.lbox{background:var(--s1);border:1px solid var(--border);padding:48px;width:360px;position:relative;}
+.lbox::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
+.lbox h1{font-family:'Libre Baskerville',serif;font-size:26px;font-weight:400;color:var(--cream);margin-bottom:4px;}
+.lbox h1 em{color:var(--accent);font-style:italic;}
+.lsub{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:32px;}
+.lbox label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;}
+.lbox input{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:16px;padding:13px 14px;outline:none;transition:border-color .2s;}
+.lbox input:focus{border-color:var(--accent);}
+.lbtn{width:100%;margin-top:18px;background:transparent;border:1px solid var(--accent2);color:var(--accent);font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;padding:13px;cursor:pointer;transition:all .2s;}
+.lbtn:hover{background:var(--accent2);color:var(--cream);}
+.lerr{font-size:12px;color:var(--red);margin-top:10px;display:none;}
+#app{display:none;}
+.hdr{padding:14px 40px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--s1);position:sticky;top:0;z-index:50;}
+.hl{font-family:'Libre Baskerville',serif;font-size:17px;color:var(--cream);}
+.hl em{color:var(--accent);font-style:italic;}
+.hl span{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-left:10px;font-family:'Jost',sans-serif;}
+.hr{display:flex;gap:10px;}
+.hb{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;cursor:pointer;border:1px solid var(--border2);background:transparent;color:var(--muted);text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;}
+.hb:hover,.hb.a{border-color:var(--accent);color:var(--accent);}
+.tabs{display:flex;border-bottom:1px solid var(--border);padding:0 40px;background:var(--s1);overflow-x:auto;}
+.tab{font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:14px 20px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;background:none;border-top:none;border-left:none;border-right:none;font-family:'Jost',sans-serif;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent);}
+.tab:hover:not(.on){color:var(--text);}
+.ntf{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;background:var(--red);border-radius:50%;font-size:9px;font-weight:600;color:#fff;}
+.panel{display:none;padding:32px 40px;max-width:1140px;}
+.panel.on{display:block;}
+.ph{margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid var(--border);display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.pt{font-family:'Libre Baskerville',serif;font-size:24px;color:var(--cream);}
+.pt em{color:var(--accent);font-style:italic;}
+.ps{font-size:12px;color:var(--muted);margin-top:3px;}
+.card{background:var(--s1);border:1px solid var(--border);padding:22px;margin-bottom:14px;}
+.ct{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.two{display:grid;grid-template-columns:310px 1fr;gap:22px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
+@media(max-width:860px){.two,.g3{grid-template-columns:1fr;}}
+.stat{background:var(--s1);border:1px solid var(--border);padding:18px 22px;}
+.sv{font-family:'Libre Baskerville',serif;font-size:34px;color:var(--cream);line-height:1;margin-bottom:3px;}
+.sl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.fld{margin-bottom:11px;}
+.fld label{display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.fld input,.fld textarea,.fld select{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:'Jost',sans-serif;font-size:13px;padding:9px 10px;outline:none;transition:border-color .2s;}
+.fld input:focus,.fld textarea:focus,.fld select:focus{border-color:var(--accent);}
+.fld textarea{resize:vertical;height:70px;}
+.fld textarea.tall{height:130px;}
+.fld select option{background:var(--s2);}
+.hint{font-size:11px;color:var(--muted);margin-top:4px;}
+.btn{font-family:'Jost',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:9px 16px;cursor:pointer;border:1px solid;transition:all .2s;display:inline-flex;align-items:center;gap:6px;background:transparent;}
+.bp{background:var(--accent2);border-color:var(--accent2);color:var(--cream);}
+.bp:hover{background:var(--accent);border-color:var(--accent);}
+.bg{border-color:var(--border2);color:var(--muted2);}
+.bg:hover{border-color:var(--accent);color:var(--accent);}
+.bgsm{padding:5px 11px;font-size:9px;}
+.savebar{background:var(--s2);border:1px solid var(--border2);border-top:2px solid var(--accent2);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;margin-top:16px;gap:12px;flex-wrap:wrap;}
+.snote{font-size:12px;color:var(--muted);}
+.snote.ok{color:var(--green);}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;}
+.tbl th{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:9px 13px;border-bottom:1px solid var(--border);text-align:left;font-weight:400;}
+.tbl td{padding:11px 13px;border-bottom:1px solid rgba(196,149,90,.07);vertical-align:top;}
+.tbl tr:hover td{background:rgba(196,149,90,.03);}
+.badge{display:inline-block;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 7px;border:1px solid;border-radius:1px;}
+.b-new{color:#C4955A;border-color:rgba(196,149,90,.4);background:rgba(196,149,90,.08);}
+.b-contacted,.b-sreality,.b-bezrealitky,.b-realingo{color:#6AAAC4;border-color:rgba(106,170,196,.4);background:rgba(106,170,196,.08);}
+.b-showing_planned,.b-planned{color:var(--green);border-color:rgba(122,184,122,.4);background:rgba(122,184,122,.08);}
+.b-done{color:var(--muted2);border-color:var(--border);}
+.b-cancelled,.b-no_show{color:var(--red);border-color:rgba(196,122,90,.4);background:rgba(196,122,90,.08);}
+.cbtn{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Jost',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:5px 9px;cursor:pointer;transition:all .2s;}
+.cbtn:hover{border-color:var(--accent);color:var(--accent);}
+.cbtn.ok{border-color:var(--green);color:var(--green);}
+.ptabs{display:flex;gap:2px;margin-bottom:16px;flex-wrap:wrap;}
+.ptab{font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:7px 15px;background:var(--s2);border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all .2s;}
+.ptab.on{background:var(--accent2);color:var(--cream);border-color:var(--accent2);}
+.ptab:hover:not(.on){border-color:var(--accent);color:var(--accent);}
+.pp{display:none;}.pp.on{display:block;}
+.blk{background:var(--s1);border:1px solid var(--border);margin-bottom:12px;}
+.bh{padding:10px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.bname{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);}
+.bcnt{font-size:10px;color:var(--muted);margin-left:6px;}
+.bcnt.w{color:var(--red);}
+.bb{padding:14px;font-size:13px;line-height:1.75;color:var(--text);white-space:pre-wrap;word-break:break-word;min-height:30px;}
+.pnote{background:var(--s2);border-left:3px solid var(--accent2);padding:9px 13px;margin-bottom:13px;font-size:12px;color:var(--muted2);line-height:1.6;}
+.pnote strong{color:var(--text);}
+.cnav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.cmo{font-family:'Libre Baskerville',serif;font-size:18px;color:var(--cream);}
+.cg{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.chd{text-align:center;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:7px 3px;}
+.cday{background:var(--s2);border:1px solid var(--border);padding:7px 5px;min-height:64px;transition:border-color .2s;}
+.cday.om{opacity:.3;}
+.cday.td{border-color:var(--accent2);background:rgba(196,149,90,.05);}
+.cday.hs{border-color:#5A8A5A;background:rgba(90,138,90,.07);}
+.cdn{font-size:12px;font-weight:500;color:var(--muted2);margin-bottom:3px;}
+.cday.td .cdn{color:var(--accent);}
+.cev{font-size:9px;background:rgba(90,138,90,.2);color:var(--green);padding:2px 4px;margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-left:2px solid var(--green);}
+.chbar{margin:13px 0;}
+.chrow{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.chlbl{width:70px;font-size:11px;color:var(--muted2);text-align:right;flex-shrink:0;}
+.chbg{flex:1;height:18px;background:var(--s3);overflow:hidden;}
+.chfill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width .8s;}
+.chv{font-size:11px;color:var(--text);min-width:24px;}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:8px;margin-top:14px;}
+.pi{height:120px;overflow:hidden;background:var(--s2);position:relative;}
+.pi img{width:100%;height:100%;object-fit:cover;}
+.pil{position:absolute;bottom:0;left:0;right:0;background:rgba(13,12,10,.82);padding:5px 8px;font-size:9px;color:rgba(245,238,216,.7);}
+.mbg{display:none;position:fixed;inset:0;background:rgba(13,12,10,.88);z-index:100;align-items:center;justify-content:center;}
+.mbg.on{display:flex;}
+.modal{background:var(--s1);border:1px solid var(--border2);padding:32px;width:480px;max-width:95vw;position:relative;max-height:90vh;overflow-y:auto;}
+.modal::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
+.modal h3{font-family:'Libre Baskerville',serif;font-size:18px;color:var(--cream);margin-bottom:3px;}
+.msub{font-size:12px;color:var(--muted);margin-bottom:20px;}
+.mcl{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;}
+.mcl:hover{color:var(--accent);}
+.mact{display:flex;gap:8px;margin-top:18px;justify-content:flex-end;}
+.info{background:var(--s2);border-left:3px solid var(--accent2);padding:10px 14px;font-size:12px;color:var(--muted2);margin-bottom:14px;line-height:1.6;}
+.info strong{color:var(--text);}
+#toast{position:fixed;bottom:22px;right:22px;background:var(--s1);border:1px solid var(--border2);border-left:3px solid var(--accent2);padding:11px 18px;font-size:13px;color:var(--text);z-index:200;transform:translateX(130%);transition:transform .3s;max-width:300px;}
+#toast.on{transform:translateX(0);}
+@media(max-width:600px){.hdr,.tabs,.panel{padding-left:14px;padding-right:14px;}.g3{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <div>
+    <div class="le"><em>Srubec</em> Estate &middot; Intern&iacute; syst&eacute;m</div>
+    <div class="lbox">
+      <h1>Admin <em>panel</em></h1>
+      <div class="lsub">MEVERIK / WHC &middot; Pouze pro t&yacute;m</div>
+      <label>P&#345;&iacute;stupov&yacute; k&oacute;d</label>
+      <input type="password" id="pin" placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;" onkeydown="if(event.key==='Enter')login()">
+      <button class="lbtn" onclick="login()">Vstoupit &rarr;</button>
+      <div class="lerr" id="lerr">Nespr&aacute;vn&yacute; k&oacute;d</div>
+    </div>
+  </div>
+</div>
+
+<div id="app">
+  <div class="hdr">
+    <div class="hl"><em>Srubec</em> Estate <span>Admin</span></div>
+    <div class="hr">
+      <a href="/" target="_blank" class="hb a">&larr; Prod. web</a>
+      <button class="hb" onclick="logout()">Odhl&aacute;sit</button>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab on"  onclick="gT('obsah',this)">Obsah webu</button>
+    <button class="tab"     onclick="gT('inzeraty',this)">Inzer&aacute;ty</button>
+    <button class="tab"     onclick="gT('zajemci',this)">Z&aacute;jemci <span class="ntf" id="ntf">0</span></button>
+    <button class="tab"     onclick="gT('prohlidky',this)">Prohl&iacute;dky &amp; Kalend&aacute;&#345;</button>
+    <button class="tab"     onclick="gT('navstevy',this)">N&aacute;v&scaron;t&#283;vy webu</button>
+    <button class="tab"     onclick="gT('fotky',this)">Fotografie</button>
+  </div>
+
+  <!-- TAB: OBSAH WEBU -->
+  <div class="panel on" id="tab-obsah">
+    <div class="ph">
+      <div>
+        <div class="pt">Obsah <em>webu</em></div>
+        <div class="ps">Texty, cena, kontakt, fotografie &mdash; v&scaron;e se ulo&scaron;&iacute; do Supabase a propsan&eacute; na web.</div>
+      </div>
+      <button class="btn bp" onclick="saveConfig()">&#10004; Ulo&scaron;it v&scaron;e</button>
+    </div>
+    <div class="two">
+      <div>
+        <div class="card">
+          <div class="ct">Z&aacute;kladn&iacute; &uacute;daje</div>
+          <div class="fld"><label>Cena</label><input id="w-cena" placeholder="Nap&#345;. 8 900 000 K&#269; nebo Na vyz&aacute;d&aacute;n&iacute;"></div>
+          <div class="fld"><label>Stav / disponibilita</label>
+            <select id="w-stav">
+              <option>Kolaudace 2026 &mdash; ihned k nast&#283;hov&aacute;n&iacute;</option>
+              <option>Ihned k nast&#283;hov&aacute;n&iacute;</option>
+              <option>Ve v&yacute;stavb&#283; &mdash; dokon&#269;en&iacute; 2026</option>
+              <option>Prod&aacute;no</option>
+            </select>
+          </div>
+          <div class="fld"><label>Energetick&aacute; t&#345;&iacute;da</label><input id="w-ener" value="B"></div>
+        </div>
+        <div class="card">
+          <div class="ct">Kontakt prodejce</div>
+          <div class="fld"><label>Jm&eacute;no</label><input id="w-jmeno" placeholder="Vladim&iacute;r"></div>
+          <div class="fld"><label>Telefon</label><input id="w-tel" placeholder="+420 XXX XXX XXX"></div>
+          <div class="fld"><label>E-mail</label><input id="w-email" placeholder="info@srubec-estate.cz"></div>
+        </div>
+        <div class="card">
+          <div class="ct">Hero fotografie</div>
+          <div class="fld">
+            <label>N&aacute;zev souboru v Supabase Storage</label>
+            <input id="w-hero" placeholder="Kolaz_pohledy_1.jpeg">
+            <div class="hint">Sta&ccaron;&iacute; zadat n&aacute;zev souboru &mdash; nap&#345;. <em>Kolaz_pohledy_1.jpeg</em></div>
+          </div>
+          <div id="hero-prev" style="height:80px;background:var(--s3);display:flex;align-items:center;justify-content:center;margin-top:8px;">
+            <span style="color:var(--muted);font-size:12px">N&aacute;hled &mdash; klikn&eacute;te na tla&ccaron;&iacute;tko n&iacute;&scaron;e</span>
+          </div>
+          <button class="btn bg" style="margin-top:8px;font-size:9px" onclick="prevHero()">N&aacute;hled</button>
+        </div>
+        <div class="card">
+          <div class="ct">P&#367;dorysy</div>
+          <div class="fld"><label>P&#367;dorys PP (URL nebo n&aacute;zev)</label><input id="w-fp1" placeholder="https://..."></div>
+          <div class="fld"><label>P&#367;dorys 1.NP (URL nebo n&aacute;zev)</label><input id="w-fp2" placeholder="https://..."></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="ct">Texty prezentace</div>
+          <div class="fld"><label>Hlavn&iacute; nadpis</label><input id="w-title" placeholder="Novostavba RD 5+kk &mdash; Star&eacute; Hod&#283;jovice"></div>
+          <div class="fld"><label>Podnadpis / slogan</label><input id="w-subtitle" placeholder="Klidn&aacute; lokalita &middot; Modern&iacute; bydlen&iacute; &middot; 8 min od &#268;B"></div>
+          <div class="fld"><label>Perex (kr&aacute;tk&yacute; popis &mdash; 2&#8211;3 v&#283;ty)</label><textarea id="w-perex" placeholder="Nab&iacute;z&iacute;me k prodeji..."></textarea></div>
+          <div class="fld"><label>Kompletn&iacute; popis nemovitosti</label><textarea class="tall" id="w-desc" placeholder="Podrobn&yacute; popis..."></textarea></div>
+        </div>
+        <div class="card">
+          <div class="ct">Technick&yacute; list</div>
+          <div class="info"><strong>Form&aacute;t:</strong> Ka&scaron;d&yacute; &#345;&aacute;dek = jeden parametr s dvojte&ccaron;kou. Nap&#345;: <em>Plocha pozemku: 500 m&sup2;</em></div>
+          <div class="fld"><label>Parametry (po &#345;&aacute;dc&iacute;ch)</label><textarea class="tall" id="w-params" placeholder="U&scaron;itn&aacute; plocha: 115 m&sup2;&#10;Plocha pozemku: 500 m&sup2;&#10;Terasa: 40 m&sup2;&#10;Energetick&aacute; t&#345;&iacute;da: B&#10;Vyt&aacute;p&#283;n&iacute;: Tepeln&eacute; &ccaron;erpadlo Viessmann&#10;Parkovac&iacute; st&aacute;n&iacute;: 3"></textarea></div>
+        </div>
+        <div class="card">
+          <div class="ct">Lokalita</div>
+          <div class="fld"><label>Popis lokality</label><textarea id="w-location" placeholder="Klidn&aacute; slep&aacute; ulice..."></textarea></div>
+        </div>
+        <div class="savebar">
+          <span class="snote" id="snote">Zm&#283;ny nejsou ulo&scaron;eny</span>
+          <button class="btn bp" onclick="saveConfig()">&#10004; Ulo&scaron;it v&scaron;echny zm&#283;ny</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: INZERÁTY -->
+  <div class="panel" id="tab-inzeraty">
+    <div class="ph"><div><div class="pt">Gener&aacute;tor <em>inzer&aacute;t&#367;</em></div><div class="ps">P&#345;ipraven&eacute; texty pro v&scaron;echny port&aacute;ly</div></div></div>
+    <div class="two">
+      <div>
+        <div class="card">
+          <div class="ct">Nastaven&iacute;</div>
+          <div class="fld"><label>Cena</label><input id="f-cena" value="Na vyz&aacute;d&aacute;n&iacute;"></div>
+          <div class="fld"><label>Stav</label><select id="f-stav"><option>Kolaudace 2026 &mdash; ihned k nast&#283;hov&aacute;n&iacute;</option><option>Ihned k nast&#283;hov&aacute;n&iacute;</option><option>Ve v&yacute;stavb&#283; &mdash; dokon&#269;en&iacute; 2026</option></select></div>
+          <div class="fld"><label>Jm&eacute;no prodejce</label><input id="f-jmeno" value="Vladim&iacute;r"></div>
+          <div class="fld"><label>Telefon</label><input id="f-tel" value="+420 XXX XXX XXX"></div>
+          <div class="fld"><label>E-mail</label><input id="f-email" value="info@srubec-estate.cz"></div>
+          <div class="fld"><label>Dopln&#283;k</label><textarea id="f-pozn" placeholder="Voliteln&eacute; dopln&#283;n&iacute;..."></textarea></div>
+          <button class="btn bp" style="width:100%;justify-content:center;margin-top:6px" onclick="genAll()">&#10227; Vygenerovat texty</button>
+        </div>
+        <div style="background:var(--s1);border:1px solid var(--border);padding:13px 15px;">
+          <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:5px">URL webu</div>
+          <div style="font-size:12px;color:var(--accent)">srubec-estate.vercel.app</div>
+          <button class="cbtn" style="margin-top:7px" onclick="cp2('https://srubec-estate.vercel.app',this)">Kop&iacute;rovat URL</button>
+        </div>
+      </div>
+      <div>
+        <div class="ptabs">
+          <div class="ptab on" onclick="goP('sr',this)">Sreality</div>
+          <div class="ptab" onclick="goP('br',this)">Bezrealitky</div>
+          <div class="ptab" onclick="goP('rl',this)">Realingo</div>
+          <div class="ptab" onclick="goP('id',this)">iDnes</div>
+          <div class="ptab" onclick="goP('un',this)">Univerz&aacute;ln&iacute;</div>
+        </div>
+        <div class="pp on" id="pp-sr"><div class="pnote"><strong>Sreality.cz</strong> &mdash; Nadpis max. 60 zn., popis max. 4000 zn.</div><button class="btn bg" style="margin-bottom:10px" onclick="cpAll('sr')">&#x2398; Zkop&iacute;rovat v&scaron;e</button><div class="blk"><div class="bh"><span class="bname">Nadpis <span class="bcnt" id="c-sr-n"></span></span><button class="cbtn" onclick="cpB('sr-n',this)">Kop&iacute;rovat</button></div><div class="bb" id="sr-n"></div></div><div class="blk"><div class="bh"><span class="bname">Popis <span class="bcnt" id="c-sr-p"></span></span><button class="cbtn" onclick="cpB('sr-p',this)">Kop&iacute;rovat</button></div><div class="bb" id="sr-p"></div></div><div class="blk"><div class="bh"><span class="bname">Parametry</span><button class="cbtn" onclick="cpB('sr-par',this)">Kop&iacute;rovat</button></div><div class="bb" id="sr-par"></div></div></div>
+        <div class="pp" id="pp-br"><div class="pnote"><strong>Bezrealitky.cz</strong> &mdash; p&#345;&iacute;m&yacute; prodej bez provize.</div><button class="btn bg" style="margin-bottom:10px" onclick="cpAll('br')">&#x2398; Zkop&iacute;rovat v&scaron;e</button><div class="blk"><div class="bh"><span class="bname">Nadpis</span><button class="cbtn" onclick="cpB('br-n',this)">Kop&iacute;rovat</button></div><div class="bb" id="br-n"></div></div><div class="blk"><div class="bh"><span class="bname">Popis</span><button class="cbtn" onclick="cpB('br-p',this)">Kop&iacute;rovat</button></div><div class="bb" id="br-p"></div></div></div>
+        <div class="pp" id="pp-rl"><div class="pnote"><strong>Realingo.cz</strong></div><button class="btn bg" style="margin-bottom:10px" onclick="cpAll('rl')">&#x2398; Zkop&iacute;rovat v&scaron;e</button><div class="blk"><div class="bh"><span class="bname">Nadpis</span><button class="cbtn" onclick="cpB('rl-n',this)">Kop&iacute;rovat</button></div><div class="bb" id="rl-n"></div></div><div class="blk"><div class="bh"><span class="bname">Popis</span><button class="cbtn" onclick="cpB('rl-p',this)">Kop&iacute;rovat</button></div><div class="bb" id="rl-p"></div></div></div>
+        <div class="pp" id="pp-id"><div class="pnote"><strong>iDnes / &#268;esk&eacute; reality</strong> &mdash; max. ~1500 znak&#367;.</div><button class="btn bg" style="margin-bottom:10px" onclick="cpAll('id')">&#x2398; Zkop&iacute;rovat v&scaron;e</button><div class="blk"><div class="bh"><span class="bname">Nadpis</span><button class="cbtn" onclick="cpB('id-n',this)">Kop&iacute;rovat</button></div><div class="bb" id="id-n"></div></div><div class="blk"><div class="bh"><span class="bname">Popis</span><button class="cbtn" onclick="cpB('id-p',this)">Kop&iacute;rovat</button></div><div class="bb" id="id-p"></div></div></div>
+        <div class="pp" id="pp-un"><div class="pnote"><strong>Univerz&aacute;ln&iacute;</strong> &mdash; pro jak&yacute;koli port&aacute;l nebo soci&aacute;ln&iacute; s&iacute;t&#283;.</div><button class="btn bg" style="margin-bottom:10px" onclick="cpAll('un')">&#x2398; Zkop&iacute;rovat kompletn&iacute; text</button><div class="blk"><div class="bh"><span class="bname">Kompletn&iacute; inzer&aacute;t</span><button class="cbtn" onclick="cpB('un-f',this)">Kop&iacute;rovat</button></div><div class="bb" id="un-f"></div></div><div class="blk"><div class="bh"><span class="bname">Kr&aacute;tk&aacute; verze &mdash; SMS / WhatsApp</span><button class="cbtn" onclick="cpB('un-s',this)">Kop&iacute;rovat</button></div><div class="bb" id="un-s"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: ZÁJEMCI -->
+  <div class="panel" id="tab-zajemci">
+    <div class="ph"><div><div class="pt">Z&aacute;jemci <em>&amp; popt&aacute;vky</em></div><div class="ps">Kliknut&iacute;m na stav ho ihned zm&#283;n&iacute;te</div></div><button class="btn bp" onclick="openM('m-lead')">+ P&#345;idat z&aacute;jemce</button></div>
+    <div class="g3"><div class="stat"><div class="sv" id="st-lt">0</div><div class="sl">Celkem z&aacute;jemc&#367;</div></div><div class="stat"><div class="sv" id="st-ln">0</div><div class="sl">Nov&eacute; popt&aacute;vky</div></div><div class="stat"><div class="sv" id="st-ls">0</div><div class="sl">Prohl&iacute;dka domluvena</div></div></div>
+    <div class="card" style="padding:0;overflow:hidden"><table class="tbl"><thead><tr><th>Jm&eacute;no</th><th>Kontakt</th><th>Zdroj</th><th>Stav</th><th>Datum</th><th></th></tr></thead><tbody id="tb-leads"><tr><td colspan="6" style="color:var(--muted);text-align:center;padding:28px">Na&#269;&iacute;t&aacute;m&hellip;</td></tr></tbody></table></div>
+  </div>
+
+  <!-- TAB: PROHLÍDKY -->
+  <div class="panel" id="tab-prohlidky">
+    <div class="ph"><div><div class="pt">Prohl&iacute;dky <em>&amp; kalend&aacute;&#345;</em></div><div class="ps">Evidence a pl&aacute;nov&aacute;n&iacute; prohl&iacute;dek</div></div><button class="btn bp" onclick="openM('m-show')">+ Napl&aacute;novat prohl&iacute;dku</button></div>
+    <div class="card"><div class="cnav"><button class="btn bg bgsm" onclick="calP()">&larr;</button><div class="cmo" id="cal-lbl"></div><button class="btn bg bgsm" onclick="calN()">&rarr;</button></div><div class="cg"><div class="chd">Po</div><div class="chd">&#218;t</div><div class="chd">St</div><div class="chd">&#268;t</div><div class="chd">P&aacute;</div><div class="chd">So</div><div class="chd">Ne</div></div><div class="cg" id="cal-body"></div></div>
+    <div class="card" style="padding:0;overflow:hidden;margin-top:14px"><div style="padding:14px 18px;border-bottom:1px solid var(--border);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Nadch&aacute;zej&iacute;c&iacute; prohl&iacute;dky</div><table class="tbl"><thead><tr><th>Datum &amp; &#269;as</th><th>Jm&eacute;no</th><th>Telefon</th><th>Stav</th><th>Pozn&aacute;mka</th><th></th></tr></thead><tbody id="tb-shows"><tr><td colspan="6" style="color:var(--muted);text-align:center;padding:28px">Na&#269;&iacute;t&aacute;m&hellip;</td></tr></tbody></table></div>
+  </div>
+
+  <!-- TAB: NÁVŠTĚVY -->
+  <div class="panel" id="tab-navstevy">
+    <div class="ph"><div><div class="pt">N&aacute;v&scaron;t&#283;vy <em>webu</em></div><div class="ps">Data z Supabase</div></div></div>
+    <div class="g3"><div class="stat"><div class="sv" id="st-vt">0</div><div class="sl">Celkem</div></div><div class="stat"><div class="sv" id="st-vd">0</div><div class="sl">Dnes</div></div><div class="stat"><div class="sv" id="st-vw">0</div><div class="sl">Tento t&yacute;den</div></div></div>
+    <div class="card"><div class="ct">Posledn&iacute;ch 14 dn&iacute;</div><div id="views-chart" class="chbar"></div></div>
+    <div class="card" style="padding:0;overflow:hidden"><div style="padding:14px 18px;border-bottom:1px solid var(--border);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Posledn&iacute;ch 50</div><table class="tbl"><thead><tr><th>Datum</th><th>Str&aacute;nka</th><th>Zdroj</th></tr></thead><tbody id="tb-views"><tr><td colspan="3" style="color:var(--muted);text-align:center;padding:28px">Na&#269;&iacute;t&aacute;m&hellip;</td></tr></tbody></table></div>
+  </div>
+
+  <!-- TAB: FOTOGRAFIE -->
+  <div class="panel" id="tab-fotky">
+    <div class="ph"><div><div class="pt">Fotografie <em>v Supabase</em></div><div class="ps">Nahrajte nov&eacute; soubory p&#345;&iacute;mo v Supabase Storage</div></div><a href="https://supabase.com/dashboard/project/tpxmmczcqlcjeuphatch/storage/files/buckets" target="_blank" class="btn bg">Spr&aacute;va v Supabase &rarr;</a></div>
+    <div class="info"><strong>Jak p&#345;idat fotku:</strong> Supabase &rarr; Storage &rarr; bucket &ldquo;Srubec - Nabidka nemovitosti&rdquo; &rarr; Upload</div>
+    <div class="pg" id="photos-grid"><div style="color:var(--muted);padding:16px">Na&#269;&iacute;t&aacute;m&hellip;</div></div>
+  </div>
+</div>
+
+<!-- MODAL: novy zajemce -->
+<div class="mbg" id="m-lead"><div class="modal"><button class="mcl" onclick="closeM('m-lead')">&times;</button><h3>Nov&yacute; z&aacute;jemce</h3><div class="msub">Ru&#269;n&iacute; z&aacute;pis kontaktu</div><div class="fld"><label>Jm&eacute;no *</label><input id="nl-name"></div><div class="fld"><label>Telefon</label><input id="nl-phone" placeholder="+420 777 ..."></div><div class="fld"><label>E-mail</label><input id="nl-email"></div><div class="fld"><label>Zdroj</label><select id="nl-src"><option value="web">Web</option><option value="sreality">Sreality</option><option value="bezrealitky">Bezrealitky</option><option value="realingo">Realingo</option><option value="phone">Telefonát</option><option value="other">Jiný</option></select></div><div class="fld"><label>Zpr&aacute;va / pozn&aacute;mka</label><textarea id="nl-msg"></textarea></div><div class="mact"><button class="btn bg" onclick="closeM('m-lead')">Zru&scaron;it</button><button class="btn bp" onclick="saveLead()">Ulo&scaron;it</button></div></div></div>
+
+<!-- MODAL: nova prohlidka -->
+<div class="mbg" id="m-show"><div class="modal"><button class="mcl" onclick="closeM('m-show')">&times;</button><h3>Nov&aacute; prohl&iacute;dka</h3><div class="msub">Napl&aacute;novat term&iacute;n</div><div class="fld"><label>Datum *</label><input id="ns-date" type="date"></div><div class="fld"><label>&#268;as</label><input id="ns-time" type="time"></div><div class="fld"><label>Jm&eacute;no *</label><input id="ns-name"></div><div class="fld"><label>Telefon</label><input id="ns-phone"></div><div class="fld"><label>E-mail</label><input id="ns-email"></div><div class="fld"><label>Pozn&aacute;mka</label><textarea id="ns-notes"></textarea></div><div class="mact"><button class="btn bg" onclick="closeM('m-show')">Zru&scaron;it</button><button class="btn bp" onclick="saveShowing()">Ulo&scaron;it</button></div></div></div>
+
+<div id="toast"></div>
+
+<script>
+const SBU='https://tpxmmczcqlcjeuphatch.supabase.co';
+const SBK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRweG1tY3pjcWxjamV1cGhhdGNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxNTQ3NjIsImV4cCI6MjA4ODczMDc2Mn0.YHbNxMZnmVAZ4dfAZrwkTynYildz9mG1as6GmkzM7HI';
+const SBS='https://tpxmmczcqlcjeuphatch.supabase.co/storage/v1/object/public/Srubec%20-%20Nabidka%20nemovitosti/';
+const PIN='Srubec11Vladimir';
+
+function login(){if(document.getElementById('pin').value===PIN){document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';initApp();}else document.getElementById('lerr').style.display='block';}
+function logout(){document.getElementById('app').style.display='none';document.getElementById('login').style.display='flex';document.getElementById('pin').value='';}
+function gT(id,btn){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));document.getElementById('tab-'+id).classList.add('on');btn.classList.add('on');if(id==='zajemci')loadLeads();if(id==='prohlidky'){loadShowings();renderCal();}if(id==='navstevy')loadViews();if(id==='fotky')loadPhotos();}
+function goP(n,btn){document.querySelectorAll('.pp').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('on'));document.getElementById('pp-'+n).classList.add('on');btn.classList.add('on');}
+async function sb(path,opts={}){const r=await fetch(SBU+path,{headers:{'apikey':SBK,'Authorization':'Bearer '+SBK,'Content-Type':'application/json',...(opts.headers||{})}, ...opts});if(!r.ok)throw new Error(await r.text());const t=await r.text();return t?JSON.parse(t):null;}
+function toast(msg,col){const t=document.getElementById('toast');t.textContent=msg;t.style.borderLeftColor=col||'var(--accent2)';t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3000);}
+function openM(id){document.getElementById(id).classList.add('on');}
+function closeM(id){document.getElementById(id).classList.remove('on');}
+function gV(id){return(document.getElementById(id)?.value||'').trim();}
+function sV(id,v){const e=document.getElementById(id);if(e)e.value=v||'';}
+
+// CONFIG LOAD/SAVE
+async function loadConfig(){
+  try{
+    const d=await sb('/rest/v1/property_config?select=*&order=updated_at.desc&limit=1');
+    if(d&&d.length){
+      const c=d[0];
+      sV('w-cena',c.price);sV('w-jmeno',c.contact_name);sV('w-tel',c.contact_phone);
+      sV('w-email',c.contact_email);sV('w-hero',c.hero_image);sV('w-fp1',c.floorplan1);
+      sV('w-fp2',c.floorplan2);sV('w-title',c.title);sV('w-subtitle',c.subtitle);
+      sV('w-perex',c.perex);sV('w-desc',c.description);sV('w-params',c.tech_params);
+      sV('w-location',c.location_desc);sV('w-ener',c.energy_class||'B');
+      const sel=document.getElementById('w-stav');
+      if(c.status_text)for(let i=0;i<sel.options.length;i++)if(sel.options[i].text.startsWith(c.status_text.slice(0,12))){sel.selectedIndex=i;break;}
+      document.getElementById('snote').textContent='Ulozeno: '+fdt(c.updated_at);
+      // sync generator
+      if(c.price)sV('f-cena',c.price);
+      if(c.contact_name)sV('f-jmeno',c.contact_name);
+      if(c.contact_phone)sV('f-tel',c.contact_phone);
+      if(c.contact_email)sV('f-email',c.contact_email);
+    }
+  }catch(e){console.warn('loadConfig:',e.message);}
+}
+async function saveConfig(){
+  const data={price:gV('w-cena'),contact_name:gV('w-jmeno'),contact_phone:gV('w-tel'),contact_email:gV('w-email'),hero_image:gV('w-hero'),floorplan1:gV('w-fp1'),floorplan2:gV('w-fp2'),title:gV('w-title'),subtitle:gV('w-subtitle'),perex:gV('w-perex'),description:gV('w-desc'),tech_params:gV('w-params'),location_desc:gV('w-location'),energy_class:gV('w-ener'),status_text:document.getElementById('w-stav').value,updated_at:new Date().toISOString()};
+  try{
+    const ex=await sb('/rest/v1/property_config?select=id&limit=1');
+    if(ex&&ex.length)await sb('/rest/v1/property_config?id=eq.'+ex[0].id,{method:'PATCH',headers:{'Prefer':'return=minimal'},body:JSON.stringify(data)});
+    else await sb('/rest/v1/property_config',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify(data)});
+    toast('Obsah ulozen','var(--green)');
+    const n=document.getElementById('snote');n.textContent='Ulozeno: '+fdt(new Date().toISOString());n.className='snote ok';
+    sV('f-cena',data.price||'Na vyzadani');sV('f-jmeno',data.contact_name);sV('f-tel',data.contact_phone);sV('f-email',data.contact_email);
+    genAll();
+  }catch(e){toast('Chyba: '+e.message,'var(--red)');}
+}
+function prevHero(){const url=gV('w-hero');const full=url.startsWith('http')?url:SBS+encodeURIComponent(url);const p=document.getElementById('hero-prev');p.innerHTML='<img src="'+full+'" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span style=color:var(--red);font-size:12px;padding:12px>Obrazek nelze nactist</span>'">';}
+
+// LEADS
+async function loadLeads(){try{const d=await sb('/rest/v1/leads?select=*&order=created_at.desc');document.getElementById('st-lt').textContent=d.length;document.getElementById('st-ln').textContent=d.filter(l=>l.status==='new').length;document.getElementById('st-ls').textContent=d.filter(l=>l.status==='showing_planned').length;document.getElementById('ntf').textContent=d.filter(l=>l.status==='new').length;if(!d.length){document.getElementById('tb-leads').innerHTML='<tr><td colspan="6" style="color:var(--muted);text-align:center;padding:28px">Zadni zajemci zatim</td></tr>';return;}document.getElementById('tb-leads').innerHTML=d.map(l=>`<tr><td><strong>${xe(l.name)}</strong></td><td>${l.phone?'<a href="tel:'+xe(l.phone)+'" style="color:var(--accent)">'+xe(l.phone)+'</a><br>':''}<small style="color:var(--muted2)">${xe(l.email||'')}</small></td><td><span class="badge b-${xe(l.source||'web')}">${xe(l.source||'web')}</span></td><td><select style="background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:Jost,sans-serif;font-size:11px;padding:4px 8px" onchange="updLead('${l.id}',this.value)"><option value="new"${l.status==='new'?' selected':''}>Novy</option><option value="contacted"${l.status==='contacted'?' selected':''}>Kontaktovan</option><option value="showing_planned"${l.status==='showing_planned'?' selected':''}>Prohlidka</option><option value="not_interested"${l.status==='not_interested'?' selected':''}>Nezajem</option><option value="sold"${l.status==='sold'?' selected':''}>Prodano</option></select></td><td style="color:var(--muted);font-size:12px">${fd(l.created_at)}</td><td>${l.message?'<button class="cbtn" onclick="alert(''+xe(l.message).replace(/'/g,"\'").replace(/
+/g,'\n')+'')">Zprava</button>':''}</td></tr>`).join('');}catch(e){document.getElementById('tb-leads').innerHTML=`<tr><td colspan="6" style="color:var(--red);text-align:center;padding:16px">Chyba: ${xe(e.message)}</td></tr>`;}}
+async function saveLead(){const name=document.getElementById('nl-name').value.trim();if(!name){toast('Zadejte jmeno','var(--red)');return;}try{await sb('/rest/v1/leads',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify({name,phone:document.getElementById('nl-phone').value.trim(),email:document.getElementById('nl-email').value.trim(),source:document.getElementById('nl-src').value,message:document.getElementById('nl-msg').value.trim()})});closeM('m-lead');toast('Zajemce ulozen','var(--green)');loadLeads();['nl-name','nl-phone','nl-email','nl-msg'].forEach(i=>document.getElementById(i).value='');}catch(e){toast('Chyba: '+e.message,'var(--red)');}}
+async function updLead(id,status){try{await sb('/rest/v1/leads?id=eq.'+id,{method:'PATCH',headers:{'Prefer':'return=minimal'},body:JSON.stringify({status})});toast('Stav aktualizovan');loadLeads();}catch(e){toast('Chyba','var(--red)');}}
+
+// SHOWINGS
+let SD=[];
+async function loadShowings(){try{const d=await sb('/rest/v1/showings?select=*&order=showing_date.asc,showing_time.asc');SD=d;const up=d.filter(s=>s.showing_date>=tod());if(!up.length){document.getElementById('tb-shows').innerHTML='<tr><td colspan="6" style="color:var(--muted);text-align:center;padding:28px">Zadne naplanovane prohlidky</td></tr>';renderCal();return;}document.getElementById('tb-shows').innerHTML=up.map(s=>`<tr><td><strong>${fdo(s.showing_date)}</strong> ${s.showing_time?s.showing_time.slice(0,5):''}</td><td>${xe(s.contact_name||'—')}</td><td>${s.contact_phone?'<a href="tel:'+xe(s.contact_phone)+'" style="color:var(--accent)">'+xe(s.contact_phone)+'</a>':'—'}</td><td><span class="badge b-${s.status||'planned'}">${slbl(s.status)}</span></td><td style="font-size:12px;color:var(--muted)">${xe(s.notes||'')}</td><td><select style="background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:Jost,sans-serif;font-size:11px;padding:4px 8px" onchange="updShow('${s.id}',this.value)"><option value="planned"${s.status==='planned'?' selected':''}>Planovana</option><option value="done"${s.status==='done'?' selected':''}>Probehla</option><option value="cancelled"${s.status==='cancelled'?' selected':''}>Zrusena</option><option value="no_show"${s.status==='no_show'?' selected':''}>Neprisel</option></select></td></tr>`).join('');renderCal();}catch(e){document.getElementById('tb-shows').innerHTML=`<tr><td colspan="6" style="color:var(--red);text-align:center;padding:16px">Chyba: ${xe(e.message)}</td></tr>`;}}
+async function saveShowing(){const date=document.getElementById('ns-date').value,name=document.getElementById('ns-name').value.trim();if(!date||!name){toast('Zadejte datum a jmeno','var(--red)');return;}try{await sb('/rest/v1/showings',{method:'POST',headers:{'Prefer':'return=minimal'},body:JSON.stringify({showing_date:date,showing_time:document.getElementById('ns-time').value||null,contact_name:name,contact_phone:document.getElementById('ns-phone').value.trim(),contact_email:document.getElementById('ns-email').value.trim(),notes:document.getElementById('ns-notes').value.trim()})});closeM('m-show');toast('Prohlidka ulozena','var(--green)');loadShowings();['ns-date','ns-time','ns-name','ns-phone','ns-email','ns-notes'].forEach(i=>document.getElementById(i).value='');}catch(e){toast('Chyba: '+e.message,'var(--red)');}}
+async function updShow(id,status){try{await sb('/rest/v1/showings?id=eq.'+id,{method:'PATCH',headers:{'Prefer':'return=minimal'},body:JSON.stringify({status})});toast('Stav aktualizovan');loadShowings();}catch(e){toast('Chyba','var(--red)');}}
+
+// CALENDAR
+let cY=new Date().getFullYear(),cM=new Date().getMonth();
+const CZ=['Leden','Unor','Brezen','Duben','Kveten','Cerven','Cervenec','Srpen','Zari','Rijen','Listopad','Prosinec'];
+function renderCal(){document.getElementById('cal-lbl').textContent=CZ[cM]+' '+cY;let sd=new Date(cY,cM,1).getDay();sd=sd===0?6:sd-1;const dim=new Date(cY,cM+1,0).getDate(),dip=new Date(cY,cM,0).getDate(),ts=tod();const sm={};SD.forEach(s=>{if(!sm[s.showing_date])sm[s.showing_date]=[];sm[s.showing_date].push(s);});let h='';const tot=Math.ceil((sd+dim)/7)*7;for(let i=0;i<tot;i++){let dn,ds,om=false;if(i<sd){dn=dip-sd+i+1;om=true;const py=cM===0?cY-1:cY,pm=cM===0?12:cM;ds=p4(py)+'-'+p2(pm)+'-'+p2(dn);}else if(i>=sd+dim){dn=i-sd-dim+1;om=true;const ny=cM===11?cY+1:cY,nm=cM===11?1:cM+2;ds=p4(ny)+'-'+p2(nm)+'-'+p2(dn);}else{dn=i-sd+1;ds=p4(cY)+'-'+p2(cM+1)+'-'+p2(dn);}const it=ds===ts,ev=sm[ds]||[];h+=`<div class="cday ${om?'om':''} ${it?'td':''} ${ev.length?'hs':''}"><div class="cdn">${dn}</div>${ev.map(e=>`<div class="cev">${(e.showing_time||'').slice(0,5)} ${xe(e.contact_name||'')}</div>`).join('')}</div>`;}document.getElementById('cal-body').innerHTML=h;}
+function calP(){cM--;if(cM<0){cM=11;cY--;}renderCal();}
+function calN(){cM++;if(cM>11){cM=0;cY++;}renderCal();}
+
+// PAGE VIEWS
+async function loadViews(){try{const d=await sb('/rest/v1/page_views?select=*&order=created_at.desc&limit=200');const ts=tod(),wa=new Date();wa.setDate(wa.getDate()-7);document.getElementById('st-vt').textContent=d.length;document.getElementById('st-vd').textContent=d.filter(v=>v.created_at&&v.created_at.slice(0,10)===ts).length;document.getElementById('st-vw').textContent=d.filter(v=>v.created_at&&new Date(v.created_at)>=wa).length;const days=[];for(let i=13;i>=0;i--){const dd=new Date();dd.setDate(dd.getDate()-i);const ds=dd.toISOString().slice(0,10);days.push({date:ds,label:dd.toLocaleDateString('cs-CZ',{day:'numeric',month:'numeric'}),count:d.filter(v=>v.created_at&&v.created_at.slice(0,10)===ds).length});}const mx=Math.max(1,...days.map(x=>x.count));document.getElementById('views-chart').innerHTML=days.map(dd=>`<div class="chrow"><div class="chlbl">${dd.label}</div><div class="chbg"><div class="chfill" style="width:${(dd.count/mx*100).toFixed(1)}%"></div></div><div class="chv">${dd.count}</div></div>`).join('');const l50=d.slice(0,50);document.getElementById('tb-views').innerHTML=l50.length?l50.map(v=>`<tr><td style="font-size:12px;color:var(--muted)">${fd(v.created_at)}</td><td>${xe(v.page||'/')}</td><td style="font-size:12px;color:var(--muted)">${xe(v.referrer||'—')}</td></tr>`).join(''):'<tr><td colspan="3" style="color:var(--muted);text-align:center;padding:24px">Zadne zaznamy</td></tr>';}catch(e){['st-vt','st-vd','st-vw'].forEach(i=>document.getElementById(i).textContent='—');document.getElementById('views-chart').innerHTML='<div style="color:var(--muted2);padding:12px">Tracking se aktivuje po prvnim zobrazeni prodejniho webu.</div>';document.getElementById('tb-views').innerHTML='<tr><td colspan="3" style="color:var(--muted);text-align:center;padding:24px">—</td></tr>';}}
+
+// PHOTOS
+function loadPhotos(){const fs=[['Kolaz_pohledy_1.jpeg','Kolaz'],['IMG_0682.jpg','Exterior 1'],['IMG_0684.jpg','Exterior 2'],['IMG_0687.jpg','Exterior 3'],['IMG_0688.jpg','Exterior 4'],['IMG_0689.jpg','Exterior 5'],['obyvk_1_PP.jpeg','Obyvaci pokoj'],['Chodba_PP_vstupnidvere .jpg','Chodba'],['PP pokoj 1 prizemmi (pracovna).jpg','Pracovna'],['Loznice1_(pokoj)_1.NP.jpg','Loznice'],['koupelna_1.NP_umyvadlo.jpg','Koupelna'],['koupoelna_1_vana_sprcha_1NP.jpeg','Koupelna - vana'],['Tepelne_cerpadlo_1.jpeg','Tepelne cerpadlo']];document.getElementById('photos-grid').innerHTML=fs.map(([f,l])=>`<div class="pi"><img src="${SBS}${encodeURIComponent(f)}" alt="${l}" loading="lazy"><div class="pil">${l}</div></div>`).join('');}
+
+// GENERATOR
+function $t(id,txt){const e=document.getElementById(id);if(e)e.textContent=txt;}
+function $c(id,len,max){const e=document.getElementById(id);if(!e)return;e.textContent=len+'/'+max;e.className='bcnt'+(len>max?' w':'');}
+function genAll(){
+  const cena=gV('f-cena')||'Na vyzadani',stav=gV('f-stav'),jmeno=gV('f-jmeno'),tel=gV('f-tel'),email=gV('f-email'),pozn=gV('f-pozn');
+  const web='https://srubec-estate.vercel.app',cs=cena==='Na vyzadani'?'Cena na vyzadani':'Cena: '+cena+' Kc',ex=pozn?'\n\n'+pozn:'';
+  const srN='Prodej RD 5+kk, 115 m2, pozemek 500 m2, Stare Hodejovice';
+  const srP='Nabizime k prodeji novostavbu RD 5+kk v klidne slepe ulici Stare Hodejovice / Srubec.\n\n'+stav+'\n\nDISPOZICE\n- Uzitna plocha: 115 m2 (PP 61 + 1.NP 54 m2)\n- Terasa: 40 m2, pozemek 500 m2, 3 parkovaci stani\n\nKONSTRUKCE\n- Porotherm + ETICS, Bramac, trojskla, 4x Velux premium\n\nTECHNOLOGIE\n- TC Viessmann vzduch-voda, podlahove vytapeni, energeticka trida B\n- Priprava pro FVE, klimatizaci a venkovni zaluzie\n\nLOKALITA: 8 min do centra CB, 1 min na D3\n\n'+cs+ex+'\n\nFotodokumentace: '+web+'\nKontakt: '+jmeno+' - '+tel+' | '+email+'\nPrimy prodej bez provize.';
+  const srPar='Typ: Rodinny dum\nDispozice: 5+kk\nUzitna plocha: 115 m2\nPlocha pozemku: 500 m2\nTerasa: 40 m2\nStav: Novostavba\nEnerg. trida: B\nVytapeni: TC\nParkovaci stani: 3\nKolaudace: 2026\nGPS: 48.9286, 14.4736';
+  const brN='Novostavba RD 5+kk, 115 m2, terasa, zahrada 500 m2 - primy prodej bez provize, Srubec';
+  const brP='Primy prodej od majitele bez provize.\n\nNovostavba 5+kk - Stare Hodejovice / Srubec\n8 min CB, 1 min na D3\n\n- 115 m2 + terasa 40 m2 + pozemek 500 m2\n- TC Viessmann + podlahove vytapeni\n- Velux, trojskla, Bramac, ener. trida B\n- 3 parkovaci mista, priprava FVE/klima\n- '+stav+'\n\n'+cs+ex+'\n\nFotogalerie: '+web+'\nTel: '+tel+' | '+jmeno+' | '+email;
+  const rlN='Prodej novostavby RD 5+kk - Stare Hodejovice / Srubec, 115 m2, pozemek 500 m2';
+  const rlP='Nízkoenergeticka novostavba RD - Stare Hodejovice / Srubec\n8 min od C. Budejovic, D3 do 1 min\n\nPARAMETRY: 5+kk | 115 m2 | pozemek 500 m2 | terasa 40 m2 | trida B\n'+stav+'\n\nKONSTRUKCE: Porotherm + ETICS, Bramac, trojskla, 4x Velux\nTECHNOLOGIE: TC Viessmann, podlahove vytapeni, priprava FVE\n\n'+cs+ex+'\n\nFotogalerie: '+web+'\nKontakt: '+jmeno+' | '+tel+' | '+email;
+  const idN='Novostavba 5+kk, 115 m2, Stare Hodejovice u CB - '+cs;
+  const idP='RD 5+kk, 115 m2, pozemek 500 m2, terasa 40 m2. TC Viessmann, podlahove vytapeni, trojskla, Velux, ener. trida B. '+stav+'. 8 min CB, D3 1 min. Primy prodej bez provize.'+ex+'\n\nFotky: '+web+' | '+tel;
+  const unF='PRODEJ NOVOSTAVBY RD 5+kk - Stare Hodejovice / Srubec\n'+'─'.repeat(50)+'\n\n'+srP;
+  const unS='RD 5+kk - Stare Hodejovice / Srubec\n115 m2 + terasa 40 m2, zahrada 500 m2\nTC Viessmann, podlahove vytapeni, Velux, ener. trida B\n8 min CB, D3 1 min | '+cs+'\n\nFotky: '+web+'\nTel: '+tel+' | '+jmeno;
+  $t('sr-n',srN);$c('c-sr-n',srN.length,60);$t('sr-p',srP);$c('c-sr-p',srP.length,4000);$t('sr-par',srPar);
+  $t('br-n',brN);$t('br-p',brP);$t('rl-n',rlN);$t('rl-p',rlP);
+  $t('id-n',idN);$t('id-p',idP);$t('un-f',unF);$t('un-s',unS);
+  toast('Texty vygenerovany');
+}
+function cpB(id,btn){navigator.clipboard.writeText(document.getElementById(id)?.textContent||'').then(()=>{btn.textContent='OK';btn.classList.add('ok');setTimeout(()=>{btn.textContent='Kopirovat';btn.classList.remove('ok');},2000);});}
+function cp2(txt,btn){navigator.clipboard.writeText(txt).then(()=>{btn.textContent='OK';btn.classList.add('ok');setTimeout(()=>{btn.textContent='Kopirovat URL';btn.classList.remove('ok');},2000);});}
+function cpAll(pfx){const mp={sr:['sr-n','sr-p','sr-par'],br:['br-n','br-p'],rl:['rl-n','rl-p'],id:['id-n','id-p'],un:['un-f','un-s']};navigator.clipboard.writeText((mp[pfx]||[]).map(id=>'-- '+id+' --\n'+(document.getElementById(id)?.textContent||'')).join('\n\n')).then(()=>toast('Zkopirovano'));}
+
+// HELPERS
+function xe(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fd(iso){if(!iso)return'—';const d=new Date(iso);return d.toLocaleDateString('cs-CZ',{day:'numeric',month:'numeric',year:'2-digit'})+' '+d.toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'});}
+function fdt(iso){if(!iso)return'—';const d=new Date(iso);return d.toLocaleString('cs-CZ',{day:'numeric',month:'numeric',hour:'2-digit',minute:'2-digit'});}
+function fdo(s){if(!s)return'—';const[y,m,d]=s.split('-');return d+'.'+m+'.'+y;}
+function tod(){return new Date().toISOString().slice(0,10);}
+function slbl(s){return{planned:'Planovana',done:'Probehla',cancelled:'Zrusena',no_show:'Neprisel'}[s]||s;}
+function p2(n){return String(n).padStart(2,'0');}
+function p4(n){return String(n).padStart(4,'0');}
+
+function initApp(){
+  loadConfig();
+  loadPhotos();
+  genAll();
+  sb('/rest/v1/leads?select=id,status&status=eq.new').then(d=>{if(d)document.getElementById('ntf').textContent=d.length||'0';}).catch(()=>{});
+}
+</script>
+</body>
+</html>
