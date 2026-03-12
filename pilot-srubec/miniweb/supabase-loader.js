@@ -51,7 +51,7 @@ window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXB
       { url: img("Loznice1_(pokoj)_1.NP.jpg"),           caption: "Ložnice — podkroví",              category: "interior"  },
       { url: img("koupelna_1.NP_umyvadlo.jpg"),          caption: "Koupelna — umyvadlo",             category: "interior"  },
       { url: img("koupoelna_1_vana_sprcha_1NP.jpeg"),    caption: "Koupelna — vana a sprcha",        category: "interior"  },
-      { url: img("Toalety_srubec.jpg"),                  caption: "Toalety",                         category: "interior"  },
+      { url: img("Toalety_srubec.jpg"),                  caption: "WC — koupelny",                   category: "interior"  },
       { url: img("Tepelne_cerpadlo_1.jpeg"),             caption: "Tepelné čerpadlo Viessmann",      category: "technical" },
     ],
 
@@ -66,8 +66,8 @@ window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXB
 
     // ─── CENA ─────────────────────────────────────────────────────────────────
     price: {
-      display:  "12&thinsp;500&thinsp;000 Kč",
-      note:     "Bez provize RK · Cena uvedena bez DPH · Možnost financování · Ihned po kolaudaci",
+      display:  "12&thinsp;900&thinsp;000 Kč",
+      note:     "Cena včetně pozemku 600 m² · Bez provize RK · Ihned po kolaudaci",
       includes: [
         "Pozemek 600 m² v ceně",
         "Tepelné čerpadlo Viessmann",
@@ -107,9 +107,11 @@ window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXB
         { key: "Parkovací stání",      val: "3 venkovní místa" },
       ],
       construction: [
-        { key: "Nosné zdivo",          val: "Ecotone — inovativní cihlové bloky (litý beton)" },
+        { key: "Nosné zdivo",          val: "Ecotone — cihlové bloky plněné litým betonem (zalitobetonem.cz)" },
+        { key: "Systém zdění",         val: "Ztracené bednění — monolitická tuhá konstrukce, vysoká pevnost a tepelná stabilita" },
         { key: "Základy",              val: "Betonové pasy + deska" },
-        { key: "Střecha",              val: "Sedlová, betonová krytina Betonpres" },
+        { key: "Střecha",              val: "Sedlová — betonová střešní taška Betonpres (betonpres.cz)" },
+        { key: "Střešní systém",       val: "Prémiová betonová krytina s dlouhou životností, odolná vůči povětrnosti a UV záření" },
         { key: "Zateplení",            val: "Certifikovaný fasádní systém ETICS" },
         { key: "Okna",                 val: "Plastová s trojsklem — nízkoenergetický standard" },
         { key: "Střešní okna",         val: "Velux premium — 4 ks v podkroví" },
