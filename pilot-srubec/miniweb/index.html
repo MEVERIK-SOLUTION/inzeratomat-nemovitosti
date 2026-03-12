@@ -573,9 +573,9 @@
   <a onclick="navGo('home','gallery')">Fotogalerie</a>
   <a onclick="navGo('home','floorplans')">Půdorysy</a>
   <a onclick="navGo('tech')">Technický list</a>
+  <a href="/energy">Energetika</a>
   <a onclick="navGo('location')">Lokalita</a>
   <a onclick="navGo('contact')">Kontakt</a>
-  <a href="/energy">Energetika</a>
 </div>
 
 <!-- ─── NAV ─── -->
@@ -585,9 +585,9 @@
     <li><a onclick="navGo('home','gallery')">Fotogalerie</a></li>
     <li><a onclick="navGo('home','floorplans')">Půdorysy</a></li>
     <li><a onclick="navGo('tech')">Technický list</a></li>
+    <li><a href="/energy">Energetika</a></li>
     <li><a onclick="navGo('location')">Lokalita</a></li>
     <li><a onclick="navGo('contact')">Kontakt</a></li>
-    <li><a href="/energy">Energetika</a></li>
   </ul>
   <a class="nav-cta" onclick="navGo('contact')">Nezávazná poptávka</a>
   <button class="hamburger" onclick="openMobileMenu()" aria-label="Menu">
@@ -714,14 +714,15 @@
     <h2 class="section-title">Půdorysy — <em>dispozice domu</em></h2>
     <p class="section-lead">Přehled rozmístění místností v obou podlažích. Přesná dokumentace k dispozici při osobní prohlídce.</p>
     <div class="floorplans-tabs">
-      <button class="fp-tab active" onclick="switchFloor(1)">PP — Přízemí</button>
-      <button class="fp-tab" onclick="switchFloor(2)">1.NP — Podkroví</button>
+      <button class="fp-tab active" onclick="switchFloor(1)">2D Půdorys</button>
+      <button class="fp-tab" onclick="switchFloor(2)">3D Půdorys</button>
+      <button class="fp-tab" onclick="switchFloor(3)">Řez nemovitosti</button>
     </div>
     <!-- PŘÍZEMÍ -->
     <div class="fp-panel active" id="fpPanel1">
       <div class="fp-content">
         <div class="fp-image-wrap">
-          <span class="fp-badge">PP</span>
+          <span class="fp-badge">2D</span>
           <div id="fp1-img-wrap"></div>
         </div>
         <div class="fp-info">
@@ -744,7 +745,7 @@
     <div class="fp-panel" id="fpPanel2">
       <div class="fp-content">
         <div class="fp-image-wrap">
-          <span class="fp-badge">1.NP</span>
+          <span class="fp-badge">3D</span>
           <div id="fp2-img-wrap"></div>
         </div>
         <div class="fp-info">
@@ -758,6 +759,21 @@
             <li><span class="room-name">Pokoj 3</span><span class="room-size">~10 m²</span></li>
             <li><span class="room-name">Koupelna s vanou (Velux)</span><span class="room-size">~6 m²</span></li>
           </ul>
+          <p class="fp-note"></p>
+        </div>
+      </div>
+    </div>
+    <!-- ŘEZ NEMOVITOSTI -->
+    <div class="fp-panel" id="fpPanel3">
+      <div class="fp-content">
+        <div class="fp-image-wrap">
+          <span class="fp-badge">Řez</span>
+          <div id="fp3-img-wrap"></div>
+        </div>
+        <div class="fp-info">
+          <div class="section-label">Příčný řez</div>
+          <h3>Řez <em>nemovitostí</em></h3>
+          <p id="fp3-desc"></p>
           <p class="fp-note"></p>
         </div>
       </div>
@@ -1080,10 +1096,12 @@ function initFromConfig() {
   }
 
   // Půdorysy
-  document.getElementById('fp1-img-wrap').innerHTML = fpImgOrPlaceholder('', 'PP', 'Půdorys přízemí — připravujeme');
-  document.getElementById('fp2-img-wrap').innerHTML = fpImgOrPlaceholder('', '1.NP', 'Půdorys podkroví — připravujeme');
+  document.getElementById('fp1-img-wrap').innerHTML = fpImgOrPlaceholder(CONFIG.floorplans.floor1url, '2D', 'Půdorys 2D — připravujeme');
+  document.getElementById('fp2-img-wrap').innerHTML = fpImgOrPlaceholder(CONFIG.floorplans.floor2url, '3D', 'Půdorys 3D — připravujeme');
+  document.getElementById('fp3-img-wrap').innerHTML = fpImgOrPlaceholder(CONFIG.floorplans.crossSectionUrl || '', 'Řez', 'Řez nemovitosti — připravujeme');
   setTxt('fp1-desc', CONFIG.floorplans.floor1desc);
   setTxt('fp2-desc', CONFIG.floorplans.floor2desc);
+  setTxt('fp3-desc', CONFIG.floorplans.crossSectionDesc || '');
   document.querySelectorAll('.fp-note').forEach(el => el.textContent = CONFIG.floorplans.note);
 
   // Price
