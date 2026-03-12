@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Energetická náročnost | Srubec Estate — Novostavba 5+kk Staré Hodějovice</title>
+<meta name="description" content="Průkaz energetické náročnosti budovy (PENB) — předběžný odhad dle vyhlášky č. 264/2020 Sb. Rodinný dům 5+kk, Staré Hodějovice / Srubec. Energetická třída B, 75 kWh/m²/rok.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:      #F5F0E8;
+    --stone:      #E8E0D0;
+    --warm-gray:  #8A8278;
+    --dark:       #1C1A18;
+    --accent:     #9B6B3A;
+    --accent-light: #C4955A;
+    --white:      #FDFCFA;
+    --text:       #2E2B27;
+    --muted:      #5A5550;
+
+    /* Energetické třídy */
+    --ea: #00A651;
+    --eb: #7AC143;
+    --ec: #C8D400;
+    --ed: #FFED00;
+    --ee: #FDB913;
+    --ef: #F47920;
+    --eg: #ED1C24;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 20px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(28,26,24,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(155,107,58,0.3);
+    transition: all 0.3s;
+  }
+  nav.scrolled { padding: 14px 60px; }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 300;
+    color: var(--cream); letter-spacing: 2px; text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent-light); }
+  .nav-back {
+    font-size: 11px; font-weight: 500; letter-spacing: 2px;
+    text-transform: uppercase; color: rgba(245,240,232,0.6);
+    text-decoration: none; display: flex; align-items: center; gap: 8px;
+    transition: color 0.3s;
+  }
+  .nav-back:hover { color: var(--accent-light); }
+  .nav-back::before { content: '←'; font-size: 14px; }
+  .nav-cta {
+    font-size: 11px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--dark);
+    background: var(--accent-light); padding: 10px 22px;
+    text-decoration: none; transition: background 0.3s;
+  }
+  .nav-cta:hover { background: var(--accent); color: var(--cream); }
+
+  /* ─── PAGE HERO ─── */
+  .page-hero {
+    height: 44vh; min-height: 300px;
+    position: relative; display: flex; align-items: flex-end; overflow: hidden;
+    background: var(--dark);
+  }
+  .page-hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(28,26,24,0.97) 0%, rgba(28,26,24,0.5) 50%, rgba(28,26,24,0.25) 100%);
+  }
+  /* Dekorativní mřížka */
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: linear-gradient(rgba(245,240,232,1) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(245,240,232,1) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  /* Zlatý záblesk */
+  .hero-glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 20% 60%, rgba(155,107,58,0.12), transparent 70%);
+  }
+  .page-hero-content {
+    position: relative; z-index: 2; padding: 0 60px 60px;
+    animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) 0.2s both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .page-hero-content .section-label {
+    font-size: 10px; font-weight: 600; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--accent-light);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+  }
+  .page-hero-content .section-label::before {
+    content: ''; width: 30px; height: 1px; background: var(--accent-light);
+  }
+  .page-hero-content h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 62px); font-weight: 300;
+    line-height: 1.1; color: var(--cream);
+  }
+  .page-hero-content h1 em { font-style: italic; color: var(--accent-light); }
+
+  /* ─── SHARED TYPOGRAPHY ─── */
+  .section-label {
+    font-size: 10px; font-weight: 600; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before { content: ''; width: 30px; height: 1px; background: var(--accent); }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(30px, 4vw, 48px); font-weight: 300;
+    line-height: 1.15; color: var(--dark); margin-bottom: 18px;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+  .section-lead {
+    font-size: 16px; font-weight: 300; line-height: 1.8;
+    color: var(--warm-gray); max-width: 600px;
+  }
+
+  /* ─── NOTICE BANNER ─── */
+  .notice-banner {
+    background: var(--dark);
+    border-left: 4px solid var(--accent-light);
+    padding: 28px 36px;
+    display: flex; gap: 20px; align-items: flex-start;
+    margin-bottom: 0;
+  }
+  .notice-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+  .notice-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 400; color: var(--accent-light);
+    margin-bottom: 8px;
+  }
+  .notice-text {
+    font-size: 14px; font-weight: 300; line-height: 1.75;
+    color: rgba(245,240,232,0.65);
+  }
+  .notice-text strong { color: var(--accent-light); font-weight: 500; }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 80px 60px; }
+  .bg-white  { background: var(--white); }
+  .bg-stone  { background: var(--stone); }
+  .bg-dark   { background: var(--dark); }
+  .bg-cream  { background: var(--cream); }
+
+  /* ─── PENB DIAGRAM ─── */
+  .penb-wrap {
+    display: grid; grid-template-columns: 1fr 380px;
+    gap: 60px; align-items: start; margin-top: 50px;
+  }
+
+  /* Šipkový diagram */
+  .energy-chart { position: relative; }
+  .energy-chart-title {
+    font-size: 11px; font-weight: 600; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--warm-gray);
+    margin-bottom: 20px;
+  }
+  .energy-bars { display: flex; flex-direction: column; gap: 5px; }
+
+  .energy-bar-row { display: flex; align-items: center; gap: 12px; }
+  .energy-bar-arrow {
+    position: relative; height: 46px;
+    display: flex; align-items: center;
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 50%, calc(100% - 20px) 100%, 0 100%);
+    transition: filter 0.3s;
+  }
+  .energy-bar-arrow.active {
+    filter: drop-shadow(0 0 8px rgba(122,193,67,0.5));
+  }
+  .energy-bar-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 600; color: white;
+    margin-left: 18px; flex-shrink: 0;
+  }
+  .energy-bar-range {
+    font-size: 12px; font-weight: 400; color: rgba(255,255,255,0.85);
+    margin-left: 10px;
+  }
+  .energy-bar-unit {
+    font-size: 10px; color: rgba(255,255,255,0.6);
+    margin-left: 4px;
+  }
+
+  /* Aktivní třída B — ukazatel */
+  .active-indicator {
+    position: absolute; right: -80px; top: 50%; transform: translateY(-50%);
+    display: flex; align-items: center; gap: 0;
+  }
+  .indicator-line {
+    width: 60px; height: 2px;
+    background: linear-gradient(to right, var(--eb), rgba(122,193,67,0.3));
+  }
+  .indicator-badge {
+    background: var(--dark); border: 2px solid var(--eb);
+    padding: 6px 14px; text-align: center; white-space: nowrap;
+  }
+  .indicator-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; font-weight: 400; color: var(--eb);
+    display: block; line-height: 1;
+  }
+  .indicator-unit {
+    font-size: 9px; letter-spacing: 1px; color: var(--warm-gray);
+    text-transform: uppercase;
+  }
+
+  /* ─── PENB SIDEBAR ─── */
+  .penb-sidebar {}
+  .penb-class-badge {
+    background: var(--dark); padding: 32px;
+    text-align: center; margin-bottom: 24px;
+    border-top: 3px solid var(--eb);
+  }
+  .penb-class-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 88px; font-weight: 300; line-height: 1;
+    color: var(--eb);
+  }
+  .penb-class-label {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(245,240,232,0.4); margin-top: 4px;
+  }
+  .penb-class-desc {
+    font-size: 14px; color: rgba(245,240,232,0.6);
+    line-height: 1.6; margin-top: 12px; font-weight: 300;
+  }
+
+  /* PENB hodnoty tabulka */
+  .penb-table { width: 100%; }
+  .penb-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 12px 0; border-bottom: 1px solid var(--stone);
+    font-size: 14px;
+  }
+  .penb-row:last-child { border-bottom: none; }
+  .penb-row.total {
+    background: var(--dark); margin: 0 -0px;
+    padding: 14px 16px; border-bottom: none; margin-top: 8px;
+  }
+  .penb-key { color: var(--warm-gray); }
+  .penb-row.total .penb-key { color: rgba(245,240,232,0.55); }
+  .penb-val { font-weight: 600; color: var(--dark); text-align: right; }
+  .penb-row.total .penb-val { color: var(--accent-light); font-size: 16px; }
+
+  /* ─── TECH PARAMS ─── */
+  .tech-grid-2 {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; margin-top: 50px;
+  }
+  .tech-card {
+    background: var(--white); padding: 36px 32px;
+    border-top: 3px solid var(--accent);
+    transition: all 0.3s;
+  }
+  .tech-card:hover { background: var(--dark); transform: translateY(-3px); box-shadow: 0 16px 50px rgba(28,26,24,0.18); }
+  .tech-card-icon { font-size: 26px; margin-bottom: 16px; display: block; }
+  .tech-card h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 400; color: var(--dark);
+    margin-bottom: 14px; transition: color 0.3s;
+  }
+  .tech-card:hover h4 { color: var(--accent-light); }
+  .tech-row-mini {
+    display: flex; justify-content: space-between;
+    padding: 7px 0; border-bottom: 1px solid var(--stone);
+    font-size: 13px; transition: border-color 0.3s;
+  }
+  .tech-card:hover .tech-row-mini { border-color: rgba(245,240,232,0.08); }
+  .tech-row-mini:last-child { border-bottom: none; }
+  .tech-k { color: var(--warm-gray); transition: color 0.3s; }
+  .tech-card:hover .tech-k { color: rgba(245,240,232,0.45); }
+  .tech-v { font-weight: 500; color: var(--dark); text-align: right; transition: color 0.3s; }
+  .tech-card:hover .tech-v { color: var(--cream); }
+
+  /* ─── BUDOUCÍ POTENCIÁL ─── */
+  .potential-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 2px; margin-top: 50px;
+  }
+  .potential-card {
+    background: rgba(245,240,232,0.05); padding: 32px 24px;
+    border: 1px solid rgba(245,240,232,0.08);
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .potential-card::before {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: var(--accent);
+    transform: scaleX(0); transition: transform 0.4s;
+    transform-origin: left;
+  }
+  .potential-card:hover { background: rgba(245,240,232,0.08); }
+  .potential-card:hover::before { transform: scaleX(1); }
+  .potential-icon { font-size: 32px; margin-bottom: 18px; display: block; }
+  .potential-card h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 400; color: var(--cream);
+    margin-bottom: 10px;
+  }
+  .potential-card p {
+    font-size: 13px; font-weight: 300; line-height: 1.7;
+    color: rgba(245,240,232,0.5);
+  }
+  .potential-badge {
+    display: inline-block; margin-top: 14px;
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--accent-light); border: 1px solid rgba(196,149,90,0.3);
+    padding: 4px 10px;
+  }
+
+  /* ─── NZÚ SEKCE ─── */
+  .nzu-wrap {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: start; margin-top: 50px;
+  }
+  .nzu-text h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 300; color: var(--dark);
+    margin-bottom: 20px; line-height: 1.2;
+  }
+  .nzu-text h3 em { color: var(--accent); font-style: italic; }
+  .nzu-text p {
+    font-size: 15px; line-height: 1.85; color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .nzu-highlights {
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .nzu-item {
+    padding: 18px 0; border-bottom: 1px solid var(--stone);
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .nzu-item:last-child { border-bottom: none; }
+  .nzu-dot {
+    width: 8px; height: 8px; background: var(--accent);
+    flex-shrink: 0; margin-top: 6px;
+  }
+  .nzu-item-title {
+    font-size: 14px; font-weight: 600; color: var(--dark);
+    margin-bottom: 4px;
+  }
+  .nzu-item-text {
+    font-size: 13px; font-weight: 300; line-height: 1.7;
+    color: var(--warm-gray);
+  }
+
+  /* Status tag */
+  .status-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    padding: 6px 14px; margin-bottom: 12px;
+  }
+  .status-tag.processing {
+    background: rgba(253,185,19,0.12);
+    color: #FDB913;
+    border: 1px solid rgba(253,185,19,0.25);
+  }
+  .status-tag.processing::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: #FDB913;
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; } 50% { opacity: 0.3; }
+  }
+  .status-tag.ready {
+    background: rgba(122,193,67,0.1);
+    color: var(--eb);
+    border: 1px solid rgba(122,193,67,0.2);
+  }
+  .status-tag.ready::before {
+    content: '✓'; font-size: 10px;
+  }
+
+  /* ─── RENOVAČNÍ PAS ─── */
+  .passport-banner {
+    background: var(--white); padding: 50px;
+    border-left: 4px solid var(--accent);
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 40px; align-items: center; margin-top: 50px;
+  }
+  .passport-banner h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; font-weight: 300; color: var(--dark);
+    margin-bottom: 14px;
+  }
+  .passport-banner h3 em { color: var(--accent); font-style: italic; }
+  .passport-banner p {
+    font-size: 14px; line-height: 1.8; color: var(--muted);
+  }
+  .passport-icon-wrap {
+    text-align: center; flex-shrink: 0;
+  }
+  .passport-icon-wrap .big-icon { font-size: 56px; display: block; }
+  .passport-icon-wrap p {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--warm-gray); margin-top: 10px;
+  }
+
+  /* ─── DISCLAIMER ─── */
+  .disclaimer-box {
+    background: var(--stone); padding: 32px 36px;
+    border-top: 2px solid var(--accent); margin-top: 50px;
+    font-size: 13px; line-height: 1.75; color: var(--muted);
+  }
+  .disclaimer-box strong { color: var(--dark); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--dark); padding: 50px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(155,107,58,0.2); flex-wrap: wrap; gap: 20px;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 300; color: var(--cream); letter-spacing: 2px;
+  }
+  .footer-logo span { color: var(--accent-light); }
+  .footer-links { display: flex; gap: 24px; flex-wrap: wrap; }
+  .footer-links a {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(245,240,232,0.4); text-decoration: none; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--accent-light); }
+  footer p {
+    font-size: 12px; color: rgba(245,240,232,0.25); letter-spacing: 1px;
+  }
+  footer .dev-sig {
+    font-size: 10px; color: rgba(245,240,232,0.12);
+    letter-spacing: 1px; margin-top: 6px;
+  }
+  footer .dev-sig span { color: rgba(196,149,90,0.3); }
+
+  /* ─── FADE IN ─── */
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 18px 24px; }
+    section { padding: 60px 24px; }
+    .page-hero-content { padding: 0 24px 50px; }
+    .penb-wrap, .nzu-wrap { grid-template-columns: 1fr; }
+    .tech-grid-2, .potential-grid { grid-template-columns: 1fr; }
+    .passport-banner { grid-template-columns: 1fr; }
+    footer { flex-direction: column; align-items: flex-start; }
+    .active-indicator { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="mainNav">
+  <a href="index.html" class="nav-logo"><span>Srubec</span> Estate</a>
+  <a href="index.html" class="nav-back">Zpět na web nemovitosti</a>
+  <a href="index.html#contact" class="nav-cta">Domluvit prohlídku</a>
+</nav>
+
+<!-- ─── HERO ─── -->
+<div class="page-hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="page-hero-overlay"></div>
+  <div class="page-hero-content">
+    <div class="section-label">Dokumentace · Novostavba 5+kk</div>
+    <h1>Energetická <em>náročnost</em><br>budovy</h1>
+  </div>
+</div>
+
+<!-- ─── NOTICE BANNER ─── -->
+<div class="notice-banner">
+  <div class="notice-icon">📋</div>
+  <div>
+    <div class="notice-title">Předběžný průkaz energetické náročnosti</div>
+    <div class="notice-text">
+      Tato stránka prezentuje <strong>předběžný odhad PENB</strong> zpracovaný způsobilou osobou na základě projektové dokumentace
+      a parametrů použitých technologií. Nemovitost aktuálně prochází <strong>procesem kolaudace</strong>, jehož povinnou součástí
+      je zpracování plnohodnotného autorizovaného průkazu dle vyhlášky č. 264/2020 Sb.
+      Autorizovaný PENB bude předložen zájemcům <strong>na vyžádání po vydání kolaudačního souhlasu</strong>.
+    </div>
+  </div>
+</div>
+
+<!-- ─── PENB DIAGRAM ─── -->
+<section class="bg-white">
+  <div class="section-label">PENB · Vyhláška č. 264/2020 Sb.</div>
+  <h2 class="section-title">Průkaz energetické <em>náročnosti</em></h2>
+  <p class="section-lead">
+    Celková primární neobnovitelná energie budovy — součet vytápění, přípravy teplé vody,
+    osvětlení a pomocné energie, přepočtený primárním faktorem dle metodiky.
+  </p>
+
+  <div class="penb-wrap fade-in">
+
+    <!-- Šipkový diagram tříd -->
+    <div class="energy-chart">
+      <div class="energy-chart-title">Klasifikační stupnice — rodinný dům</div>
+      <div class="energy-bars">
+
+        <!-- A -->
+        <div class="energy-bar-row">
+          <div class="energy-bar-arrow" style="background:var(--ea); width: 52%">
+            <span class="energy-bar-letter">A</span>
+            <span class="energy-bar-range">≤ 45</span>
+            <span class="energy-bar-unit">kWh/m²/rok</span>
+          </div>
+        </div>
+
+        <!-- B — AKTIVNÍ -->
+        <div class="energy-bar-row" style="position:relative">
+          <div class="energy-bar-arrow active" style="background:var(--eb); width: 60%; outline: 3px solid #1C1A18; outline-offset: -3px;">
+            <span class="energy-bar-letter">B</span>
+            <span class="energy-bar-range">≤ 82</span>
+            <span class="energy-bar-unit">kWh/m²/rok</span>
+          </div>
+          <!-- Ukazatel -->
+          <div class="active-indicator">
+            <div class="indicator-line"></div>
+            <div class="indicator-badge">
+              <span class="indicator-value">75</span>
+              <span class="indicator-unit">kWh/m²/rok</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- C -->
+        <div class="energy-bar-row">
+          <div class="energy-bar-arrow" style="background:var(--ec); width: 68%">
+            <span class="energy-bar-letter" style="color:rgba(0,0,0,0.7)">C</span>
+            <span class="energy-bar-range" style="color:rgba(0,0,0,0.6)">≤ 120</span>
+            <span class="energy-bar-unit" style="color:rgba(0,0,0,0.4)">kWh/m²/rok</span>
+          </div>
+        </div>
+
+        <!-- D -->
+        <div class="energy-bar-row">
+          <div class="energy-bar-arrow" style="background:var(--ed); width: 76%">
+            <span class="energy-bar-letter" style="color:rgba(0,0,0,0.7)">D</span>
+            <span class="energy-bar-range" style="color:rgba(0,0,0,0.6)">≤ 160</span>
+            <span class="energy-bar-unit" style="color:rgba(0,0,0,0.4)">kWh/m²/rok</span>
+          </div>
+        </div>
+
+        <!-- E -->
+        <div class="energy-bar-row">
+          <div class="energy-bar-arrow" style="background:var(--ee); width: 84%">
+            <span class="energy-bar-letter" style="color:rgba(0,0,0,0.7)">E</span>
+            <span class="energy-bar-range" style="color:rgba(0,0,0,0.6)">≤ 200</span>
+            <span class="energy-bar-unit" style="color:rgba(0,0,0,0.4)">kWh/m²/rok</span>
+          </div>
+        </div>
+
+        <!-- F -->
+        <div class="energy-bar-row">
+          <div class="energy-bar-arrow" style="background:var(--ef); width: 92%">
+            <span class="energy-bar-letter">F</span>
+            <span class="energy-bar-range">≤ 250</span>
+            <span class="energy-bar-unit">kWh/m²/rok</span>
+          </div>
+        </div>
+
+        <!-- G -->
+        <div class="energy-bar-row">
+          <div class="energy-bar-arrow" style="background:var(--eg); width: 100%">
+            <span class="energy-bar-letter">G</span>
+            <span class="energy-bar-range">> 250</span>
+            <span class="energy-bar-unit">kWh/m²/rok</span>
+          </div>
+        </div>
+
+      </div><!-- /energy-bars -->
+    </div><!-- /energy-chart -->
+
+    <!-- Sidebar -->
+    <div class="penb-sidebar">
+      <div class="penb-class-badge">
+        <div class="penb-class-letter">B</div>
+        <div class="penb-class-label">Energetická třída</div>
+        <div class="penb-class-desc">Nízkoenergetický standard<br>Primární energie: <strong style="color:var(--eb)">75 kWh/m²/rok</strong></div>
+      </div>
+
+      <div class="penb-table">
+        <div class="penb-row">
+          <span class="penb-key">Vytápění (TČ vzduch-voda)</span>
+          <span class="penb-val">46 kWh/m²</span>
+        </div>
+        <div class="penb-row">
+          <span class="penb-key">Příprava teplé vody</span>
+          <span class="penb-val">14 kWh/m²</span>
+        </div>
+        <div class="penb-row">
+          <span class="penb-key">Osvětlení (LED)</span>
+          <span class="penb-val">7 kWh/m²</span>
+        </div>
+        <div class="penb-row">
+          <span class="penb-key">Pomocná energie</span>
+          <span class="penb-val">4 kWh/m²</span>
+        </div>
+        <div class="penb-row">
+          <span class="penb-key">Větrání (přirozené)</span>
+          <span class="penb-val">4 kWh/m²</span>
+        </div>
+        <div class="penb-row total">
+          <span class="penb-key">Celkem — primární energie</span>
+          <span class="penb-val">75 kWh/m²/rok</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /penb-wrap -->
+</section>
+
+<!-- ─── TECHNICKÉ PARAMETRY ─── -->
+<section class="bg-cream">
+  <div class="section-label">Stavebně-technické parametry</div>
+  <h2 class="section-title">Co stojí za <em>třídou B</em></h2>
+  <p class="section-lead">Kombinace kvalitní obálky budovy a efektivního zdroje tepla je základem nízké energetické náročnosti.</p>
+
+  <div class="tech-grid-2">
+    <div class="tech-card fade-in">
+      <span class="tech-card-icon">🧱</span>
+      <h4>Obálka budovy</h4>
+      <div class="tech-row-mini"><span class="tech-k">Nosné zdivo</span><span class="tech-v">Ecotone — litý beton</span></div>
+      <div class="tech-row-mini"><span class="tech-k">Zateplení</span><span class="tech-v">ETICS, certifikovaný systém</span></div>
+      <div class="tech-row-mini"><span class="tech-k">Okna</span><span class="tech-v">Trojsklo, Uw ≤ 1,1 W/m²K</span></div>
+      <div class="tech-row-mini"><span class="tech-k">Střešní okna</span><span class="tech-v">Velux premium — 4 ks</span></div>
+      <div class="tech-row-mini"><span class="tech-k">Střecha</span><span class="tech-v">Sedlová, krytina Betonpres</span></div>
+    </div>
+    <div class="tech-card fade-in">
+      <span class="tech-card-icon">🌡️</span>
+      <h4>Systém vytápění</h4>
+      <div class="tech-row-mini"><span class="tech-k">Zdroj tepla</span><span class="tech-v">TČ Viessmann vzduch-voda</span></div>
+      <div class="tech-row-mini"><span class="tech-k">Sezónní topný faktor</span><span class="tech-v">SCOP ~3,8</span></div>
+      <div class="tech-row-mini"><span class="tech-k">Distribuce tepla</span><span class="tech-v">Podlahové vytápění — celý dům</span></div>
+      <div class="tech-row-mini"><span class="tech-k">Příprava TV</span><span class="tech-v">TČ + akumulační nádrž</span></div>
+      <div class="tech-row-mini"><span class="tech-k">Osvětlení</span><span class="tech-v">LED — nízká spotřeba</span></div>
+    </div>
+    <div class="tech-card fade-in">
+      <span class="tech-card-icon">📐</span>
+      <h4>Geometrie budovy</h4>
+      <div class="tech-row-mini"><span class="tech-k">Užitná plocha</span><span class="tech-v">115 m²</span></div>
+      <div class="tech-row-mini"><span class="tech-k">Objem budovy (odhad)</span><span class="tech-v">~320 m³</span></div>
+      <div class="tech-row-mini"><span class="tech-k">Faktor tvaru A/V</span><span class="tech-v">~0,85 m²/m³</span></div>
+      <div class="tech-row-mini"><span class="tech-k">Orientace zahrady</span><span class="tech-v">V · J · Z — celodenní světlo</span></div>
+      <div class="tech-row-mini"><span class="tech-k">Podlaží</span><span class="tech-v">2 (přízemí + podkroví)</span></div>
+    </div>
+    <div class="tech-card fade-in">
+      <span class="tech-card-icon">⚡</span>
+      <h4>Infrastruktura a přípojky</h4>
+      <div class="tech-row-mini"><span class="tech-k">Elektřina</span><span class="tech-v">Přípojka 3×400V</span></div>
+      <div class="tech-row-mini"><span class="tech-k">Vodovod / kanalizace</span><span class="tech-v">Přípojky na veřejnou síť</span></div>
+      <div class="tech-row-mini"><span class="tech-k">Plyn</span><span class="tech-v">Není — nepotřebné (TČ)</span></div>
+      <div class="tech-row-mini"><span class="tech-k">Internet</span><span class="tech-v">Příprava pro optiku</span></div>
+      <div class="tech-row-mini"><span class="tech-k">Energetická třída</span><span class="tech-v">B — nízkoenergetický standard</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── BUDOUCÍ POTENCIÁL ─── -->
+<section class="bg-dark">
+  <div class="section-label" style="color:var(--accent-light)"><span style="background:var(--accent-light);width:30px;height:1px;display:inline-block;margin-right:12px;vertical-align:middle"></span>Energetická nezávislost</div>
+  <h2 class="section-title" style="color:var(--cream)">Připraveno na <em>budoucnost</em></h2>
+  <p class="section-lead" style="color:rgba(245,240,232,0.55)">
+    Dům je od základů navržen tak, aby bylo možné kdykoli rozšířit jeho energetickou soběstačnost
+    — bez nutnosti zásahů do konstrukce. Infrastruktura je připravena, stačí doplnit technologii.
+  </p>
+
+  <div class="potential-grid">
+    <div class="potential-card fade-in">
+      <span class="potential-icon">☀️</span>
+      <h4>Fotovoltaika (FVE)</h4>
+      <p>Rozvody a příprava pro instalaci fotovoltaického systému na střeše jsou součástí stavby. Instalace nevyžaduje zásah do konstrukce.</p>
+      <span class="potential-badge">Příprava hotová</span>
+    </div>
+    <div class="potential-card fade-in">
+      <span class="potential-icon">🌊</span>
+      <h4>FV ohřev vody</h4>
+      <p>Fotovoltaický ohřev teplé užitkové vody jako doplněk k tepelnému čerpadlu — výrazné snížení provozních nákladů v letním období.</p>
+      <span class="potential-badge">Připraveno k instalaci</span>
+    </div>
+    <div class="potential-card fade-in">
+      <span class="potential-icon">💨</span>
+      <h4>Decentralizovaná rekuperace</h4>
+      <p>Systém zpětného získávání tepla z odpadního vzduchu (WRG) lze doplnit bez stavebních zásahů — přímé napojení do stávající dispozice.</p>
+      <span class="potential-badge">Připraveno k instalaci</span>
+    </div>
+    <div class="potential-card fade-in">
+      <span class="potential-icon">🪟</span>
+      <h4>Inteligentní stínění</h4>
+      <p>Předinstalace pro venkovní žaluzie na všech exponovaných oknech — ochrana před přehříváním, regulace solárních zisků v letním období.</p>
+      <span class="potential-badge">Předinstalace hotová</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── NZÚ & DOTACE ─── -->
+<section class="bg-white">
+  <div class="section-label">Dotace a financování</div>
+  <h2 class="section-title">Nová zelená <em>úsporám</em> a SFŽP</h2>
+  <p class="section-lead">Aktivně sledujeme vývoj dotačních programů a připravujeme podmínky pro jejich případné čerpání.</p>
+
+  <div class="nzu-wrap">
+    <div class="nzu-text fade-in">
+      <div class="status-tag processing">Probíhá restrukturalizace programu</div>
+      <h3>Program NZÚ <em>pro novostavby</em></h3>
+      <p>
+        Státní fond životního prostředí (SFŽP) v současné době provádí restrukturalizaci programu
+        Nová zelená úsporám pro novostavby. Platná metodika v tuto chvíli ještě nebyla vydána
+        a podmínky čerpání se připravují.
+      </p>
+      <p>
+        Snažíme se aktivně vytvářet předpoklady pro to, aby na tuto nemovitost bylo možné
+        případný <strong>státní nízkoúročený úvěr čerpat bez nutnosti zástavního práva k nemovitosti</strong>
+        — což je pro kupujícího klíčová výhoda oproti standardnímu hypotečnímu financování modernizací.
+      </p>
+      <p>
+        Jakmile bude metodika zveřejněna, poskytneme novému majiteli veškerou dokumentaci
+        potřebnou pro podání žádosti.
+      </p>
+    </div>
+
+    <div class="nzu-highlights fade-in">
+      <div class="nzu-item">
+        <div class="nzu-dot"></div>
+        <div>
+          <div class="nzu-item-title">Nízkoúročený státní úvěr</div>
+          <div class="nzu-item-text">Cílem je zachovat možnost čerpání úvěru bez zástavy nemovitosti — výhoda při dalším financování.</div>
+        </div>
+      </div>
+      <div class="nzu-item">
+        <div class="nzu-dot"></div>
+        <div>
+          <div class="nzu-item-title">Energetická třída B — předpoklad způsobilosti</div>
+          <div class="nzu-item-text">Domy v třídě B a lepší obvykle splňují základní podmínku pro vstup do dotačního programu NZÚ.</div>
+        </div>
+      </div>
+      <div class="nzu-item">
+        <div class="nzu-dot"></div>
+        <div>
+          <div class="nzu-item-title">Sledujeme aktuální vývoj</div>
+          <div class="nzu-item-text">Metodika SFŽP pro novostavby prochází aktualizací. Kupující bude informován o aktuálním stavu před podpisem smlouvy.</div>
+        </div>
+      </div>
+      <div class="nzu-item">
+        <div class="nzu-dot"></div>
+        <div>
+          <div class="nzu-item-title">Připravena technická dokumentace</div>
+          <div class="nzu-item-text">Projektová dokumentace, PENB a technické listy instalovaných systémů jsou připraveny pro případnou žádost.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Renovační pas -->
+  <div class="passport-banner fade-in">
+    <div>
+      <div class="status-tag ready">Plánováno pro nového majitele</div>
+      <h3>Renovační <em>pas nemovitosti</em></h3>
+      <p>
+        Novému majiteli bude zřízen <strong>renovační pas nemovitosti</strong> — digitální dokument sledující
+        celý životní cyklus budovy. Slouží jako podklad pro plánování modernizací, preventivní údržbu
+        a sledování aktuálních dotačních možností napříč programy (NZÚ, OPŽP, krajské dotace).
+      </p>
+      <p style="margin-top:12px">
+        Renovační pas je stále více vyžadován při žádostech o dotace a zvýhodněné úvěry na modernizaci
+        — jeho existence výrazně zjednodušuje administrativu a zvyšuje hodnotu nemovitosti při případném
+        dalším prodeji.
+      </p>
+    </div>
+    <div class="passport-icon-wrap">
+      <span class="big-icon">📗</span>
+      <p>Renovační<br>pas domu</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DISCLAIMER ─── -->
+<section class="bg-cream" style="padding-top: 0">
+  <div class="disclaimer-box">
+    <strong>Právní upozornění k předběžnému PENB:</strong>
+    Tento průkaz je předběžným odhadem energetické náročnosti budovy dle § 7a zákona č. 406/2000 Sb.
+    zpracovaným na základě projektové dokumentace a parametrů instalovaných technologií způsobilou osobou
+    před vydáním kolaudačního souhlasu. Skutečné hodnoty se mohou lišit v závislosti na výsledcích
+    autorizovaného výpočtu dle ČSN EN ISO 52000. Autorizovaný průkaz energetické náročnosti budovy
+    dle vyhlášky č. 264/2020 Sb. bude zpracován jako součást kolaudačního řízení a předložen
+    zájemcům o koupi na vyžádání.
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div>
+    <div class="footer-logo"><span>Srubec</span> Estate</div>
+    <p style="margin-top:6px">© 2026 · RD Hodejovice s.r.o. · Staré Hodějovice</p>
+    <p class="dev-sig">Technologie: <span>MEVERIK Studio</span> · Hostování: <span>WHC</span></p>
+  </div>
+  <div class="footer-links">
+    <a href="index.html">Úvod</a>
+    <a href="index.html#gallery">Fotogalerie</a>
+    <a href="index.html#floorplans">Půdorysy</a>
+    <a href="energy.html">Energetika</a>
+    <a href="index.html#contact">Kontakt</a>
+  </div>
+  <div style="text-align:right">
+    <p>srubec@estate.cz</p>
+    <p style="margin-top:4px">+420 602 975 103</p>
+  </div>
+</footer>
+
+<script>
+// Nav scroll efekt
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Fade-in on scroll
+function initFadeIn() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+}
+initFadeIn();
+</script>
+
+</body>
+</html>
