@@ -57,10 +57,12 @@ window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXB
 
     // ─── PŮDORYSY ─────────────────────────────────────────────────────────────
     floorplans: {
-      floor1url:  "",  // doplnit po dokončení půdorysu
-      floor2url:  "",  // doplnit po dokončení půdorysu
+      floor1url:  img("2d_1np.jpeg"),
+      floor2url:  img("3d_1np.jpeg"),
+      crossSectionUrl: img("rez_nemovitosti.jpeg"),
       floor1desc: "Přízemí nabízí otevřený obývací prostor s kuchyňským koutem a přímým výstupem na terasu 40 m². Součástí přízemí je technická místnost s tepelným čerpadlem, WC a zádveří.",
       floor2desc: "Podkroví ukrývá tři pokoje včetně hlavní ložnice, prostornou chodbu a plně vybavenou koupelnu s vanou, sprchovým koutem a střešními okny Velux.",
+      crossSectionDesc: "Příčný řez domem zobrazuje konstrukční řešení obou podlaží včetně střešní konstrukce.",
       note:       "Přesná projektová dokumentace k dispozici při osobní prohlídce.",
     },
 

@@ -116,10 +116,11 @@ const CONFIG = {
   //  PŮDORYSY — popisky
   // ----------------------------------------------------------
   floorplans: {
-    floor1label: "PP — Přízemí",
+    floor1label: "2D Půdorys",
     floor1desc:  "Přízemí o ploše 61 m² — obývací pokoj s výstupem na terasu, kuchyňský kout, zázemí, technická místnost.",
-    floor2label: "1.NP — Podkroví",
+    floor2label: "3D Půdorys",
     floor2desc:  "Podkroví o ploše 54 m² — tři pokoje, koupelna s vanou, střešní okna Velux s výhledem do přírody.",
+    crossSectionDesc: "Příčný řez domem zobrazuje konstrukční řešení obou podlaží včetně střešní konstrukce.",
     note:        "Půdorysy jsou orientační. Přesná dokumentace k dispozici při osobní prohlídce.",
   },
 
